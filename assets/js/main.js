@@ -112,6 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
       heroCounterEls.forEach((el) => {
         el.style.transform = `translateY(${(progress * 55).toFixed(1)}px)`;
         el.style.opacity = String(1 - progress * 1.1);
+        // Drop the slow entrance transition once scrolling so the counter-motion tracks directly.
+        if (progress > 0) el.style.transition = 'none';
       });
       if (heroParallaxEl) {
         heroParallaxEl.style.transform = `translate3d(0, ${(progress * -32).toFixed(1)}px, 0)`;

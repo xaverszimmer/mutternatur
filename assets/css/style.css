@@ -235,7 +235,7 @@ p { color: var(--fg-muted); max-width: 62ch; }
 }
 .hero-zoom.is-visible { animation: hero-punch 1.5s cubic-bezier(.16,.8,.24,1) both; }
 @keyframes hero-punch {
-  from { transform: translateY(20px) scale(1.22); }
+  from { transform: translateY(14px) scale(1.12); }
   to   { transform: translateY(0) scale(1); }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -429,6 +429,9 @@ p { color: var(--fg-muted); max-width: 62ch; }
 [data-reveal].stagger-2 { transition-delay: 0.2s; }
 [data-reveal].stagger-3 { transition-delay: 0.32s; }
 [data-reveal].stagger-4 { transition-delay: 0.44s; }
+/* Hero eyebrow, lede and buttons: slow, soft rise out of a blur */
+.hero .hero-counter[data-reveal] { transition: opacity 2.2s cubic-bezier(.22,.61,.36,1), transform 2.4s cubic-bezier(.22,.61,.36,1), filter 2s ease; }
+.hero .hero-counter[data-reveal]:not(.is-visible) { transform: translateY(34px); filter: blur(10px); }
 
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] { opacity: 1; transform: none; transition: none; }
@@ -689,7 +692,7 @@ p { color: var(--fg-muted); max-width: 62ch; }
 
 /* ---- Hero counter-motion: small text sinks & fades opposite the headline's rise ---- */
 .hero-counter { will-change: transform, opacity; }
-@media (prefers-reduced-motion: reduce) { .hero-counter { transform: none !important; opacity: 1 !important; } }
+@media (prefers-reduced-motion: reduce) { .hero-counter { transform: none !important; opacity: 1 !important; filter: none !important; } }
 
 /* ---- Hero background parallax drift (layered depth behind the Ken Burns zoom) ---- */
 .hero-parallax { will-change: transform; }
