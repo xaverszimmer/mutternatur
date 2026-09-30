@@ -81,23 +81,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Hero scroll-zoom: the headline scales up as the hero scrolls past.
+  // Hero scroll-zoom: the headline scales up (and racks out of focus) as the
+  // hero scrolls past, while the small text sinks and fades the opposite way
+  // and the background image drifts at a different rate — three layers of
+  // counter-motion for a cinematic, depth-of-field feel.
   // Its inline transform/opacity must not start driving the element until
   // the entrance reveal (fade + slide-in) has finished, otherwise it snaps
   // the headline to its resting state instantly instead of easing in.
   const heroZoomEl = document.querySelector('.hero-zoom');
   if (heroZoomEl && !prefersReducedMotion) {
     const heroSection = heroZoomEl.closest('.hero');
+    const heroCounterEls = heroSection.querySelectorAll('.hero-counter');
+    const heroParallaxEl = heroSection.querySelector('.hero-parallax');
+    // Scroll-driven scale and cursor-driven tilt both write to the same
+    // element's transform, so they're tracked as state and combined into
+    // one string instead of overwriting each other.
+    let zoomScale = 1;
+    let tiltX = 0;
+    let tiltY = 0;
+    const applyHeroTransform = () => {
+      heroZoomEl.style.transform = `perspective(900px) rotateX(${tiltX.toFixed(2)}deg) rotateY(${tiltY.toFixed(2)}deg) scale(${zoomScale.toFixed(3)})`;
+    };
     const onScrollZoom = () => {
       const rect = heroSection.getBoundingClientRect();
       const progress = Math.min(Math.max(-rect.top / (rect.height * 0.9), 0), 1);
-      const scale = 1 + progress * 1.4;
-      heroZoomEl.style.transform = `scale(${scale.toFixed(3)})`;
+      zoomScale = 1 + progress * 1.4;
+      applyHeroTransform();
       heroZoomEl.style.opacity = String(1 - progress * 0.6);
+      heroZoomEl.style.filter = `blur(${(progress * 3).toFixed(2)}px)`;
+      heroCounterEls.forEach((el) => {
+        el.style.transform = `translateY(${(progress * 55).toFixed(1)}px)`;
+        el.style.opacity = String(1 - progress * 1.1);
+      });
+      if (heroParallaxEl) {
+        heroParallaxEl.style.transform = `translate3d(0, ${(progress * -32).toFixed(1)}px, 0)`;
+      }
     };
     const startScrollZoom = () => {
       onScrollZoom();
       window.addEventListener('scroll', onScrollZoom, { passive: true });
+      // Cursor tilt on the headline itself — the same 3D effect used on
+      // the image thumbnails, applied to the "Revolutionizing..." text.
+      heroSection.addEventListener('mousemove', (e) => {
+        const r = heroSection.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        tiltX = -py * 8;
+        tiltY = px * 8;
+        applyHeroTransform();
+      });
+      heroSection.addEventListener('mouseleave', () => {
+        tiltX = 0;
+        tiltY = 0;
+        applyHeroTransform();
+      });
     };
     if (heroZoomEl.classList.contains('is-visible')) {
       startScrollZoom();
@@ -117,6 +154,22 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       el.addEventListener('mouseleave', () => { el.style.transform = ''; });
     });
+  }
+
+  // Team page: the big outlined index numbers drift against the scroll
+  // direction, so they float at a different depth than the text.
+  const teamIndexEls = document.querySelectorAll('.team-index');
+  if (teamIndexEls.length && !prefersReducedMotion) {
+    const onScrollTeam = () => {
+      const vh = window.innerHeight;
+      teamIndexEls.forEach((el) => {
+        const r = el.parentElement.getBoundingClientRect();
+        const offset = (r.top + r.height / 2 - vh / 2) / vh;
+        el.style.transform = `translate3d(0, ${(offset * 90).toFixed(1)}px, 0)`;
+      });
+    };
+    onScrollTeam();
+    window.addEventListener('scroll', onScrollTeam, { passive: true });
   }
 
   // Standalone video pop-up modal (e.g. home: "Die Wächter der Berge").

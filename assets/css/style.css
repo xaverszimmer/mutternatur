@@ -225,6 +225,23 @@ p { color: var(--fg-muted); max-width: 62ch; }
 
 .hero.hero-compact { min-height: 60vh; align-items: flex-end; }
 .hero.hero--center-v { align-items: center; }
+
+/* ---- Home hero: cinematic Ken Burns drift + cursor-parallax tilt + punch-in zoom ---- */
+.hero--center-v .hero-media { inset: -6%; overflow: hidden; }
+.hero--center-v .hero-media img { animation: hero-kenburns 16s cubic-bezier(.11,.7,.34,1) infinite alternate; }
+@keyframes hero-kenburns {
+  from { transform: scale(1) translate3d(0, 0, 0); }
+  to   { transform: scale(1.24) translate3d(-3%, -3%, 0); }
+}
+.hero-zoom.is-visible { animation: hero-punch 1.5s cubic-bezier(.16,.8,.24,1) both; }
+@keyframes hero-punch {
+  from { transform: translateY(20px) scale(1.22); }
+  to   { transform: translateY(0) scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero--center-v .hero-media img { animation: none; }
+  .hero-zoom.is-visible { animation: none; }
+}
 .hero-content--center { text-align: center; margin-inline: auto; }
 .hero-content--center .hero-actions { justify-content: center; }
 .hero-display.hero-display--compact { font-size: clamp(2.2rem, 5vw, 3.75rem); }
@@ -667,8 +684,16 @@ p { color: var(--fg-muted); max-width: 62ch; }
    ========================================================================== */
 
 /* ---- Hero scroll-zoom headline ---- */
-.hero-zoom { will-change: transform, opacity; transform-origin: center bottom; }
-@media (prefers-reduced-motion: reduce) { .hero-zoom { transform: none !important; opacity: 1 !important; } }
+.hero-zoom { will-change: transform, opacity, filter; transform-origin: center bottom; }
+@media (prefers-reduced-motion: reduce) { .hero-zoom { transform: none !important; opacity: 1 !important; filter: none !important; } }
+
+/* ---- Hero counter-motion: small text sinks & fades opposite the headline's rise ---- */
+.hero-counter { will-change: transform, opacity; }
+@media (prefers-reduced-motion: reduce) { .hero-counter { transform: none !important; opacity: 1 !important; } }
+
+/* ---- Hero background parallax drift (layered depth behind the Ken Burns zoom) ---- */
+.hero-parallax { will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .hero-parallax { transform: none !important; } }
 
 /* ---- Film pop-in as a small corner tile inside the main grid ---- */
 .film-popup-tile { position: relative; }
@@ -743,7 +768,8 @@ p { color: var(--fg-muted); max-width: 62ch; }
 @media (max-width: 560px) { .card-grid.photo.masonry { column-count: 1; } }
 
 /* ---- Vision: kinetic typography (word-by-word reveal on scroll) ---- */
-.kinetic-text .kw { display: inline-block; opacity: 0; transform: translateY(0.4em); transition: opacity 0.5s ease, transform 0.5s ease; }
+/* white-space: pre keeps each word's trailing space, which inline-blocks otherwise drop */
+.kinetic-text .kw { display: inline-block; white-space: pre; opacity: 0; transform: translateY(0.4em); transition: opacity 0.5s ease, transform 0.5s ease; }
 .kinetic-text .kw.is-visible { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .kinetic-text .kw { opacity: 1; transform: none; transition: none; } }
 
@@ -783,3 +809,77 @@ body.modal-open { overflow: hidden; }
 .form-field input:focus, .form-field textarea:focus { box-shadow: 0 0 0 3px rgba(157, 184, 141, 0.28); }
 .form-field input:user-valid, .form-field textarea:user-valid { border-color: var(--accent); }
 .form-field input:user-invalid:not(:focus), .form-field textarea:user-invalid:not(:focus) { border-color: #e08a6b; }
+
+/* ==========================================================================
+   Team page: alternating member rows — slide-in + cursor tilt (as on the
+   documentary cards), curtain-wipe portrait with zoom-out, outlined index
+   number with scroll parallax, word-by-word quote.
+   ========================================================================== */
+.team-list { display: grid; gap: clamp(5rem, 12vw, 9rem); }
+.team-member > * { min-width: 0; }
+.team-member { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center; }
+.team-member:nth-child(even) .team-photo { order: 2; }
+
+.team-photo { position: relative; }
+.team-photo::before {
+  content: ''; position: absolute; inset: -5%; z-index: -1;
+  background: linear-gradient(120deg, var(--accent), #6f8fd1, var(--accent-strong), var(--accent));
+  background-size: 300% 300%; filter: blur(34px); opacity: 0; transition: opacity 0.8s ease;
+  animation: gradient-shift 12s ease infinite;
+}
+.team-member:hover .team-photo::before { opacity: 0.4; }
+.team-photo-inner { position: relative; aspect-ratio: 4/5; overflow: hidden; border-radius: 14px; background: var(--bg-elevated); }
+/* Curtain wipe: a page-coloured cover shrinks upward to uncover the portrait. */
+.team-photo-inner::after {
+  content: ''; position: absolute; inset: 0; background: var(--bg); transform-origin: top;
+  transition: transform 1.4s cubic-bezier(.77, 0, .18, 1) 0.15s;
+}
+.team-member.is-visible .team-photo-inner::after { transform: scaleY(0); }
+.team-photo-inner img {
+  width: 100%; height: 100%; object-fit: cover; filter: grayscale(0.5) contrast(1.05);
+  transition: transform 2s cubic-bezier(.16, .8, .24, 1), filter 0.8s ease, opacity 1.2s ease;
+}
+/* The portrait's zoom-out is driven by its row's reveal (not the generic
+   per-image slide-in), so it plays in sync with the curtain wipe. */
+.team-member .team-photo-inner img[data-reveal] { opacity: 1; transform: scale(1.3); }
+.team-member.is-visible .team-photo-inner img[data-reveal] { transform: scale(1); }
+.team-member.is-visible:hover .team-photo-inner img[data-reveal] { filter: none; transform: scale(1.05); }
+
+.team-photo-tag {
+  position: absolute; left: 1rem; bottom: 1rem; padding: 0.4rem 0.8rem; border-radius: 999px;
+  font-family: var(--font-ui); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+  color: #fff; background: rgba(8, 9, 8, 0.55); backdrop-filter: blur(8px); border: 1px solid var(--border);
+  opacity: 0; transform: translateY(12px); transition: opacity 0.7s ease 1.2s, transform 0.7s cubic-bezier(.16, .8, .24, 1) 1.2s;
+}
+.team-member.is-visible .team-photo-tag { opacity: 1; transform: none; }
+
+.team-body { position: relative; isolation: isolate; }
+.team-index {
+  position: absolute; top: -0.35em; right: 0; z-index: -1; pointer-events: none;
+  font-family: var(--font-display); font-weight: 800; line-height: 1; font-size: clamp(6rem, 16vw, 12rem);
+  color: transparent; -webkit-text-stroke: 1px var(--border-strong); will-change: transform;
+}
+.team-role { display: flex; align-items: center; gap: 0.8rem; color: var(--accent-strong); }
+.team-role::before {
+  content: ''; display: block; height: 1px; width: 0; background: var(--accent);
+  transition: width 1s cubic-bezier(.16, .8, .24, 1) 0.6s;
+}
+.team-member.is-visible .team-role::before { width: 2.5rem; }
+.team-desc { margin-top: 1.1rem; }
+.team-quote {
+  margin: 1.75rem 0 0; padding-left: 1.25rem; border-left: 2px solid var(--accent); max-width: 34rem;
+  font-family: var(--font-display); font-weight: 700; font-size: clamp(1.2rem, 2.2vw, 1.6rem); line-height: 1.3; color: var(--fg);
+}
+
+@media (max-width: 860px) {
+  .team-member { grid-template-columns: 1fr; }
+  .team-member:nth-child(even) .team-photo { order: 0; }
+  .team-photo { max-width: 28rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .team-photo-inner::after { display: none; }
+  .team-member .team-photo-inner img[data-reveal] { transform: none; }
+  .team-photo::before { animation: none; }
+  .team-photo-tag, .team-role::before { transition: none; }
+  .team-index { transform: none !important; }
+}
