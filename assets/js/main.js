@@ -1,7 +1,12 @@
-// Mutter Natur Film — site scripts (mobile nav, scroll reveal, header shadow)
+// Mutter Natur — site scripts (mobile nav, scroll reveal, header shadow, forms, video)
 
 // Single place to change the destination address for both contact forms.
 const EMAIL_TO = 'xaverszimmer@web.de';
+
+// Web3Forms access key (free at https://web3forms.com – the key is sent to EMAIL_TO).
+// TODO: replace the placeholder with the real access key. Until then the forms
+// fall back to opening a pre-filled email.
+const WEB3FORMS_ACCESS_KEY = 'TODO-WEB3FORMS-ACCESS-KEY';
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -55,31 +60,99 @@ document.addEventListener('DOMContentLoaded', () => {
     revealEls.forEach((el) => el.classList.add('is-visible'));
   }
 
-  // Contact form: no backend included yet, so fall back to a mailto draft.
-  const contactForm = document.querySelector('[data-contact-form]');
-  if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+  // Forms: real submission via Web3Forms (https://web3forms.com).
+  // Each form carries data-form (subject) and data-thanks (thank-you page).
+  // While the access key is still a placeholder, the form falls back to a
+  // pre-filled email so no inquiry gets lost.
+  const isDE = document.documentElement.lang === 'de';
+  const MSG = isDE
+    ? { sending: 'Wird gesendet …', error: 'Das hat leider nicht geklappt. Bitte schreiben Sie uns direkt an ', invalid: 'Bitte füllen Sie die markierten Pflichtfelder aus.' }
+    : { sending: 'Sending …', error: 'Sorry, that did not work. Please email us directly at ', invalid: 'Please fill in the required fields.' };
+
+  document.querySelectorAll('form[data-form]').forEach((form) => {
+    const status = form.querySelector('.form-status');
+    const button = form.querySelector('button[type="submit"]');
+    const setStatus = (text, isError, withMail) => {
+      status.textContent = text;
+      status.classList.toggle('is-error', !!isError);
+      if (withMail) {
+        const a = document.createElement('a');
+        a.href = `mailto:${EMAIL_TO}`;
+        a.className = 'text-link';
+        a.textContent = EMAIL_TO;
+        status.append(a, '.');
+      }
+    };
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const data = new FormData(contactForm);
-      const name = data.get('name') || '';
-      const email = data.get('email') || '';
-      const message = data.get('message') || '';
-      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-      window.location.href = `mailto:${EMAIL_TO}?subject=${encodeURIComponent('Project inquiry via website')}&body=${body}`;
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        setStatus(MSG.invalid, true);
+        return;
+      }
+      const data = Object.fromEntries(new FormData(form).entries());
+      // Honeypot: real people never see or fill this field.
+      if (data.botcheck) return;
+      delete data.botcheck;
+
+      const subject = `${form.dataset.form}${data.leistung ? ' – ' + data.leistung : ''}${data.organisation ? ' – ' + data.organisation : ''}`;
+
+      if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY.startsWith('TODO')) {
+        const body = Object.entries(data).map(([k, v]) => `${k}: ${v}`).join('\n');
+        window.location.href = `mailto:${EMAIL_TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        return;
+      }
+
+      button.disabled = true;
+      setStatus(MSG.sending);
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            access_key: WEB3FORMS_ACCESS_KEY,
+            subject,
+            from_name: 'Website Mutter Natur',
+            replyto: data.email,
+            botcheck: false,
+            ...data,
+          }),
+        });
+        const json = await res.json().catch(() => ({}));
+        if (res.ok && json.success) {
+          window.location.href = form.dataset.thanks;
+          return;
+        }
+        throw new Error(json.message || res.status);
+      } catch (err) {
+        button.disabled = false;
+        setStatus(MSG.error, true, true);
+      }
+    });
+  });
+
+  // Pre-select the service when arriving from a service page (?leistung=imagefilm).
+  const wanted = new URLSearchParams(window.location.search).get('leistung');
+  if (wanted) {
+    document.querySelectorAll('select[name="leistung"]').forEach((select) => {
+      const option = [...select.options].find((o) => o.dataset.key === wanted);
+      if (option) select.value = option.value;
     });
   }
 
-  const inquiryForm = document.querySelector('[data-inquiry-form]');
-  if (inquiryForm) {
-    inquiryForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const data = new FormData(inquiryForm);
-      const lines = [];
-      data.forEach((value, key) => lines.push(`${key}: ${value}`));
-      const body = encodeURIComponent(lines.join('\n'));
-      window.location.href = `mailto:${EMAIL_TO}?subject=${encodeURIComponent('Documentary production inquiry')}&body=${body}`;
+  // Click-to-load YouTube (privacy-enhanced youtube-nocookie.com): nothing is
+  // requested from YouTube until the visitor clicks the preview image.
+  document.querySelectorAll('.yt-facade').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${btn.dataset.yt}?autoplay=1&rel=0`;
+      iframe.title = btn.dataset.title || 'YouTube video';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      btn.replaceWith(iframe);
     });
-  }
+  });
 
   // Hero scroll-zoom: the headline scales up (and racks out of focus) as the
   // hero scrolls past, while the small text sinks and fades the opposite way
@@ -174,29 +247,32 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', onScrollTeam, { passive: true });
   }
 
-  // Standalone video pop-up modal (e.g. home: "Die Wächter der Berge").
-  const videoModal = document.querySelector('#video-modal');
-  if (videoModal) {
-    const iframe = videoModal.querySelector('#video-modal-iframe');
-    const openModal = (youtubeId) => {
-      iframe.src = `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`;
-      videoModal.hidden = false;
-      document.body.classList.add('modal-open');
-    };
-    const closeModal = () => {
-      videoModal.hidden = true;
-      iframe.src = '';
+  // Instagram posts/reels: loaded in a modal only after a click (click-to-load).
+  const mediaModal = document.querySelector('#media-modal');
+  if (mediaModal) {
+    const frame = mediaModal.querySelector('.video-modal-frame');
+    let lastTrigger = null;
+    const close = () => {
+      mediaModal.hidden = true;
+      frame.innerHTML = '';
       document.body.classList.remove('modal-open');
+      if (lastTrigger) lastTrigger.focus();
     };
-    document.querySelectorAll('[data-video-trigger]').forEach((el) => {
-      el.addEventListener('click', () => openModal(el.getAttribute('data-youtube-id')));
+    document.querySelectorAll('[data-ig]').forEach((el) => {
+      el.addEventListener('click', () => {
+        lastTrigger = el;
+        const iframe = document.createElement('iframe');
+        iframe.src = el.dataset.ig;
+        iframe.title = el.dataset.title || 'Instagram';
+        iframe.setAttribute('scrolling', 'yes');
+        frame.replaceChildren(iframe);
+        mediaModal.hidden = false;
+        document.body.classList.add('modal-open');
+        mediaModal.querySelector('.video-modal-close').focus();
+      });
     });
-    videoModal.querySelectorAll('[data-modal-close]').forEach((el) => {
-      el.addEventListener('click', closeModal);
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !videoModal.hidden) closeModal();
-    });
+    mediaModal.querySelectorAll('[data-modal-close]').forEach((el) => el.addEventListener('click', close));
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mediaModal.hidden) close(); });
   }
 
   // Kinetic typography: split manifest text into words for a staggered reveal.

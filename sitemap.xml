@@ -1,13 +1,269 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://mutternatur-film.de/</loc><lastmod>2026-10-03</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://mutternatur-film.de/work</loc><lastmod>2026-10-03</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://mutternatur-film.de/films</loc><lastmod>2026-10-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mutternatur-film.de/documentaries</loc><lastmod>2026-10-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mutternatur-film.de/photography</loc><lastmod>2026-10-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mutternatur-film.de/offerings</loc><lastmod>2026-10-03</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://mutternatur-film.de/about</loc><lastmod>2026-10-03</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://mutternatur-film.de/contact</loc><lastmod>2026-10-03</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://mutternatur-film.de/impressum</loc><lastmod>2026-10-03</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
-  <url><loc>https://mutternatur-film.de/datenschutz</loc><lastmod>2026-10-03</lastmod><changefreq>yearly</changefreq><priority>0.2</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://mutternatur-film.de/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/leistungen</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/leistungen"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/services"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/leistungen"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/services</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/leistungen"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/services"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/leistungen"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/foto-video-content</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/foto-video-content"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/photo-video-content"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/foto-video-content"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/photo-video-content</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/foto-video-content"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/photo-video-content"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/foto-video-content"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/imagefilm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/imagefilm"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/image-film"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/imagefilm"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/image-film</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/imagefilm"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/image-film"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/imagefilm"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/dokumentarfilm</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/dokumentarfilm"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/documentary-film"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/dokumentarfilm"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/documentary-film</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/dokumentarfilm"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/documentary-film"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/dokumentarfilm"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/social-media-content</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/social-media-content"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/social-media-content"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/social-media-content"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/social-media-content</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/social-media-content"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/social-media-content"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/social-media-content"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/langzeit-zusammenarbeit</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/langzeit-zusammenarbeit"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/long-term-collaboration"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/langzeit-zusammenarbeit"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/long-term-collaboration</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/langzeit-zusammenarbeit"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/long-term-collaboration"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/langzeit-zusammenarbeit"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/portfolio</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/portfolio"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/work"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/portfolio"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/work</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/portfolio"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/work"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/portfolio"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/filme</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/filme"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/films"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/filme"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/films</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/filme"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/films"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/filme"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/dokumentationen-markenfilme</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/dokumentationen-markenfilme"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/documentaries-brand-films"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/dokumentationen-markenfilme"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/documentaries-brand-films</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/dokumentationen-markenfilme"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/documentaries-brand-films"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/dokumentationen-markenfilme"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/fotografie-social-media</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/fotografie-social-media"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/photography-social-media"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/fotografie-social-media"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/photography-social-media</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/fotografie-social-media"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/photography-social-media"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/fotografie-social-media"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/projekte/teufelshoehle-pottenstein</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/projekte/teufelshoehle-pottenstein"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/projects/teufelshoehle-pottenstein"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/projekte/teufelshoehle-pottenstein"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/projects/teufelshoehle-pottenstein</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/projekte/teufelshoehle-pottenstein"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/projects/teufelshoehle-pottenstein"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/projekte/teufelshoehle-pottenstein"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/projekte/donaumoos</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/projekte/donaumoos"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/projects/donaumoos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/projekte/donaumoos"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/projects/donaumoos</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/projekte/donaumoos"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/projects/donaumoos"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/projekte/donaumoos"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/projekte/bergwaldprojekt</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/projekte/bergwaldprojekt"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/projects/bergwaldprojekt"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/projekte/bergwaldprojekt"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/projects/bergwaldprojekt</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/projekte/bergwaldprojekt"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/projects/bergwaldprojekt"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/projekte/bergwaldprojekt"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/ueber-uns</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/ueber-uns"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/ueber-uns"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/about</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/ueber-uns"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/about"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/ueber-uns"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/kontakt</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/kontakt"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/kontakt"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/en/contact</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://mutternatur-film.de/kontakt"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mutternatur-film.de/en/contact"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mutternatur-film.de/kontakt"/>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/impressum</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://mutternatur-film.de/datenschutz</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.2</priority>
+  </url>
 </urlset>

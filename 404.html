@@ -1,43 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Page not found – Mutter Natur</title>
+<title>Seite nicht gefunden | Mutter Natur</title>
+<meta name="description" content="Diese Seite gibt es nicht (mehr).">
 <meta name="robots" content="noindex">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mutter Natur">
+<meta property="og:locale" content="de_DE">
+<meta property="og:title" content="Seite nicht gefunden | Mutter Natur">
+<meta property="og:description" content="Diese Seite gibt es nicht (mehr).">
+<meta property="og:image" content="https://mutternatur-film.de/assets/img/og/naturlandschaft-naturfilm-produktion-bayern.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="/assets/css/style.css">
+
 </head>
 <body>
 <header class="site-header">
   <div class="container nav-inner">
     <a href="/" class="logo">Mutter Natur</a>
     <nav class="nav-links" id="nav-links">
-      <a href="/work">Work</a>
-      <a href="/offerings">Offerings</a>
-      <a href="/about">About</a>
-      <a href="/contact">Contact</a>
-      <a href="/contact" class="btn btn-primary nav-cta">Start a project</a>
+      <a href="/leistungen">Leistungen</a>
+      <a href="/portfolio">Portfolio</a>
+      <a href="/ueber-uns">Über uns</a>
+      <a href="/kontakt">Kontakt</a>
+      <a href="/kontakt#projektanfrage" class="btn btn-primary nav-cta">Projekt anfragen</a>
+      <a href="/en/" class="lang-switch" hreflang="en" lang="en" aria-label="English version">EN</a>
     </nav>
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
   </div>
 </header>
 
 <main>
-  <section class="section-cta" style="padding-top:clamp(10rem,20vw,13rem)">
-    <div class="container" data-reveal>
-      <span class="eyebrow">404</span>
-      <h1>Page not found.</h1>
-      <p class="lede" style="margin-inline:auto;margin-top:1rem">The page you are looking for does not exist or has moved.</p>
-      <a href="/" class="btn btn-primary" style="margin-top:1.5rem">Back to the homepage</a>
+<section class="section-cta" style="padding-top:clamp(10rem,20vw,13rem)">
+  <div class="container" data-reveal>
+    <span class="eyebrow">404</span>
+    <h1>Seite nicht gefunden.</h1>
+    <p class="lede" style="margin-inline:auto;margin-top:1rem">Die gesuchte Seite existiert nicht oder wurde verschoben.</p>
+    <div class="hero-actions" style="justify-content:center">
+      <a href="/" class="btn btn-primary">Zur Startseite</a>
+      <a href="/leistungen" class="btn btn-ghost">Leistungen</a>
     </div>
-  </section>
+  </div>
+</section>
 </main>
+
+<div class="video-modal" id="media-modal" hidden>
+  <div class="video-modal-backdrop" data-modal-close></div>
+  <div class="video-modal-dialog" role="dialog" aria-modal="true" aria-label="Instagram">
+    <button type="button" class="video-modal-close" data-modal-close aria-label="Schließen">&times;</button>
+    <div class="video-modal-frame is-portrait"></div>
+    <p class="yt-note">Der Beitrag wird erst nach Ihrem Klick von Instagram geladen. <a href="/datenschutz#videos">Datenschutz</a></p>
+  </div>
+</div>
 
 <footer class="site-footer">
   <div class="container">
+    <div class="footer-top v2">
+      <div class="footer-brand">
+        <a href="/" class="logo">Mutter Natur</a>
+        <p>Imagefilme, Dokumentationen und Social Content für Unternehmen, Tourismus und NGOs – aus Bayern, Raum München/Freising.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Leistungen</h4>
+        <ul>
+          <li><a href="/foto-video-content">Foto- & Video-Content</a></li>
+          <li><a href="/imagefilm">Imagefilm</a></li>
+          <li><a href="/dokumentarfilm">Dokumentarfilm</a></li>
+          <li><a href="/social-media-content">Social-Media-Produktion & Betreuung</a></li>
+          <li><a href="/langzeit-zusammenarbeit">Langfristige Zusammenarbeit</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Mutter Natur</h4>
+        <ul>
+          <li><a href="/portfolio">Portfolio</a></li>
+          <li><a href="/portfolio#projekte">Fallstudien</a></li>
+          <li><a href="/ueber-uns">Über uns</a></li>
+          <li><a href="/leistungen">Preise</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="mailto:xaverszimmer@web.de">xaverszimmer@web.de</a></li>
+          <li><a href="/kontakt#projektanfrage">Projekt anfragen</a></li>
+          <li><a href="https://www.instagram.com/xaverszimmer" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.youtube.com/@MutterNatur_d" target="_blank" rel="noopener">YouTube</a></li>
+          <!-- TODO: Google-Unternehmensprofil in _src/content.js (SETTINGS.googleBusinessUrl) eintragen – dann erscheint hier „Bewertungen auf Google“ -->
+        </ul>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">Mutter Natur</div>
     <div class="footer-bottom">
-      <span>© 2026 Mutter Natur. Documentary film production for nature, impact and sustainable change.</span>
+      <span>© 2026 Mutter Natur</span>
       <div class="footer-legal">
         <a href="/impressum">Impressum</a>
         <a href="/datenschutz">Datenschutz</a>
@@ -45,9 +107,9 @@
     </div>
   </div>
 </footer>
-<div class="mobile-cta" aria-label="Quick contact">
-  <a href="/contact" class="btn btn-primary">Start a project</a>
-  <a href="mailto:xaverszimmer@web.de" class="btn btn-ghost mobile-cta-mail" aria-label="Email us">
+<div class="mobile-cta">
+  <a href="/kontakt#projektanfrage" class="btn btn-primary">Projekt anfragen</a>
+  <a href="mailto:xaverszimmer@web.de" class="btn btn-ghost mobile-cta-mail" aria-label="E-Mail schreiben">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14"/><path d="M3 6l9 7 9-7"/></svg>
   </a>
 </div>
