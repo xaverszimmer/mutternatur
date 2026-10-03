@@ -5,3 +5,6 @@ README.md
 node_modules
 team.html
 .wrangler
+inside-the-journey.html
+_tools
+.gitignore
