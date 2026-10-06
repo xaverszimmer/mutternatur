@@ -13,6 +13,8 @@ const SETTINGS = {
   site: 'https://mutternatur-film.de',
   email: 'xaverszimmer@web.de',
   instagram: 'https://www.instagram.com/xaverszimmer',
+  // Instagram-Projekt „Mutter Natur Deutschland“ (Collab-Posts, siehe /kollaboration)
+  instagramMN: 'https://www.instagram.com/mutternatur_d',
   youtube: 'https://www.youtube.com/@MutterNatur_d',
   // TODO: Google-Unternehmensprofil anlegen und den öffentlichen Link hier eintragen
   // (z. B. https://g.page/r/…). Dann erscheinen automatisch „Bewertungen auf Google“
@@ -41,6 +43,8 @@ const ROUTES = {
   caseTeufel: { de: '/projekte/teufelshoehle-pottenstein', en: '/en/projects/teufelshoehle-pottenstein' },
   caseDonau: { de: '/projekte/donaumoos', en: '/en/projects/donaumoos' },
   caseBerg: { de: '/projekte/bergwaldprojekt', en: '/en/projects/bergwaldprojekt' },
+  // Instagram-Kollaboration „Mutter Natur Deutschland“ – nur Deutsch, bewusst nicht in der Hauptnavigation
+  collab: { de: '/kollaboration' },
   about: { de: '/ueber-uns', en: '/en/about' },
   contact: { de: '/kontakt', en: '/en/contact' },
   thanks: { de: '/danke', en: '/en/thank-you' },
@@ -455,7 +459,7 @@ const FORM_OPTIONS = {
     en: ['Company', 'Tourism', 'NGO / association / foundation', 'Public authority / special-purpose association', 'Other'],
   },
   service: SERVICE_ORDER.map((k) => ({ key: SERVICES[k].key, de: SERVICES[k].title.de, en: SERVICES[k].title.en }))
-    .concat([{ key: 'offen', de: 'Noch offen – ich brauche Beratung', en: 'Not sure yet – I need advice' }]),
+    .concat([{ key: 'instagram', de: 'Instagram-Kollaboration (kostenlos)', en: 'Instagram collaboration (free)' }, { key: 'offen', de: 'Noch offen – ich brauche Beratung', en: 'Not sure yet – I need advice' }]),
   timeframe: {
     de: ['So bald wie möglich (innerhalb eines Monats)', 'In 1–3 Monaten', 'In 3–6 Monaten', 'In mehr als 6 Monaten', 'Noch offen'],
     en: ['As soon as possible (within a month)', 'In 1–3 months', 'In 3–6 months', 'In more than 6 months', 'Not decided yet'],
@@ -481,4 +485,16 @@ const TESTIMONIALS = [
   // TODO: echte Kundenstimmen eintragen (Zitat, Name, Funktion, Organisation, optional Foto/Logo)
 ];
 
-module.exports = { todo, SETTINGS, ROUTES, REDIRECTS, UI, FILMS, INSTA, FAQ, PRICE_TERMS, SERVICES, SERVICE_ORDER, FORM_OPTIONS, AWARDS, TESTIMONIALS };
+// Sixth way to work together: free Instagram collab posts on @mutternatur_d
+const COLLAB = {
+  img: 'filmstill-wiederverbindung-galerie.webp',
+  alt: { de: 'Menschen pflanzen gemeinsam junge Bäume im Wald', en: 'People planting young trees together in a forest' },
+  title: { de: 'Instagram-Kollaboration', en: 'Instagram Collaboration' },
+  short: {
+    de: 'Sie tun etwas für Natur, Umwelt oder Tiere? Zeigen Sie es mit uns als Collab-Post auf „Mutter Natur Deutschland“ – zwei Accounts, eine Reichweite.',
+    en: 'Doing something for nature, the environment or animals? Share it with us as a collab post on “Mutter Natur Deutschland” – two accounts, one reach.',
+  },
+  price: { de: 'Kostenlos', en: 'Free' },
+};
+
+module.exports = { COLLAB, todo, SETTINGS, ROUTES, REDIRECTS, UI, FILMS, INSTA, FAQ, PRICE_TERMS, SERVICES, SERVICE_ORDER, FORM_OPTIONS, AWARDS, TESTIMONIALS };

@@ -1,7 +1,7 @@
 // Page definitions. Every page is built for both languages unless noted.
 const B = require('./build');
 const C = require('./content');
-const { img, url, L, layout, videoCard, ytPlayer, instaCard, serviceCard, faqList, faqLd, videoLd, ORG_LD, serviceLd, ctaBanner, steps, priceTerms, awardsBlock, testimonials, proofBar, esc } = B;
+const { img, url, L, layout, videoCard, ytPlayer, instaCard, serviceCard, collabCard, faqList, faqLd, videoLd, ORG_LD, serviceLd, ctaBanner, steps, priceTerms, awardsBlock, testimonials, proofBar, esc } = B;
 const { todo, SETTINGS: S, UI, FILMS, SERVICES, SERVICE_ORDER, FORM_OPTIONS, FAQ } = C;
 
 const LANGS = ['de', 'en'];
@@ -58,11 +58,13 @@ ${proofBar(lang)}
   <div class="container">
     <div class="section-head" data-reveal>
       <span class="eyebrow">${L(lang, 'Leistungen & Preise', 'Services & pricing')}</span>
-      <h2>${L(lang, 'Fünf Wege, mit uns zu arbeiten.', 'Five ways to work with us.')}</h2>
+      <h2>${L(lang, 'Sechs Wege, mit uns zu arbeiten.', 'Six ways to work with us.')}</h2>
       <p class="lede" style="margin-top:1rem">${L(lang, 'Von schnellem Content bis zur tiefen Dokumentation – mit klaren Preisen. Alle Preise sind Endpreise.', 'From fast content to deep documentary storytelling – with clear pricing. All prices are final prices.')}</p>
+      <p style="margin-top:0.75rem">${L(lang, 'Neu: Mit der <a class="text-link" href="/kollaboration">Instagram-Kollaboration</a> zeigen Natur- und Umweltprojekte ihre Arbeit kostenlos auf „Mutter Natur Deutschland“.', 'New: with our <a class="text-link" href="/kollaboration">Instagram collaboration</a> (German), nature and environmental projects can share their work on “Mutter Natur Deutschland” – free of charge.')}</p>
     </div>
-    <div class="service-grid five">
+    <div class="service-grid six">
 ${SERVICE_ORDER.map((k) => serviceCard(k, lang)).join('\n')}
+${collabCard(lang)}
     </div>
   </div>
 </section>
@@ -115,7 +117,7 @@ ${testimonials(lang)}
         'We tell the stories of people and projects that protect nature. Real footage, real people, real impact – told so that your audience pays attention and trusts you.')}</p>
       <a href="${url('about', lang)}" class="text-link" style="margin-top:1.5rem;display:inline-block">${L(lang, 'Mehr über uns', 'More about us')}</a>
     </div>
-    ${img('naturaufnahme-wiederverbindung-mission.webp', L(lang, 'Menschen pflanzen gemeinsam junge Bäume im Wald', 'People planting young trees together in a forest'))}
+    ${img('naturaufnahme-wiederverbindung-mission.webp', L(lang, 'Verschneite Berggipfel im Nebel', 'Snow-covered mountain peaks in the mist'))}
   </div>
 </section>
 
@@ -146,8 +148,9 @@ for (const lang of LANGS) {
         'Viele Unternehmen und Organisationen leisten wertvolle Arbeit für die Natur – doch kaum jemand sieht sie. Wir zeigen sie glaubwürdig: mit echten Bildern, echten Menschen und echten Ergebnissen. Wählen Sie die Tiefe, die zu Ihrem Ziel passt.',
         'Many companies and organizations do meaningful work for nature – but that impact often stays invisible. We show it credibly: real footage, real people, real outcomes. Choose the depth that matches your goals.')}</p>
     </div>
-    <div class="service-grid five">
+    <div class="service-grid six">
 ${SERVICE_ORDER.map((k) => serviceCard(k, lang)).join('\n')}
+${collabCard(lang)}
     </div>
     <div class="price-box" style="margin-top:2.5rem" data-reveal>
       <h2 style="font-size:1.3rem">${L(lang, 'Gut zu wissen zu unseren Preisen', 'Good to know about our pricing')}</h2>
@@ -436,6 +439,22 @@ ${compactHero(lang, 'naturfotografie-hero-muenchen.jpg', L(lang, 'Porträt eines
 <section class="section">
   <div class="container card-grid photo masonry">
 ${Object.keys(C.INSTA).map((k) => instaCard(k, lang)).join('\n')}
+  </div>
+</section>
+<section class="section section-border-top" id="mutter-natur-deutschland">
+  <div class="container feature-split" data-reveal>
+    <div>
+      <span class="eyebrow">Instagram · @mutternatur_d</span>
+      <h2>${L(lang, 'Mutter Natur Deutschland: Ihr Projekt auf unserem Kanal.', 'Mutter Natur Deutschland: your project on our channel.')}</h2>
+      <p class="lede" style="margin-top:1rem">${L(lang,
+        'Auf Instagram zeigen wir Natur-, Umwelt- und Tierschutzprojekte aus dem deutschsprachigen Raum – als gemeinsamen Collab-Post: zwei Accounts, eine Reichweite. Kostenlos.',
+        'On Instagram we feature nature, environmental and animal-protection projects from German-speaking countries – as joint collab posts: two accounts, one reach. Free of charge.')}</p>
+      <div class="hero-actions">
+        <a href="${url('collab', 'de')}" class="btn btn-primary">${L(lang, 'So funktioniert die Kollaboration', 'How the collaboration works (German)')}</a>
+        <a href="${S.instagramMN}" class="btn btn-ghost" target="_blank" rel="noopener">@mutternatur_d</a>
+      </div>
+    </div>
+    ${img(C.COLLAB.img, C.COLLAB.alt[lang])}
   </div>
 </section>
 ${subCta(lang, L(lang, 'Sie brauchen Fotos und Content für Ihre Kanäle?', 'Need photos and content for your channels?'))}
@@ -755,6 +774,93 @@ for (const lang of LANGS) {
   </div>
 </section>
 `,
+  });
+}
+
+// ===========================================================================
+// Instagram collaboration "Mutter Natur Deutschland" (German only, not in the
+// main navigation). Text taken from "Mutter-Natur-Kollaboration.html" (Google Drive).
+// ===========================================================================
+{
+  const sections = [
+    ['Wer wir sind', `<p>Mutter Natur Deutschland ist eine dokumentarische Plattform für Natur-, Umwelt- und Tierschutzprojekte im deutschsprachigen Raum.</p>
+      <p>Dahinter steht eine Produktionsfirma, die sich auf die filmische Begleitung von Umwelt- und Naturprojekten spezialisiert hat: <a class="text-link" href="/">Mutter Natur</a>.</p>
+      <p>Aus dieser Arbeit ist eine einfache Idee entstanden: Diese Geschichten nicht nur in einzelnen Filmen zu erzählen, sondern einen Ort zu schaffen, an dem sie alle sichtbar werden.</p>`],
+    ['Was wir suchen', `<p>Projekte, Organisationen und Initiativen, die aktiv etwas für Natur, Umwelt, Tiere oder Nachhaltigkeit tun – und mehr Sichtbarkeit verdienen, als sie gerade haben.</p>
+      <p>Uns interessiert nicht die perfekte Hochglanz-Story. Uns interessiert die echte:</p>
+      <p><strong>Wer steckt dahinter? Warum gibt es dieses Projekt? Und was verändert sich dadurch wirklich?</strong></p>`],
+    ['Wie es funktioniert', `<ol class="next-steps">
+        <li><span><strong>Du entscheidest.</strong> Welchen Teil deiner Arbeit du zeigen willst, und wie. Reel oder Bildpost, dein Material, deine Form.</span></li>
+        <li><span><strong>Wir veröffentlichen gemeinsam.</strong> Als Instagram-Collab-Post – zwei Accounts, eine Reichweite. Die Rechte an deinem Content bleiben bei dir.</span></li>
+        <li><span><strong>Kein eigenes Material?</strong> Dann springen wir ein und produzieren mit dir zusammen. Daraus wird ein eigener Auftrag, den wir gemeinsam abstimmen.</span></li>
+      </ol>
+      <p style="margin-top:1.4em">Keine Vorgaben, keine Kosten. Wir schauen uns jeden Beitrag nur kurz an – nicht um reinzureden, sondern um sicherzugehen, dass er zu unserer Mission passt.</p>`],
+    ['Was du davon hast', `<ul class="check-list">
+        <li><span><strong>Zugang zu unserer Community.</strong> Menschen, die sich schon für die Natur interessieren und nur noch den letzten Schub zur echten Aktion brauchen.</span></li>
+        <li><span><strong>Sichtbarkeit über zwei Kanäle.</strong> Mutter Natur und unser persönliches Netzwerk.</span></li>
+        <li><span><strong>Professionelle, dokumentarische Aufbereitung deiner Geschichte.</strong> Kostenlos.</span></li>
+        <li><span><strong>Einen Partner, der mitdenkt.</strong> Wenn aus deiner Story mehr werden soll, bauen wir gemeinsam weiter.</span></li>
+      </ul>`],
+    ['Grundprinzipien der Beiträge', `<ul class="check-list">
+        <li>Ein starker Hook</li>
+        <li>Emotionaler Einstieg</li>
+        <li>Klare, verständliche Story</li>
+        <li>Authentischer, dokumentarischer Stil</li>
+        <li>Positive, lösungsorientierte Wirkung</li>
+      </ul>`],
+    ['Die Vision', `<p>Mutter Natur Deutschland soll die zentrale Plattform für moderne Natur- und Umweltprojekte im deutschsprachigen Raum werden.</p>
+      <p class="lede">Mit echten Geschichten. Echter Reichweite. Und einer Community, die nicht nur zusieht, sondern selbst aktiv wird.</p>`],
+  ];
+  const body = `
+<section class="hero hero-compact">
+  <div class="hero-media">${img(C.COLLAB.img, C.COLLAB.alt.de, { eager: true })}</div>
+  <div class="container hero-content" data-reveal>
+    <a class="back-link" href="${url('services', 'de')}">← Alle Wege der Zusammenarbeit</a>
+    <span class="eyebrow">Instagram-Kollaboration · Kostenlos</span>
+    <h1>Mutter Natur Deutschland</h1>
+    <p class="lede">Dokumentarische Plattform &amp; Umweltbewegung auf Instagram – für Projekte, die etwas für Natur, Umwelt und Tiere tun.</p>
+    <div class="hero-actions">
+      <a href="${url('contact', 'de')}?leistung=instagram#projektanfrage" class="btn btn-primary">Jetzt Kontakt aufnehmen</a>
+      <a href="${S.instagramMN}" class="btn btn-ghost" target="_blank" rel="noopener">@mutternatur_d ansehen</a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container" style="max-width:46rem;text-align:center" data-reveal>
+    <p class="lede" style="font-size:clamp(1.3rem,3vw,1.75rem);color:var(--fg);margin-inline:auto">Es gibt Menschen, die jeden Tag für unsere Natur kämpfen.</p>
+    <p class="lede" style="margin:0.6rem auto 0">Oft, ohne dass es jemand sieht.</p>
+  </div>
+</section>
+
+<section class="section section-border-top">
+  <div class="container" style="max-width:52rem" data-reveal>
+    <div class="faq-list collab-list">
+${sections.map(([h, p], i) => `      <details class="faq-item"${i === 0 ? ' open' : ''}>
+        <summary>${h}</summary>
+        <div class="prose" style="margin-top:1rem">${p}</div>
+      </details>`).join('\n')}
+    </div>
+  </div>
+</section>
+
+<section class="section-cta section-border-top">
+  <div class="container" data-reveal>
+    <h2>Nächster Schritt</h2>
+    <p class="lede" style="margin-inline:auto;margin-top:1rem">Schreib uns kurz: Welches Projekt willst du zeigen – und was willst du daraus erzählen? Wir melden uns, und gemeinsam bringen wir deine Geschichte raus in die Welt.</p>
+    <div class="hero-actions" style="justify-content:center;margin-top:1.5rem">
+      <a href="${url('contact', 'de')}?leistung=instagram#projektanfrage" class="btn btn-primary">Jetzt Kontakt aufnehmen</a>
+      <a href="mailto:${S.email}?subject=${encodeURIComponent('Instagram-Kollaboration Mutter Natur Deutschland')}" class="btn btn-ghost">Per E-Mail schreiben</a>
+      <a href="${S.instagramMN}" class="btn btn-ghost" target="_blank" rel="noopener">Auf Instagram schreiben</a>
+    </div>
+    <p class="eyebrow" style="margin-top:3rem;color:var(--accent)">Go out there. Let’s live it.</p>
+  </div>
+</section>
+`;
+  layout({
+    lang: 'de', key: 'collab', section: 'services', body, og: 'filmstill-wiederverbindung-galerie',
+    title: 'Instagram-Kollaboration: Mutter Natur Deutschland | Mutter Natur',
+    desc: 'Kostenlos sichtbar werden: Natur-, Umwelt- und Tierschutzprojekte zeigen ihre Arbeit als Instagram-Collab-Post auf „Mutter Natur Deutschland“ (@mutternatur_d).',
   });
 }
 

@@ -82,6 +82,20 @@ function serviceCard(sk, lang) {
 </a>`;
 }
 
+// Sixth way to work together (Instagram collab) – same look as the service cards
+function collabCard(lang) {
+  const c = C.COLLAB;
+  return `<a class="service-card" href="${url('collab', 'de')}" data-reveal>
+  <div class="card-media">${img(c.img, c.alt[lang])}</div>
+  <div class="service-card-body">
+    <h3>${c.title[lang]}</h3>
+    <p>${c.short[lang]}</p>
+    <span class="service-price">${c.price[lang]}</span>
+    <span class="service-more">${UI[lang].more}${lang === 'en' ? ' (German)' : ''} →</span>
+  </div>
+</a>`;
+}
+
 function faqList(keys, lang) {
   return `<div class="faq-list">
 ${keys.map((k) => `  <details class="faq-item">
@@ -123,7 +137,7 @@ const ORG_LD = () => ({
   address: { '@type': 'PostalAddress', streetAddress: 'Goldshausen 6', postalCode: '85417', addressLocality: 'Marzling', addressRegion: 'Bayern', addressCountry: 'DE' },
   areaServed: [{ '@type': 'State', name: 'Bayern' }, { '@type': 'Country', name: 'Deutschland' }, { '@type': 'Country', name: 'Österreich' }, { '@type': 'Country', name: 'Schweiz' }],
   knowsLanguage: ['de', 'en'],
-  sameAs: [S.instagram, S.youtube].concat(S.googleBusinessUrl ? [S.googleBusinessUrl] : []),
+  sameAs: [S.instagram, S.instagramMN, S.youtube].concat(S.googleBusinessUrl ? [S.googleBusinessUrl] : []),
 });
 
 function serviceLd(sk, lang) {
@@ -179,6 +193,7 @@ ${SERVICE_ORDER.map((k) => `          <li><a href="${url(k, lang)}">${SERVICES[k
         <ul>
           <li><a href="${url('work', lang)}">${u.nav.work}</a></li>
           <li><a href="${url('work', lang)}#projekte">${u.footerCases}</a></li>
+          <li><a href="${url('collab', 'de')}">${L(lang, 'Instagram-Kollaboration', 'Instagram collaboration')}</a></li>
           <li><a href="${url('about', lang)}">${u.nav.about}</a></li>
           <li><a href="${url('services', lang)}">${L(lang, 'Preise', 'Pricing')}</a></li>
         </ul>
@@ -189,6 +204,7 @@ ${SERVICE_ORDER.map((k) => `          <li><a href="${url(k, lang)}">${SERVICES[k
           <li><a href="mailto:${S.email}">${S.email}</a></li>
           <li><a href="${url('contact', lang)}#projektanfrage">${u.cta}</a></li>
           <li><a href="${S.instagram}" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="${S.instagramMN}" target="_blank" rel="noopener">Instagram: Mutter Natur Deutschland</a></li>
           <li><a href="${S.youtube}" target="_blank" rel="noopener">YouTube</a></li>
 ${S.googleBusinessUrl ? `          <li><a href="${S.googleBusinessUrl}" target="_blank" rel="noopener">${u.googleReviews}</a></li>` : '          <!-- TODO: Google-Unternehmensprofil in _src/content.js (SETTINGS.googleBusinessUrl) eintragen – dann erscheint hier „Bewertungen auf Google“ -->'}
         </ul>
@@ -363,7 +379,7 @@ const proofBar = (lang) => `<section class="proof" aria-label="${L(lang, 'Refere
   </div>
 </section>`;
 
-module.exports = { esc, stripTags, url, L, t, img, ytPlayer, videoCard, instaCard, serviceCard, faqList, faqLd, videoLd, ORG_LD, serviceLd, layout, ctaBanner, steps, priceTerms, awardsBlock, testimonials, proofBar, written, ROOT, TODAY, LANGS };
+module.exports = { esc, stripTags, url, L, t, img, ytPlayer, videoCard, instaCard, serviceCard, collabCard, faqList, faqLd, videoLd, ORG_LD, serviceLd, layout, ctaBanner, steps, priceTerms, awardsBlock, testimonials, proofBar, written, ROOT, TODAY, LANGS };
 
 // Pages are defined in pages.js
 if (require.main === module) {

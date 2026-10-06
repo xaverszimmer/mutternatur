@@ -966,6 +966,7 @@ body.modal-open { overflow: hidden; }
   .service-grid.five > * { grid-column: span 2; }
   .service-grid.five > :nth-child(n+4) { grid-column: span 3; }
 }
+@media (min-width: 900px) { .service-grid.six { grid-template-columns: repeat(3, 1fr); } }
 .service-card { position: relative; display: flex; flex-direction: column; background: var(--bg-elevated); border: 1px solid var(--border); transition: border-color 0.25s ease, transform 0.25s ease; }
 .service-card:hover { border-color: var(--border-strong); transform: translateY(-2px); }
 .service-card.is-featured { border-color: var(--accent); }
