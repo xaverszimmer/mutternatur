@@ -46,6 +46,8 @@ const ROUTES = {
   caseBerg: { de: '/projekte/bergwaldprojekt', en: '/en/projects/bergwaldprojekt' },
   // Instagram-Kollaboration „Mutter Natur Deutschland“ – nur Deutsch, bewusst nicht in der Hauptnavigation
   collab: { de: '/kollaboration' },
+  // Vorträge – nur Deutsch, eigenes Design (_src/vortraege.html), nur im Footer verlinkt
+  talks: { de: '/vortraege' },
   about: { de: '/ueber-uns', en: '/en/about' },
   contact: { de: '/kontakt', en: '/en/contact' },
   thanks: { de: '/danke', en: '/en/thank-you' },

@@ -194,6 +194,7 @@ ${SERVICE_ORDER.map((k) => `          <li><a href="${url(k, lang)}">${SERVICES[k
           <li><a href="${url('work', lang)}">${u.nav.work}</a></li>
           <li><a href="${url('work', lang)}#projekte">${u.footerCases}</a></li>
           <li><a href="${url('collab', 'de')}">${L(lang, 'Instagram-Kollaboration', 'Instagram collaboration')}</a></li>
+          <li><a href="${url('talks', 'de')}">${L(lang, 'Vorträge', 'Talks')}</a></li>
           <li><a href="${url('about', lang)}">${u.nav.about}</a></li>
           <li><a href="${url('services', lang)}">${L(lang, 'Preise', 'Pricing')}</a></li>
         </ul>

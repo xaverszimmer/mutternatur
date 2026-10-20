@@ -7,6 +7,7 @@ Die Seiten (Deutsch im Hauptverzeichnis, Englisch unter `/en/`) werden aus diese
 | `content.js` | Alle Texte (DE/EN), Filme, Leistungen, Preise, FAQ, Formular-Optionen, Festivals, Kundenstimmen, Einstellungen (Google-Profil, Buchungslink) |
 | `pages.js` | Aufbau der einzelnen Seiten |
 | `legal-impressum.html`, `legal-datenschutz.html` | Rechtstexte (nur Deutsch) |
+| `vortraege.html` | Vorträge-Seite mit eigenem Design (nur Deutsch); `vortraege.js` ergänzt canonical, hreflang, Open Graph und setzt `{{EMAIL}}` usw. ein |
 | `image-sizes.json` | Bildmaße für `width`/`height` – bei neuen Bildern ergänzen |
 | `build.js` | Layout (Header, Footer, Sprachumschalter, hreflang, Strukturdaten), Sitemap, `_redirects` |
 
