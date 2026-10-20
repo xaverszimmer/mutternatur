@@ -69,7 +69,7 @@ const UI = {
     langSwitch: 'EN', langSwitchLabel: 'English version',
     menu: 'Menü öffnen',
     mailLabel: 'E-Mail schreiben',
-    footerText: 'Imagefilme, Dokumentationen und Social Content für Unternehmen, Tourismus und NGOs – aus Bayern, Raum München/Freising.',
+    footerText: 'Naturfilme, Dokumentationen, Imagefilme und Social Content – eigene Produktionen und Auftragsarbeiten für Unternehmen, Tourismus und NGOs. Aus Bayern, Raum München/Freising.',
     footerServices: 'Leistungen', footerPages: 'Mutter Natur', footerContact: 'Kontakt',
     footerCases: 'Fallstudien', googleReviews: 'Bewertungen auf Google',
     legal: ['Impressum', 'Datenschutz'],
@@ -89,7 +89,7 @@ const UI = {
     langSwitch: 'DE', langSwitchLabel: 'Deutsche Version',
     menu: 'Open menu',
     mailLabel: 'Email us',
-    footerText: 'Image films, documentaries and social content for companies, tourism and NGOs – from Bavaria, Munich/Freising area.',
+    footerText: 'Nature films, documentaries, image films and social content – independent productions and commissioned work for companies, tourism and NGOs. From Bavaria, Munich/Freising area.',
     footerServices: 'Services', footerPages: 'Mutter Natur', footerContact: 'Contact',
     footerCases: 'Case studies', googleReviews: 'Reviews on Google',
     legal: ['Legal notice (German)', 'Privacy policy (German)'],
@@ -455,11 +455,11 @@ const SERVICE_ORDER = ['photo', 'imagefilm', 'documentary', 'social', 'longterm'
 // Options for the detailed inquiry form
 const FORM_OPTIONS = {
   orgType: {
-    de: ['Unternehmen', 'Tourismus', 'NGO / Verein / Stiftung', 'Behörde / Zweckverband', 'Sonstiges'],
-    en: ['Company', 'Tourism', 'NGO / association / foundation', 'Public authority / special-purpose association', 'Other'],
+    de: ['Unternehmen', 'Tourismus', 'NGO / Verein / Stiftung', 'Behörde / Zweckverband', 'Sender / Produktionsfirma / Förderung', 'Sonstiges'],
+    en: ['Company', 'Tourism', 'NGO / association / foundation', 'Public authority / special-purpose association', 'Broadcaster / production company / funding body', 'Other'],
   },
   service: SERVICE_ORDER.map((k) => ({ key: SERVICES[k].key, de: SERVICES[k].title.de, en: SERVICES[k].title.en }))
-    .concat([{ key: 'instagram', de: 'Instagram-Kollaboration (kostenlos)', en: 'Instagram collaboration (free)' }, { key: 'offen', de: 'Noch offen – ich brauche Beratung', en: 'Not sure yet – I need advice' }]),
+    .concat([{ key: 'naturfilm', de: 'Naturfilm / Koproduktion', en: 'Nature film / co-production' }, { key: 'instagram', de: 'Instagram-Kollaboration (kostenlos)', en: 'Instagram collaboration (free)' }, { key: 'offen', de: 'Noch offen – ich brauche Beratung', en: 'Not sure yet – I need advice' }]),
   timeframe: {
     de: ['So bald wie möglich (innerhalb eines Monats)', 'In 1–3 Monaten', 'In 3–6 Monaten', 'In mehr als 6 Monaten', 'Noch offen'],
     en: ['As soon as possible (within a month)', 'In 1–3 months', 'In 3–6 months', 'In more than 6 months', 'Not decided yet'],
@@ -476,6 +476,26 @@ const AWARDS = [
   { film: 'Die Wächter der Berge', festival: '22. INKAFEST' },
   { film: 'Die große Verbindung', festival: 'Filmfest Schleswig-Holstein' },
   { film: 'Die große Verbindung', festival: 'Kurzfilm Festival Mo&Friese' },
+];
+
+// Partners & clients shown in the moving band on the home page (image, name, kind of work)
+const PHOTO_KIND = {
+  photo: { de: 'Fotografie', en: 'Photography' },
+  reel: { de: 'Reel', en: 'Reel' },
+  collab: { de: 'Instagram-Kooperation', en: 'Instagram collaboration' },
+};
+const PARTNERS = [
+  { name: 'Bergwaldprojekt', img: 'bergwaldprojekt-naturfotografie.webp', route: 'caseBerg', kind: PHOTO_KIND.photo, alt: INSTA.bergwald.alt },
+  { name: 'Donaumoos Zweckverband', img: 'donaumoos-zweckverband-logo.webp', logo: true, route: 'caseDonau', kind: { de: 'Markenfilm', en: 'Brand film' }, alt: FILMS.donaumoos.alt },
+  { name: 'Ozeankind', img: 'ozeankind-naturfotografie.webp', route: 'photography', kind: PHOTO_KIND.reel, alt: INSTA.ozeankind.alt },
+  { name: 'Teufelshöhle Pottenstein', img: 'teufelshoehle-pottenstein-logo.webp', logo: true, route: 'caseTeufel', kind: { de: 'Dokumentarfilm', en: 'Documentary film' }, alt: FILMS.teufel.alt },
+  { name: 'Timo Spengler', img: 'timo-spengler-instagram-zusammenarbeit.webp', route: 'photography', kind: PHOTO_KIND.collab, alt: INSTA.timo.alt },
+  { name: 'Moorflut', img: 'moorflut-sponsoring-instagram.webp', route: 'photography', kind: INSTA.moorflut.meta, alt: INSTA.moorflut.alt },
+  { name: 'Bergwaldprojekt', img: 'instagram-beitrag-mutter-natur-film.avif', route: 'caseBerg', kind: PHOTO_KIND.photo, alt: { de: 'Freiwillige entrinden einen Baumstamm im Bergwald', en: 'Volunteer debarking a tree trunk in a mountain forest' } },
+  { name: 'Giardino Galderisi', img: 'giardino-galderisi-instagram-zusammenarbeit.webp', route: 'photography', kind: PHOTO_KIND.collab, alt: INSTA.giardino.alt },
+  { name: 'Vacher Hofwiesen', img: 'vacher-hofwiesen-instagram-zusammenarbeit.webp', logo: true, route: 'photography', kind: PHOTO_KIND.collab, alt: INSTA.vacher.alt },
+  { name: 'Ozeankind', img: 'instagram-reel-mutter-natur-film.webp', route: 'photography', kind: PHOTO_KIND.reel, alt: { de: 'Mädchen in Warnweste sammelt Müll mit einer Greifzange', en: 'Girl in a hi-vis vest collecting litter with a grabber' } },
+  { name: 'Miya Forest', img: 'miya-forest-instagram-zusammenarbeit.webp', logo: true, route: 'photography', kind: PHOTO_KIND.collab, alt: INSTA.miya.alt },
 ];
 
 // Testimonials: the section stays invisible until at least one real quote is entered.
@@ -497,4 +517,4 @@ const COLLAB = {
   price: { de: 'Kostenlos', en: 'Free' },
 };
 
-module.exports = { COLLAB, todo, SETTINGS, ROUTES, REDIRECTS, UI, FILMS, INSTA, FAQ, PRICE_TERMS, SERVICES, SERVICE_ORDER, FORM_OPTIONS, AWARDS, TESTIMONIALS };
+module.exports = { PARTNERS, COLLAB, todo, SETTINGS, ROUTES, REDIRECTS, UI, FILMS, INSTA, FAQ, PRICE_TERMS, SERVICES, SERVICE_ORDER, FORM_OPTIONS, AWARDS, TESTIMONIALS };

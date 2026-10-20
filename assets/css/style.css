@@ -1076,3 +1076,74 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 480px) {
   h1, .h1, .hero.hero-compact h1, .service-hero-grid h1, .case-h1, .hero-display.hero-display--compact, .offer-hero-headline { font-size: 6vw; }
 }
+
+/* ==========================================================================
+   Home v3: festivals in full, moving partner band, nature/people duo,
+   flipped film feature, swipeable film strip.
+   ========================================================================== */
+
+/* ---- Festivals: every festival, set large ---- */
+.festival-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--border); }
+.festival-grid li { padding: clamp(1.1rem, 2.5vw, 1.75rem) clamp(1rem, 2vw, 1.5rem) 0 0; }
+.festival-grid li + li { padding-left: clamp(1rem, 2vw, 1.5rem); border-left: 1px solid var(--border); }
+.festival-grid strong { display: block; font-family: var(--font-display); font-weight: 700; line-height: 1.12; letter-spacing: -0.01em; font-size: clamp(1.15rem, 2.1vw, 1.7rem); color: var(--fg); overflow-wrap: break-word; }
+.festival-grid span { display: block; margin-top: 0.5rem; font-size: 0.88rem; color: var(--fg-subtle); }
+@media (max-width: 860px) {
+  .festival-grid { grid-template-columns: 1fr 1fr; }
+  .festival-grid li:nth-child(odd) { padding-left: 0; border-left: 0; }
+  .festival-grid li:nth-child(n+3) { margin-top: 1.1rem; border-top: 1px solid var(--border); }
+}
+
+/* ---- Partner band: drifts slowly to the left, like the hero image ---- */
+.partner-band { margin-top: clamp(2.5rem, 6vw, 4rem); }
+.marquee { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.marquee-track { display: flex; width: max-content; animation: logo-slide 70s linear infinite; }
+.marquee:hover .marquee-track, .marquee:focus-within .marquee-track { animation-play-state: paused; }
+.marquee-set { display: flex; gap: clamp(1rem, 2vw, 1.5rem); padding-right: clamp(1rem, 2vw, 1.5rem); }
+.partner-tile { display: block; width: clamp(11rem, 20vw, 15rem); }
+.partner-media { display: block; aspect-ratio: 4/3; overflow: hidden; background: var(--bg-elevated); margin-bottom: 0.8rem; }
+.partner-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.partner-media.is-logo { background: #fff; }
+.partner-media.is-logo img { object-fit: contain; padding: 10%; }
+.partner-tile:hover .partner-media img { transform: scale(1.04); }
+.partner-tile strong { display: block; font-family: var(--font-ui); font-weight: 600; font-size: 0.98rem; color: var(--fg); }
+.partner-tile > span:last-child { display: block; font-size: 0.8rem; color: var(--fg-subtle); }
+@media (prefers-reduced-motion: reduce) {
+  .marquee { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .marquee-track { animation: none; padding-inline: var(--gutter); }
+  .marquee-set[aria-hidden] { display: none; }
+}
+
+/* ---- Duo: nature itself | the people protecting it ---- */
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 2.5vw, 1.75rem); }
+.duo-tile { position: relative; display: flex; align-items: flex-end; min-height: clamp(24rem, 46vw, 34rem); overflow: hidden; isolation: isolate; }
+.duo-tile > img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.16,.8,.24,1); }
+.duo-tile:hover > img { transform: scale(1.05); }
+.duo-tile::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, rgba(8, 9, 8, 0.94) 0%, rgba(8, 9, 8, 0.55) 45%, rgba(8, 9, 8, 0.1) 100%); }
+.duo-body { padding: clamp(1.5rem, 3.5vw, 2.5rem); display: flex; flex-direction: column; gap: 0.7rem; }
+.duo-body .num { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; color: var(--accent-strong); }
+.duo-body h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.015em; line-height: 1.1; font-size: clamp(1.4rem, 2.6vw, 2rem); }
+.duo-body p { font-size: 0.98rem; max-width: 34rem; }
+@media (max-width: 760px) { .duo { grid-template-columns: 1fr; } .duo-tile { min-height: 22rem; } }
+
+/* ---- Film feature with the video on the left ---- */
+.case-teaser.is-flipped { grid-template-columns: 0.9fr 1.1fr; }
+.case-teaser.is-flipped > :first-child { order: 0; }
+@media (max-width: 860px) { .case-teaser.is-flipped { grid-template-columns: 1fr; } }
+
+/* ---- Swipeable strip with the remaining films ---- */
+.film-strip-wrap { margin-top: clamp(3.5rem, 8vw, 6rem); }
+.film-strip-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
+.strip-nav { display: flex; gap: 0.5rem; }
+.strip-nav button { width: 2.6rem; height: 2.6rem; border: 1px solid var(--border-strong); background: none; color: var(--fg); font-size: 1.05rem; transition: border-color 0.2s ease, background 0.2s ease; }
+.strip-nav button:hover { border-color: var(--fg); background: rgba(255, 255, 255, 0.06); }
+.film-strip {
+  display: flex; gap: clamp(1rem, 2.5vw, 1.75rem); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+  padding-inline: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+  scroll-padding-inline: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+}
+.film-strip::-webkit-scrollbar { display: none; }
+.film-strip:focus-visible { outline: 1px solid var(--accent); outline-offset: 6px; }
+.film-strip .video-card { flex: 0 0 min(80vw, 380px); scroll-snap-align: start; }
+.film-strip .yt-note { display: none; }
+@media (hover: none) { .strip-nav { display: none; } }

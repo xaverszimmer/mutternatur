@@ -131,7 +131,7 @@ const ORG_LD = () => ({
   name: 'Mutter Natur', url: `${S.site}/`,
   logo: `${S.site}/assets/img/logo-mutter-natur.png`,
   image: `${S.site}/assets/img/og/naturlandschaft-naturfilm-produktion-bayern.jpg`,
-  description: 'Imagefilme, Dokumentarfilme, Fotografie und Social-Media-Content für Unternehmen, Tourismus und NGOs – aus Bayern, Raum München/Freising.',
+  description: 'Naturfilme, Dokumentarfilme, Imagefilme, Fotografie und Social-Media-Content – eigene Produktionen und Auftragsarbeiten für Unternehmen, Tourismus und NGOs. Aus Bayern, Raum München/Freising.',
   founder: { '@type': 'Person', name: 'Xaver Zimmermann' },
   email: S.email, priceRange: '700 €–7.000 €',
   address: { '@type': 'PostalAddress', streetAddress: 'Goldshausen 6', postalCode: '85417', addressLocality: 'Marzling', addressRegion: 'Bayern', addressCountry: 'DE' },
@@ -361,19 +361,30 @@ ${cards}
 </section>`;
 }
 
+// Festivals (all of them, large) + endless band of partner/client images.
+// The band holds the set twice; the copy is hidden from screen readers and keyboard.
+const partnerSet = (lang, copy) => `<ul class="marquee-set"${copy ? ' aria-hidden="true"' : ''}>
+${C.PARTNERS.map((p) => `        <li><a class="partner-tile" href="${url(p.route, lang)}"${copy ? ' tabindex="-1"' : ''}>
+          <span class="partner-media${p.logo ? ' is-logo' : ''}">${img(p.img, copy ? '' : p.alt[lang])}</span>
+          <strong>${esc(p.name)}</strong>
+          <span>${p.kind[lang]}</span>
+        </a></li>`).join('\n')}
+      </ul>`;
+
 const proofBar = (lang) => `<section class="proof" aria-label="${L(lang, 'Referenzen', 'References')}">
-  <div class="container proof-grid" data-reveal>
-    <div>
-      <span class="eyebrow">${L(lang, 'Unsere Filme auf Festivals', 'Our films at festivals')}</span>
-      <!-- TODO: Status je Festival bestätigen (Gewinner / Offizielle Auswahl) – Details auf der Über-uns-Seite -->
-      <div class="festival-list"><span>DOK.fest München</span><span>INKAFEST</span><span>Filmfest Schleswig-Holstein</span></div>
-    </div>
-    <div>
-      <span class="eyebrow">${L(lang, 'Partner & Auftraggeber', 'Partners & clients')}</span>
-      <div class="logo-row">
-        <a class="logo-tile" href="${url('caseDonau', lang)}">${img('donaumoos-zweckverband-logo.webp', 'Donaumoos Zweckverband')}</a>
-        <a class="logo-tile" href="${url('caseTeufel', lang)}">${img('teufelshoehle-pottenstein-logo.webp', 'Teufelshöhle Pottenstein')}</a>
-        <!-- TODO: weitere Kundenlogos (z. B. Bergwaldprojekt, Ozeankind, Moorflut) – nur mit Freigabe der Kunden einsetzen -->
+  <div class="container" data-reveal>
+    <span class="eyebrow">${L(lang, 'Unsere Filme auf Festivals', 'Our films at festivals')}</span>
+    <!-- TODO: Status je Festival bestätigen (Gewinner / Offizielle Auswahl) – Details auf der Über-uns-Seite -->
+    <ul class="festival-grid">
+${C.AWARDS.map((a) => `      <li><strong>${esc(a.festival)}</strong><span>${a.film}</span></li>`).join('\n')}
+    </ul>
+  </div>
+  <div class="partner-band" data-reveal>
+    <div class="container"><span class="eyebrow">${L(lang, 'Partner & Auftraggeber', 'Partners & clients')}</span></div>
+    <div class="marquee" data-static-img>
+      <div class="marquee-track">
+      ${partnerSet(lang, false)}
+      ${partnerSet(lang, true)}
       </div>
     </div>
   </div>

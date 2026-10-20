@@ -38,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
     el.classList.add('reveal-heading');
   });
   document.querySelectorAll('main img').forEach((el, i) => {
+    // Images that already move with their container (partner band, duo tiles) stay put.
+    if (el.closest('[data-static-img]')) return;
     el.setAttribute('data-reveal', '');
     el.classList.add(i % 2 === 0 ? 'reveal-left' : 'reveal-right');
   });
@@ -274,6 +276,18 @@ document.addEventListener('DOMContentLoaded', () => {
     mediaModal.querySelectorAll('[data-modal-close]').forEach((el) => el.addEventListener('click', close));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !mediaModal.hidden) close(); });
   }
+
+  // Home film strip: arrow buttons scroll the strip by one card.
+  document.querySelectorAll('.film-strip-wrap').forEach((wrap) => {
+    const strip = wrap.querySelector('.film-strip');
+    wrap.querySelectorAll('[data-strip]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const card = strip.querySelector('.video-card');
+        const step = card ? card.getBoundingClientRect().width + parseFloat(getComputedStyle(strip).columnGap || 0) : strip.clientWidth;
+        strip.scrollBy({ left: Number(btn.dataset.strip) * step, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      });
+    });
+  });
 
   // Kinetic typography: split manifest text into words for a staggered reveal.
   document.querySelectorAll('.kinetic-text').forEach((el) => {

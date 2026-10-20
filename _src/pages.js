@@ -9,19 +9,20 @@ const LANGS = ['de', 'en'];
 // ===========================================================================
 // Home
 // ===========================================================================
+const HOME_STRIP = ['verbindung', 'vogel', 'tomato', 'donaumoos', 'kohle'];
 for (const lang of LANGS) {
   const body = `
 <section class="hero hero--center-v">
   <div class="hero-media hero-parallax">${img('naturlandschaft-naturfilm-produktion-bayern.webp', L(lang, 'Reh überquert im Abendlicht einen Feldweg', 'Deer crossing a country road at sunset'), { eager: true })}</div>
   <div class="container hero-content hero-content--center">
-    <span class="eyebrow hero-counter" data-reveal style="transition-delay:.35s">${L(lang, 'Filmproduktion aus Bayern', 'Film production from Bavaria')}</span>
-    <h1 class="hero-display hero-display--compact hero-zoom kinetic-text" data-reveal style="transition-delay:.1s">${L(lang, 'Filme, die zeigen, was Ihr Unternehmen für die Natur tut.', 'Films that show what your business does for nature.')}</h1>
+    <span class="eyebrow hero-counter" data-reveal style="transition-delay:.35s">${L(lang, 'Mutter Natur · Naturfilm & Filmproduktion aus Bayern', 'Mutter Natur · Nature film production from Bavaria')}</span>
+    <h1 class="hero-display hero-display--compact hero-zoom kinetic-text" data-reveal style="transition-delay:.1s">${L(lang, 'Natur und Umwelt, revolutionär erzählt.', 'Revolutionizing Environmental Storytelling')}</h1>
     <p class="lede hero-counter" data-reveal style="transition-delay:.6s">${L(lang,
-      'Imagefilme, Dokumentationen und Social Content für Unternehmen, Tourismus und NGOs – aus Bayern, für Deutschland, Österreich, die Schweiz und überall, wo Ihre Geschichte spielt.',
-      'Image films, documentaries and social content for companies, tourism and NGOs – from Bavaria, for Germany, Austria, Switzerland and wherever your story takes place.')}</p>
+      'Wir erzählen visuelle Geschichten – aus der Natur selbst und für Unternehmen und Organisationen, die sie schützen: von hochwertigen Filmen und Fotografie bis zu strategischem Content für Social Media.',
+      'We create visual stories – from nature itself and for the businesses and organizations protecting it: from high-quality films and photography to strategic content for social media.')}</p>
     <div class="hero-actions hero-counter" data-reveal style="transition-delay:.85s">
-      <a href="${url('contact', lang)}#projektanfrage" class="btn btn-primary">${UI[lang].cta}</a>
-      <a href="${url('work', lang)}" class="btn btn-ghost">${L(lang, 'Filme ansehen', 'Watch our films')}</a>
+      <a href="${url('work', lang)}" class="btn btn-primary">${L(lang, 'Filme ansehen', 'Watch our films')}</a>
+      <a href="${url('contact', lang)}#projektanfrage" class="btn btn-ghost">${UI[lang].cta}</a>
     </div>
   </div>
 </section>
@@ -31,25 +32,35 @@ ${proofBar(lang)}
 <section class="section section-border-top">
   <div class="container">
     <div class="section-head" data-reveal>
-      <span class="eyebrow">${L(lang, 'Für wen wir arbeiten', 'Who we work with')}</span>
-      <h2>${L(lang, 'Sie tun etwas für die Natur. Wir sorgen dafür, dass man es sieht.', 'You do something for nature. We make sure people see it.')}</h2>
+      <span class="eyebrow">${L(lang, 'Unsere Mission', 'Our mission')}</span>
+      <h2 class="kinetic-text">${L(lang, 'Wir machen Ihre Wirkung sichtbar.', 'We make your impact visible.')}</h2>
+      <p class="lede" style="margin-top:1rem">${L(lang,
+        'Mutter Natur wurde mit einer Mission gegründet: die Geschichten von Projekten, Organisationen und Menschen zu erzählen, die die Umwelt schützen. Wir zeigen die Verbindung zwischen Mensch und Natur – und was möglich ist, wenn beide im Einklang leben. Das treibt uns an.',
+        'Mutter Natur was founded with the mission of telling the stories of projects, organizations, and people working to protect the environment. We showcase the connection between people and nature, and the possibilities of living together in harmony. That’s what drives us.')}</p>
     </div>
-    <div class="audience-grid" data-reveal>
-      <div>
-        <span class="num">01</span>
-        <h3>${L(lang, 'Unternehmen & Tourismus', 'Companies & tourism')}</h3>
-        <p>${L(lang, 'Für Betriebe, Marken und Destinationen, die Natur nicht nur als Kulisse nutzen, sondern Verantwortung übernehmen – und das glaubwürdig zeigen wollen.', 'For businesses, brands and destinations that don’t just use nature as a backdrop but take responsibility – and want to show it credibly.')}</p>
-      </div>
-      <div>
-        <span class="num">02</span>
-        <h3>${L(lang, 'NGOs & Initiativen', 'NGOs & initiatives')}</h3>
-        <p>${L(lang, 'Für Umwelt- und Naturschutzorganisationen, Vereine und Stiftungen, die Unterstützer, Spender und Öffentlichkeit erreichen wollen.', 'For environmental and conservation organizations, associations and foundations that want to reach supporters, donors and the public.')}</p>
-      </div>
-      <div>
-        <span class="num">03</span>
-        <h3>${L(lang, 'Behörden & Zweckverbände', 'Public bodies')}</h3>
-        <p>${L(lang, 'Für Kommunen, Zweckverbände und Forschungseinrichtungen, deren Projekte verstanden und mitgetragen werden sollen.', 'For municipalities, special-purpose associations and research institutions whose projects need to be understood and supported.')}</p>
-      </div>
+    <div class="duo">
+      <a class="duo-tile reveal-left" href="${url('films', lang)}" data-reveal data-static-img>
+        ${img('filmstill-naturaufnahme-social.avif', L(lang, 'Reh im goldenen Abendlicht', 'Deer in golden evening light'))}
+        <div class="duo-body">
+          <span class="num">01</span>
+          <h3>${L(lang, 'Geschichten aus der Natur', 'Stories from nature itself')}</h3>
+          <p>${L(lang,
+            'Eigene Naturfilme und Kurzdokumentationen – über Gämsen in den Alpen, Kohlmeisen im Winter, die Rückkehr des Weißstorchs. Frei erzählt und auf Festivals gezeigt.',
+            'Our own nature films and short documentaries – about chamois in the Alps, great tits in winter, the return of the white stork. Independently told and shown at festivals.')}</p>
+          <span class="service-more">${L(lang, 'Unsere Naturfilme', 'Our nature films')} →</span>
+        </div>
+      </a>
+      <a class="duo-tile reveal-right" href="${url('docs', lang)}" data-reveal data-static-img>
+        ${img('fotografie-social-media-portfolio.avif', L(lang, 'Freiwilliger trägt einen Eimer bei einer Pflanzaktion', 'Volunteer carrying a bucket at a planting event'))}
+        <div class="duo-body">
+          <span class="num">02</span>
+          <h3>${L(lang, 'Geschichten von Menschen, die sie schützen', 'Stories of the people protecting it')}</h3>
+          <p>${L(lang,
+            'Dokumentationen, Imagefilme und Content für Unternehmen, Tourismus, NGOs und Zweckverbände, die für die Natur kämpfen – und dabei gesehen werden sollen.',
+            'Documentaries, image films and content for companies, tourism, NGOs and public bodies that fight for nature – and deserve to be seen doing it.')}</p>
+          <span class="service-more">${L(lang, 'Dokumentationen & Markenfilme', 'Documentaries & brand films')} →</span>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -57,10 +68,9 @@ ${proofBar(lang)}
 <section class="section section-border-top" id="leistungen">
   <div class="container">
     <div class="section-head" data-reveal>
-      <span class="eyebrow">${L(lang, 'Leistungen & Preise', 'Services & pricing')}</span>
+      <span class="eyebrow">${L(lang, 'Zusammenarbeit & Preise', 'Working together & pricing')}</span>
       <h2>${L(lang, 'Sechs Wege, mit uns zu arbeiten.', 'Six ways to work with us.')}</h2>
-      <p class="lede" style="margin-top:1rem">${L(lang, 'Von schnellem Content bis zur tiefen Dokumentation – mit klaren Preisen. Alle Preise sind Endpreise.', 'From fast content to deep documentary storytelling – with clear pricing. All prices are final prices.')}</p>
-      <p style="margin-top:0.75rem">${L(lang, 'Neu: Mit der <a class="text-link" href="/kollaboration">Instagram-Kollaboration</a> zeigen Natur- und Umweltprojekte ihre Arbeit kostenlos auf „Mutter Natur Deutschland“.', 'New: with our <a class="text-link" href="/kollaboration">Instagram collaboration</a> (German), nature and environmental projects can share their work on “Mutter Natur Deutschland” – free of charge.')}</p>
+      <p class="lede" style="margin-top:1rem">${L(lang, 'Für alle, die nachhaltig etwas bewegen: vom schnellen Content bis zum Dokumentarfilm – mit klaren Endpreisen.', 'For everyone creating lasting change: from fast content to documentary film – with clear, final prices.')}</p>
     </div>
     <div class="service-grid six">
 ${SERVICE_ORDER.map((k) => serviceCard(k, lang)).join('\n')}
@@ -74,25 +84,42 @@ ${collabCard(lang)}
     <div class="section-head" data-reveal>
       <span class="eyebrow">${L(lang, 'Ausgewählte Filme', 'Selected films')}</span>
       <h2>${L(lang, 'Sehen Sie selbst.', 'See for yourself.')}</h2>
+      <p class="lede" style="margin-top:1rem">${L(lang, 'Ein freier Naturfilm und eine Auftragsproduktion – mit demselben Anspruch gedreht.', 'An independent nature film and a commissioned production – made to the same standard.')}</p>
     </div>
-    <div class="video-grid-3">
-${['waechter', 'vogel', 'kohle'].map((k) => videoCard(k, lang)).join('\n')}
+    <div class="case-teaser is-flipped">
+      <div data-reveal>${ytPlayer('waechter', lang)}</div>
+      <div data-reveal>
+        <span class="eyebrow">${L(lang, 'Eigenproduktion · Naturfilm', 'Independent production · Nature film')}</span>
+        <h3 class="h2">${FILMS.waechter.title[lang]}</h3>
+        <p class="lede" style="margin-top:1rem">${FILMS.waechter.desc[lang]}</p>
+        <p class="card-meta" style="margin-top:1rem">${L(lang, 'Kurzdokumentation · 13:40 Min. · Auf Festivals: DOK.fest München, 22. INKAFEST', 'Short documentary · 13:40 min · At festivals: DOK.fest München, 22nd INKAFEST')}</p>
+        <a class="btn btn-ghost" style="margin-top:1.75rem" href="${url('films', lang)}">${L(lang, 'Alle Naturfilme', 'All nature films')}</a>
+      </div>
     </div>
-    <p style="margin-top:2rem"><a class="text-link" href="${url('work', lang)}">${L(lang, 'Alle Arbeiten ansehen', 'See all work')}</a></p>
+    <div class="case-teaser" style="margin-top:clamp(3.5rem,8vw,6rem)">
+      <div data-reveal>
+        <span class="eyebrow">${UI[lang].caseLabel} · ${L(lang, 'Tourismus', 'Tourism')}</span>
+        <h3 class="h2">${L(lang, 'Teufelshöhle Pottenstein: mehr Reichweite für eine der größten Schauhöhlen Deutschlands.', 'Teufelshöhle Pottenstein: more reach for one of Germany’s largest show caves.')}</h3>
+        <p class="lede" style="margin-top:1rem">${L(lang,
+          'Zusammen mit dem Tourismusverband Pottenstein haben wir die Dokumentation „Eine Welt unter unseren Füßen“ produziert – mit zwei Zielen: die Reichweite der Höhle steigern und Material für die Öffentlichkeitsarbeit liefern.',
+          'Together with the Pottenstein tourism association we produced the documentary “Eine Welt unter unseren Füßen” (A world beneath our feet) – with two goals: increase the cave’s reach and deliver material for public relations.')}</p>
+        <a class="btn btn-ghost" style="margin-top:1.75rem" href="${url('caseTeufel', lang)}">${L(lang, 'Zur Fallstudie', 'Read the case study')}</a>
+      </div>
+      <div data-reveal>${ytPlayer('teufel', lang)}</div>
+    </div>
   </div>
-</section>
-
-<section class="section section-border-top">
-  <div class="container case-teaser">
-    <div data-reveal>
-      <span class="eyebrow">${UI[lang].caseLabel} · ${L(lang, 'Tourismus', 'Tourism')}</span>
-      <h2>${L(lang, 'Teufelshöhle Pottenstein: mehr Reichweite für eine der größten Schauhöhlen Deutschlands.', 'Teufelshöhle Pottenstein: more reach for one of Germany’s largest show caves.')}</h2>
-      <p class="lede" style="margin-top:1rem">${L(lang,
-        'Zusammen mit dem Tourismusverband Pottenstein haben wir die Dokumentation „Eine Welt unter unseren Füßen“ produziert – mit zwei Zielen: die Reichweite der Höhle steigern und Material für die Öffentlichkeitsarbeit liefern.',
-        'Together with the Pottenstein tourism association we produced the documentary “Eine Welt unter unseren Füßen” (A world beneath our feet) – with two goals: increase the cave’s reach and deliver material for public relations.')}</p>
-      <a class="btn btn-ghost" style="margin-top:1.75rem" href="${url('caseTeufel', lang)}">${L(lang, 'Zur Fallstudie', 'Read the case study')}</a>
+  <div class="film-strip-wrap">
+    <div class="container film-strip-head" data-reveal>
+      <span class="eyebrow" style="margin:0">${L(lang, 'Weitere Filme', 'More films')}</span>
+      <div class="strip-nav">
+        <button type="button" data-strip="-1" aria-label="${L(lang, 'Vorherige Filme', 'Previous films')}">←</button>
+        <button type="button" data-strip="1" aria-label="${L(lang, 'Nächste Filme', 'Next films')}">→</button>
+      </div>
     </div>
-    <div data-reveal>${ytPlayer('teufel', lang)}</div>
+    <div class="film-strip" tabindex="0" aria-label="${L(lang, 'Weitere Filme', 'More films')}">
+${HOME_STRIP.map((k) => videoCard(k, lang)).join('\n')}
+    </div>
+    <div class="container"><p class="yt-note" style="margin-top:1rem">${UI[lang].ytNote} <a href="${url('datenschutz', 'de')}#videos">${UI[lang].privacy}</a></p><p style="margin-top:2rem"><a class="text-link" href="${url('work', lang)}">${L(lang, 'Alle Arbeiten ansehen', 'See all work')}</a></p></div>
   </div>
 </section>
 
@@ -111,25 +138,29 @@ ${testimonials(lang)}
 <section class="section section-border-top">
   <div class="container feature-split" data-reveal>
     <div>
-      <span class="eyebrow">${L(lang, 'Warum Mutter Natur', 'Why Mutter Natur')}</span>
-      <p class="lede">${L(lang,
-        'Wir erzählen die Geschichten von Menschen und Projekten, die die Natur schützen. Echte Bilder, echte Menschen, echte Wirkung – so, dass Ihr Publikum hinsieht und Ihnen glaubt.',
-        'We tell the stories of people and projects that protect nature. Real footage, real people, real impact – told so that your audience pays attention and trusts you.')}</p>
-      <a href="${url('about', lang)}" class="text-link" style="margin-top:1.5rem;display:inline-block">${L(lang, 'Mehr über uns', 'More about us')}</a>
+      <span class="eyebrow">${L(lang, 'Eigene Filme & Koproduktionen', 'Independent films & co-productions')}</span>
+      <h2>${L(lang, 'Sie haben eine Geschichte, die ein Naturfilm werden sollte?', 'Do you have a story that should become a nature film?')}</h2>
+      <p class="lede" style="margin-top:1rem">${L(lang,
+        'Neben Auftragsproduktionen entwickeln wir eigene Natur- und Dokumentarfilme – Geschichten, die Mensch und Natur wieder verbinden. Dafür arbeiten wir gern mit Sendern, Produktionsfirmen, Förderungen und Menschen zusammen, die etwas zu erzählen haben.',
+        'Alongside commissioned work we develop our own nature and documentary films – stories that reconnect humans and nature. For these we love to work with broadcasters, production companies, funding bodies and people who have something to tell.')}</p>
+      <div class="hero-actions">
+        <a href="${url('films', lang)}" class="btn btn-ghost">${L(lang, 'Unsere Naturfilme', 'Our nature films')}</a>
+        <a href="${url('about', lang)}" class="text-link" style="align-self:center">${L(lang, 'Mehr über uns', 'More about us')}</a>
+      </div>
     </div>
     ${img('naturaufnahme-wiederverbindung-mission.webp', L(lang, 'Verschneite Berggipfel im Nebel', 'Snow-covered mountain peaks in the mist'))}
   </div>
 </section>
 
-${ctaBanner(lang, L(lang, 'Erzählen Sie uns von Ihrem Projekt.', 'Tell us about your project.'), L(lang, 'Wir melden uns innerhalb von 48 Stunden – persönlich und unverbindlich.', 'We get back to you within 48 hours – personally and without obligation.'))}
+${ctaBanner(lang, L(lang, 'Lassen Sie uns Geschichten erzählen, die zählen.', 'Let’s tell stories that matter.'), L(lang, 'Erzählen Sie uns von Ihrem Projekt. Wir melden uns innerhalb von 48 Stunden – persönlich und unverbindlich.', 'Tell us about your project. We get back to you within 48 hours – personally and without obligation.'))}
 `;
   layout({
     lang, key: 'home', section: null, grain: true, body,
-    title: L(lang, 'Imagefilm & Naturfilm Produktion in Bayern | Mutter Natur', 'Image Films & Nature Documentaries from Bavaria | Mutter Natur'),
+    title: L(lang, 'Naturfilm- & Imagefilm-Produktion aus Bayern | Mutter Natur', 'Nature Films, Documentaries & Image Films from Bavaria | Mutter Natur'),
     desc: L(lang,
-      'Imagefilme, Dokumentarfilme und Social Content für Unternehmen, Tourismus und NGOs – aus Bayern (Raum München/Freising), für ganz DACH. Klare Preise ab 700 €.',
-      'Image films, documentaries and social content for companies, tourism and NGOs – from Bavaria (Munich/Freising area), for Germany, Austria and Switzerland. Clear pricing from €700.'),
-    ld: [ORG_LD(), ...['waechter', 'vogel', 'kohle', 'teufel'].map((k) => videoLd(k, lang))],
+      'Naturfilme, Dokumentationen, Imagefilme und Social Content: Geschichten aus der Natur und von Menschen, die sie schützen. Aus Bayern, für ganz DACH.',
+      'Nature films, documentaries, image films and social content: stories from nature and of the people protecting it. From Bavaria, for Germany, Austria and Switzerland.'),
+    ld: [ORG_LD(), ...['waechter', 'teufel', ...HOME_STRIP].map((k) => videoLd(k, lang))],
   });
 }
 
@@ -400,7 +431,7 @@ for (const lang of LANGS) {
     desc: L(lang, 'Eigene Naturfilme und Kurzdokumentationen von Mutter Natur: Die Wächter der Berge, Die große Verbindung, Der Vogel, den wir fast verloren hätten, The Tomato.', 'Independent nature films and short documentaries by Mutter Natur: The Watchers of the Mountain, The Great Connection, The Bird We Almost Lost, The Tomato.'),
     ld: ['waechter', 'verbindung', 'vogel', 'tomato'].map((k) => videoLd(k, lang)),
     body: `
-${compactHero(lang, 'filmstill-naturdokumentation-hero.avif', L(lang, 'Schwan vor einem Schloss im Abendlicht', 'Swan in front of a palace at dusk'), L(lang, 'Portfolio / Filme', 'Portfolio / Films'), L(lang, 'Unsere eigenen Filme und visuellen Geschichten.', 'Independent films and visual stories by Mutter Natur.'))}
+${compactHero(lang, 'filmstill-naturdokumentation-hero.avif', L(lang, 'Schwan vor einem Schloss im Abendlicht', 'Swan in front of a palace at dusk'), L(lang, 'Portfolio / Filme', 'Portfolio / Films'), L(lang, 'Unsere eigenen Filme und visuellen Geschichten.', 'Independent films and visual stories by Mutter Natur.'), L(lang, 'Frei erzählte Naturfilme und Kurzdokumentationen – gezeigt auf Festivals wie dem DOK.fest München.', 'Independently told nature films and short documentaries – shown at festivals such as DOK.fest München.'))}
 <section class="section">
   <div class="container video-grid-3" style="grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr))">
 ${['waechter', 'verbindung', 'vogel', 'tomato'].map((k) => videoCard(k, lang, { h: 'h2' })).join('\n')}
@@ -636,6 +667,7 @@ for (const lang of LANGS) {
       <li>${L(lang, 'Umwelt-NGOs, Naturschutzprojekte und Stiftungen', 'Environmental NGOs, conservation projects and foundations')}</li>
       <li>${L(lang, 'Behörden, Zweckverbände, Forschung und Wissenschaft', 'Public authorities, special-purpose associations, research and science')}</li>
       <li>${L(lang, 'Lokale Initiativen mit echter Relevanz', 'Local initiatives with real-world relevance')}</li>
+      <li>${L(lang, 'Sender, Produktionsfirmen und Förderungen – für eigene Naturfilme und Koproduktionen', 'Broadcasters, production companies and funding bodies – for independent nature films and co-productions')}</li>
     </ul>
   </div>
 </section>
