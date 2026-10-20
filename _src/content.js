@@ -10,7 +10,8 @@ const todo = (text) => `<span class="todo">[TODO: ${text}]</span><!-- TODO: ${te
 // Settings
 // ---------------------------------------------------------------------------
 const SETTINGS = {
-  site: 'https://mutternatur-film.de',
+  // Final domain – used for canonical, og:*, sitemap, robots.txt and structured data
+  site: 'https://mutternaturstory.com',
   email: 'xaverszimmer@web.de',
   instagram: 'https://www.instagram.com/xaverszimmer',
   // Instagram-Projekt „Mutter Natur Deutschland“ (Collab-Posts, siehe /kollaboration)

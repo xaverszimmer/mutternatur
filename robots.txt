@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mutternatur-film.de/sitemap.xml
+Sitemap: https://mutternaturstory.com/sitemap.xml
