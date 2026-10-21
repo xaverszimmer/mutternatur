@@ -1,0 +1,22 @@
+# Caching and security headers (Cloudflare Workers static assets)
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# Fonts never change under the same name
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images and video: one month, then revalidate in the background
+/assets/img/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+/assets/video/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# CSS and JS keep their names when they change – cache one day
+/assets/css/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+/assets/js/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
