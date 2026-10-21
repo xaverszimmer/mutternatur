@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Datenschutzerklärung | Mutter Natur</title>
-<meta name="description" content="Datenschutzerklärung von Mutter Natur gemäß DSGVO.">
+<meta name="description" content="Datenschutzerklärung von Mutter Natur gemäß DSGVO: Hosting, Kontaktformular, YouTube- und Instagram-Inhalte erst nach Klick.">
 <link rel="canonical" href="https://mutternaturstory.com/datenschutz">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Mutter Natur">
 <meta property="og:locale" content="de_DE">
 <meta property="og:title" content="Datenschutzerklärung | Mutter Natur">
-<meta property="og:description" content="Datenschutzerklärung von Mutter Natur gemäß DSGVO.">
+<meta property="og:description" content="Datenschutzerklärung von Mutter Natur gemäß DSGVO: Hosting, Kontaktformular, YouTube- und Instagram-Inhalte erst nach Klick.">
 <meta property="og:image" content="https://mutternaturstory.com/assets/img/og/naturlandschaft-naturfilm-produktion-bayern.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -19,22 +19,26 @@
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="preload" href="/assets/fonts/Inter-400-13.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/Syne-700-24.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/assets/css/fonts.css">
 <link rel="stylesheet" href="/assets/css/style.css">
-
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://mutternaturstory.com/"},{"@type":"ListItem","position":2,"name":"Datenschutz","item":"https://mutternaturstory.com/datenschutz"}]}
+</script>
 </head>
 <body>
-<header class="site-header">
+<header class="site-header" lang="en">
   <div class="container nav-inner">
     <a href="/" class="logo">Mutter Natur</a>
     <nav class="nav-links" id="nav-links">
-      <a href="/leistungen">Leistungen</a>
-      <a href="/portfolio">Portfolio</a>
-      <a href="/ueber-uns">Über uns</a>
-      <a href="/kontakt">Kontakt</a>
-      <a href="/kontakt#projektanfrage" class="btn btn-primary nav-cta">Projekt anfragen</a>
-      <a href="/en/" class="lang-switch" hreflang="en" lang="en" aria-label="English version">EN</a>
+      <a href="/offerings">Services</a>
+      <a href="/work">Work</a>
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+      <a href="/contact#projektanfrage" class="btn btn-primary nav-cta">Start a project</a>
     </nav>
-    <button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
   </div>
 </header>
 
@@ -62,7 +66,7 @@
 
       <h2 id="formulare">4. Kontaktaufnahme per E-Mail und Kontaktformular</h2>
       <p>Wenn Sie uns per E-Mail oder über eines unserer Kontaktformulare schreiben, verarbeiten wir die übermittelten Daten (z. B. Name, E-Mail-Adresse, Angaben zu Ihrem Projekt, Nachrichteninhalt) ausschließlich zur Bearbeitung Ihrer Anfrage.</p>
-      <p>Für den Versand der Kontaktformulare nutzen wir den Dienst Web3Forms. <!-- TODO: Anbieter von Web3Forms mit vollständiger Anschrift aus web3forms.com/privacy übernehmen --><span class="todo">[TODO: Anbieter von Web3Forms mit Anschrift ergänzen]</span> Wenn Sie ein Formular absenden, werden Ihre Eingaben sowie technisch bedingt Ihre IP-Adresse an Web3Forms übermittelt; Web3Forms leitet die Anfrage per E-Mail an uns weiter. <!-- TODO: prüfen und ergänzen, wo Web3Forms die Daten verarbeitet/speichert (Drittland?) und auf welcher Grundlage die Übermittlung erfolgt (z. B. Standardvertragsklauseln); Formulierung rechtlich prüfen lassen --><span class="todo">[TODO: Speicherort / Drittlandübermittlung von Web3Forms prüfen und ergänzen]</span> Weitere Informationen: <a href="https://web3forms.com/privacy" target="_blank" rel="noopener" class="text-link">web3forms.com/privacy</a>.</p>
+      <p>Für den Versand der Kontaktformulare nutzen wir den Dienst Web3Forms. <!-- TODO: Anbieter von Web3Forms mit vollständiger Anschrift aus web3forms.com/privacy übernehmen --> Wenn Sie ein Formular absenden, werden Ihre Eingaben sowie technisch bedingt Ihre IP-Adresse an Web3Forms übermittelt; Web3Forms leitet die Anfrage per E-Mail an uns weiter. <!-- TODO: prüfen und ergänzen, wo Web3Forms die Daten verarbeitet/speichert (Drittland?) und auf welcher Grundlage die Übermittlung erfolgt (z. B. Standardvertragsklauseln); Formulierung rechtlich prüfen lassen --> Weitere Informationen: <a href="https://web3forms.com/privacy" target="_blank" rel="noopener" class="text-link">web3forms.com/privacy</a>.</p>
       <p>Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO, sofern Ihre Anfrage mit einem Vertrag oder vorvertraglichen Maßnahmen zusammenhängt, andernfalls Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Beantwortung von Anfragen). Die Daten werden gelöscht, sobald Ihre Anfrage abschließend bearbeitet ist und keine gesetzlichen Aufbewahrungspflichten entgegenstehen.</p>
 
       <h2>5. Cookies &amp; Tracking</h2>
@@ -96,39 +100,40 @@
   </div>
 </div>
 
-<footer class="site-footer">
+<footer class="site-footer" lang="en">
   <div class="container">
     <div class="footer-top v2">
       <div class="footer-brand">
         <a href="/" class="logo">Mutter Natur</a>
-        <p>Naturfilme, Dokumentationen, Imagefilme und Social Content – eigene Produktionen und Auftragsarbeiten für Unternehmen, Tourismus und NGOs. Aus Bayern, Raum München/Freising.</p>
+        <p>Nature films, documentaries, image films and social content – independent productions and commissioned work for companies, tourism and NGOs. From Bavaria, Munich/Freising area.</p>
       </div>
       <div class="footer-col">
-        <h4>Leistungen</h4>
+        <h4>Services</h4>
         <ul>
-          <li><a href="/foto-video-content">Foto- & Video-Content</a></li>
-          <li><a href="/imagefilm">Imagefilm</a></li>
-          <li><a href="/dokumentarfilm">Dokumentarfilm</a></li>
-          <li><a href="/social-media-content">Social-Media-Produktion & Betreuung</a></li>
-          <li><a href="/langzeit-zusammenarbeit">Langfristige Zusammenarbeit</a></li>
+          <li><a href="/photo-video-content">Photo & Video Content</a></li>
+          <li><a href="/image-film">Image Film</a></li>
+          <li><a href="/documentary-film">Documentary Short Production</a></li>
+          <li><a href="/social-media-content">Social Media Production & Management</a></li>
+          <li><a href="/long-term-collaboration">Long-Term Collaboration</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>Mutter Natur</h4>
         <ul>
-          <li><a href="/portfolio">Portfolio</a></li>
-          <li><a href="/portfolio#projekte">Fallstudien</a></li>
-          <li><a href="/kollaboration">Instagram-Kollaboration</a></li>
-          <li><a href="/vortraege">Vorträge</a></li>
-          <li><a href="/ueber-uns">Über uns</a></li>
-          <li><a href="/leistungen">Preise</a></li>
+          <li><a href="/work">Work</a></li>
+          <li><a href="/work#projekte">Case studies</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/team">Team</a></li>
+          <li><a href="/vortraege" hreflang="de">Talks &amp; lectures (DE)</a></li>
+          <li><a href="/kollaboration" hreflang="de">Instagram collaboration (DE)</a></li>
+          <li><a href="/offerings">Pricing</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Kontakt</h4>
+        <h4>Contact</h4>
         <ul>
           <li><a href="mailto:xaverszimmer@web.de">xaverszimmer@web.de</a></li>
-          <li><a href="/kontakt#projektanfrage">Projekt anfragen</a></li>
+          <li><a href="/contact#projektanfrage">Start a project</a></li>
           <li><a href="https://www.instagram.com/xaverszimmer" target="_blank" rel="noopener">Instagram</a></li>
           <li><a href="https://www.instagram.com/mutternatur_d" target="_blank" rel="noopener">Instagram: Mutter Natur Deutschland</a></li>
           <li><a href="https://www.youtube.com/@MutterNatur_d" target="_blank" rel="noopener">YouTube</a></li>
@@ -140,15 +145,15 @@
     <div class="footer-bottom">
       <span>© 2026 Mutter Natur</span>
       <div class="footer-legal">
-        <a href="/impressum">Impressum</a>
-        <a href="/datenschutz">Datenschutz</a>
+        <a href="/impressum">Legal notice (DE)</a>
+        <a href="/datenschutz">Privacy policy (DE)</a>
       </div>
     </div>
   </div>
 </footer>
 <div class="mobile-cta">
-  <a href="/kontakt#projektanfrage" class="btn btn-primary">Projekt anfragen</a>
-  <a href="mailto:xaverszimmer@web.de" class="btn btn-ghost mobile-cta-mail" aria-label="E-Mail schreiben">
+  <a href="/contact#projektanfrage" class="btn btn-primary">Start a project</a>
+  <a href="mailto:xaverszimmer@web.de" class="btn btn-ghost mobile-cta-mail" aria-label="Email us">
     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14"/><path d="M3 6l9 7 9-7"/></svg>
   </a>
 </div>

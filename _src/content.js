@@ -12,6 +12,10 @@ const todo = (text) => `<span class="todo">[TODO: ${text}]</span><!-- TODO: ${te
 const SETTINGS = {
   // Final domain – used for canonical, og:*, sitemap, robots.txt and structured data
   site: 'https://mutternaturstory.com',
+  // English is the main site (/, /offerings, /work …). The German version is always
+  // built under /de/, but only deployed, linked (language switch, hreflang, sitemap)
+  // and indexed when this is true. One switch – then run: node _src/build.js
+  germanLive: false,
   email: 'xaverszimmer@web.de',
   instagram: 'https://www.instagram.com/xaverszimmer',
   // Instagram-Projekt „Mutter Natur Deutschland“ (Collab-Posts, siehe /kollaboration)
@@ -27,39 +31,71 @@ const SETTINGS = {
 };
 
 // ---------------------------------------------------------------------------
-// URLs: one entry per page, German and English path
+// URLs: one entry per page. English lives at the root and keeps the URLs of the
+// former live site (/work, /offerings, /about …); German lives under /de/.
+// Pages with only a German path (collab, talks, legal) are German-only but live.
 // ---------------------------------------------------------------------------
 const ROUTES = {
-  home: { de: '/', en: '/en/' },
-  services: { de: '/leistungen', en: '/en/services' },
-  photo: { de: '/foto-video-content', en: '/en/photo-video-content' },
-  imagefilm: { de: '/imagefilm', en: '/en/image-film' },
-  documentary: { de: '/dokumentarfilm', en: '/en/documentary-film' },
-  social: { de: '/social-media-content', en: '/en/social-media-content' },
-  longterm: { de: '/langzeit-zusammenarbeit', en: '/en/long-term-collaboration' },
-  work: { de: '/portfolio', en: '/en/work' },
-  films: { de: '/filme', en: '/en/films' },
-  docs: { de: '/dokumentationen-markenfilme', en: '/en/documentaries-brand-films' },
-  photography: { de: '/fotografie-social-media', en: '/en/photography-social-media' },
-  caseTeufel: { de: '/projekte/teufelshoehle-pottenstein', en: '/en/projects/teufelshoehle-pottenstein' },
-  caseDonau: { de: '/projekte/donaumoos', en: '/en/projects/donaumoos' },
-  caseBerg: { de: '/projekte/bergwaldprojekt', en: '/en/projects/bergwaldprojekt' },
+  home: { de: '/de/', en: '/' },
+  services: { de: '/de/leistungen', en: '/offerings' },
+  photo: { de: '/de/foto-video-content', en: '/photo-video-content' },
+  imagefilm: { de: '/de/imagefilm', en: '/image-film' },
+  documentary: { de: '/de/dokumentarfilm', en: '/documentary-film' },
+  social: { de: '/de/social-media-content', en: '/social-media-content' },
+  longterm: { de: '/de/langzeit-zusammenarbeit', en: '/long-term-collaboration' },
+  work: { de: '/de/portfolio', en: '/work' },
+  films: { de: '/de/filme', en: '/films' },
+  docs: { de: '/de/dokumentationen-markenfilme', en: '/documentaries' },
+  photography: { de: '/de/fotografie-social-media', en: '/photography' },
+  caseTeufel: { de: '/de/projekte/teufelshoehle-pottenstein', en: '/projects/teufelshoehle-pottenstein' },
+  caseDonau: { de: '/de/projekte/donaumoos', en: '/projects/donaumoos' },
+  caseBerg: { de: '/de/projekte/bergwaldprojekt', en: '/projects/bergwaldprojekt' },
   // Instagram-Kollaboration „Mutter Natur Deutschland“ – nur Deutsch, bewusst nicht in der Hauptnavigation
   collab: { de: '/kollaboration' },
-  // Vorträge – nur Deutsch, eigenes Design (_src/vortraege.html), nur im Footer verlinkt
+  // Vorträge – nur Deutsch, nur im Footer verlinkt
   talks: { de: '/vortraege' },
-  about: { de: '/ueber-uns', en: '/en/about' },
-  contact: { de: '/kontakt', en: '/en/contact' },
-  thanks: { de: '/danke', en: '/en/thank-you' },
+  // Team – only English so far (texts from the live team page)
+  team: { en: '/team' },
+  about: { de: '/de/ueber-uns', en: '/about' },
+  contact: { de: '/de/kontakt', en: '/contact' },
+  thanks: { de: '/de/danke', en: '/thank-you' },
   impressum: { de: '/impressum' },
   datenschutz: { de: '/datenschutz' },
 };
 
-// Old URLs of the English-only site -> new German pages (written to _redirects)
+// Short page names for breadcrumbs (visible trail + BreadcrumbList)
+const CRUMBS = {
+  home: { de: 'Startseite', en: 'Home' },
+  services: { de: 'Leistungen', en: 'Offerings' },
+  work: { de: 'Portfolio', en: 'Work' },
+  films: { de: 'Filme', en: 'Films' },
+  docs: { de: 'Dokumentationen & Markenfilme', en: 'Documentaries' },
+  photography: { de: 'Fotografie & Social Media', en: 'Photography' },
+  caseTeufel: { de: 'Teufelshöhle Pottenstein', en: 'Teufelshöhle Pottenstein' },
+  caseDonau: { de: 'Donaumoos', en: 'Donaumoos' },
+  caseBerg: { de: 'Bergwaldprojekt', en: 'Bergwaldprojekt' },
+  collab: { de: 'Instagram-Kollaboration', en: 'Instagram-Kollaboration' },
+  talks: { de: 'Vorträge', en: 'Vorträge' },
+  team: { de: 'Team', en: 'Team' },
+  about: { de: 'Über uns', en: 'About' },
+  contact: { de: 'Kontakt', en: 'Contact' },
+  thanks: { de: 'Danke', en: 'Thank you' },
+  impressum: { de: 'Impressum', en: 'Impressum' },
+  datenschutz: { de: 'Datenschutz', en: 'Datenschutz' },
+};
+// Parent page of each sub-page (the trail always starts at home)
+const PARENTS = {
+  photo: 'services', imagefilm: 'services', documentary: 'services', social: 'services', longterm: 'services', collab: 'services',
+  films: 'work', docs: 'work', photography: 'work', caseTeufel: 'work', caseDonau: 'work', caseBerg: 'work',
+};
+
+// URLs of the former live site that no longer exist -> new pages (301, written to _redirects).
+// Every page's own .html variant (/work.html -> /work) is added automatically.
 const REDIRECTS = [
-  ['/work', '/portfolio'], ['/offerings', '/leistungen'], ['/about', '/ueber-uns'], ['/contact', '/kontakt'],
-  ['/films', '/filme'], ['/documentaries', '/dokumentationen-markenfilme'], ['/photography', '/fotografie-social-media'],
-  ['/inside-the-journey', '/portfolio'],
+  ['/inside-the-journey', '/work'], ['/inside-the-journey.html', '/work'],
+  ['/services', '/offerings'], ['/documentaries-brand-films', '/documentaries'], ['/photography-social-media', '/photography'],
+  // Draft URLs that were shared for review (English under /en/)
+  ['/en', '/'], ['/en/', '/'], ['/en/*', '/:splat'],
 ];
 
 // ---------------------------------------------------------------------------
@@ -95,7 +131,7 @@ const UI = {
     footerText: 'Nature films, documentaries, image films and social content – independent productions and commissioned work for companies, tourism and NGOs. From Bavaria, Munich/Freising area.',
     footerServices: 'Services', footerPages: 'Mutter Natur', footerContact: 'Contact',
     footerCases: 'Case studies', googleReviews: 'Reviews on Google',
-    legal: ['Legal notice (German)', 'Privacy policy (German)'],
+    legal: ['Legal notice (DE)', 'Privacy policy (DE)'],
     copyright: '© 2026 Mutter Natur',
     from: 'from', individual: 'Custom', more: 'Learn more', recommended: 'Recommended',
     play: 'Play video',
@@ -277,10 +313,10 @@ const SERVICES = {
     key: 'foto-video', img: 'fotoproduktion-vor-ort.webp', ogImg: 'fotoproduktion-vor-ort', from: 700, priceMin: 700, priceMax: 1300,
     title: { de: 'Foto- & Video-Content', en: 'Photo & Video Content' },
     alt: { de: 'Porträt mit Stirnlampe bei einer Fotoproduktion vor Ort', en: 'Portrait with a headlamp during an on-location photo shoot' },
-    seoTitle: { de: 'Foto- & Videoproduktion für Unternehmen in Bayern | Mutter Natur', en: 'Photo & Video Production for Businesses in Bavaria | Mutter Natur' },
+    seoTitle: { de: 'Foto- & Videoproduktion für Firmen, Bayern | Mutter Natur', en: 'Photo & Video Content for Businesses, Bavaria | Mutter Natur' },
     seoDesc: {
-      de: 'Schnelle Foto- und Videoproduktion für Website, Social Media und Presse: ½–1 Drehtag, bearbeitete Fotos und kurzer Video-Schnitt. 700–1.300 € Endpreis. Aus Bayern.',
-      en: 'Fast photo and video production for website, social media and press: half to full day shoot, edited photos and a short video cut. €700–€1,300 final price. From Bavaria.',
+      de: 'Schnelle Foto- und Videoproduktion für Website, Social Media und Presse: ½–1 Drehtag, bearbeitete Fotos, kurzer Videoschnitt. 700–1.300 €. Aus Bayern.',
+      en: 'Fast photo and video production for web, social media and press: ½–1 day shoot, edited photos, short video cut. €700–€1,300 final price. From Bavaria.',
     },
     short: {
       de: 'Schnelle, kompakte Produktion für klare Kommunikation – sofort einsetzbares Material ohne lange Vorlaufzeit.',
@@ -310,10 +346,10 @@ const SERVICES = {
     key: 'imagefilm', featured: true, img: 'regisseur-dreharbeiten-natur.webp', ogImg: 'regisseur-dreharbeiten-natur', from: 1300, priceMin: 1300, priceMax: 3000,
     title: { de: 'Imagefilm', en: 'Image Film' },
     alt: { de: 'Filmemacher mit Kamera bei Dreharbeiten', en: 'Filmmaker with a camera on a shoot' },
-    seoTitle: { de: 'Imagefilm produzieren lassen – Bayern, München, Freising | Mutter Natur', en: 'Image Film Production in Bavaria & Munich | Mutter Natur' },
+    seoTitle: { de: 'Imagefilm produzieren lassen in Bayern | Mutter Natur', en: 'Image Film Production in Bavaria & Munich | Mutter Natur' },
     seoDesc: {
-      de: 'Imagefilm für Unternehmen, Tourismus und NGOs: 1–2 Drehtage, von der Idee bis zum fertigen Schnitt. 1.300–3.000 € Endpreis. Filmproduktion aus Bayern, Raum München/Freising.',
-      en: 'Image films for companies, tourism and NGOs: 1–2 shooting days, from idea to final cut. €1,300–€3,000 final price. Film production from Bavaria, Munich/Freising area.',
+      de: 'Imagefilm für Unternehmen, Tourismus und NGOs: 1–2 Drehtage, Idee bis fertiger Schnitt, 1.300–3.000 €. Filmproduktion aus Bayern, Raum München/Freising.',
+      en: 'Image films for companies, tourism and NGOs: 1–2 shooting days, idea to final cut, €1,300–€3,000. Film production from Munich/Freising, Bavaria.',
     },
     short: {
       de: 'Ein kompakter, cineastischer Film rund um ein bis zwei Drehtage – damit Partner und Kunden sofort verstehen, warum Ihre Arbeit zählt.',
@@ -348,7 +384,7 @@ const SERVICES = {
     key: 'dokumentarfilm', img: 'dokumentarfilm-dreharbeiten.webp', ogImg: 'dokumentarfilm-dreharbeiten', from: 3000, priceMin: 3000, priceMax: 7000,
     title: { de: 'Dokumentarfilm', en: 'Documentary Short Production' },
     alt: { de: 'Interview-Dreh vor einem Naturparkhaus', en: 'Interview shoot in front of a nature park visitor centre' },
-    seoTitle: { de: 'Dokumentarfilm für Unternehmen & Organisationen | Mutter Natur', en: 'Documentary Films for Companies & Organizations | Mutter Natur' },
+    seoTitle: { de: 'Dokumentarfilm für Organisationen, Bayern | Mutter Natur', en: 'Documentary Films for Organizations, Bavaria | Mutter Natur' },
     seoDesc: {
       de: 'Dokumentarischer Kurzfilm (ca. 4–6 Min.) mit Fotopaket und Social-Media-Cutdowns – für Unternehmen, Tourismus und NGOs. 3.000–7.000 € Endpreis. Aus Bayern.',
       en: 'Cinematic short documentary (approx. 4–6 min) with photo package and social media cutdowns – for companies, tourism and NGOs. €3,000–€7,000 final price.',
@@ -384,9 +420,9 @@ const SERVICES = {
     key: 'social-media', img: 'naturaufnahme-social-media-content.webp', ogImg: 'naturaufnahme-social-media-content', from: null,
     title: { de: 'Social-Media-Produktion & Betreuung', en: 'Social Media Production & Management' },
     alt: { de: 'Mädchen beim Schwimmen im See', en: 'Girl swimming in a lake' },
-    seoTitle: { de: 'Social-Media-Content & Betreuung für nachhaltige Marken | Mutter Natur', en: 'Social Media Content & Management for Sustainable Brands | Mutter Natur' },
+    seoTitle: { de: 'Social-Media-Content für Marken, Bayern | Mutter Natur', en: 'Social Media Content for Brands in Bavaria | Mutter Natur' },
     seoDesc: {
-      de: 'Laufender Content für Instagram, TikTok und mehr: Reels, Kurzvideos und auf Wunsch komplette Account-Betreuung – für Unternehmen, Tourismus und NGOs aus Bayern.',
+      de: 'Laufender Content für Instagram und TikTok: Reels, Kurzvideos und auf Wunsch komplette Account-Betreuung – für Unternehmen, Tourismus und NGOs aus Bayern.',
       en: 'Ongoing content for Instagram, TikTok and beyond: reels, short-form videos and optional full account management – for companies, tourism and NGOs.',
     },
     short: {
@@ -420,10 +456,10 @@ const SERVICES = {
     key: 'langzeit', img: 'langzeitprojekt-naturdokumentation.webp', ogImg: 'langzeitprojekt-naturdokumentation', from: null,
     title: { de: 'Langfristige Zusammenarbeit', en: 'Long-Term Collaboration' },
     alt: { de: 'Gämse am Hang und ein lächelnder Filmemacher', en: 'Chamois on a slope and a smiling filmmaker' },
-    seoTitle: { de: 'Langfristige Filmbegleitung für Natur- & Umweltprojekte | Mutter Natur', en: 'Long-Term Film Partnership for Nature Projects | Mutter Natur' },
+    seoTitle: { de: 'Langfristige Filmbegleitung, Bayern & DACH | Mutter Natur', en: 'Long-Term Film Partnership, Bavaria & DACH | Mutter Natur' },
     seoDesc: {
-      de: 'Wir begleiten Ihr Projekt über Monate oder Jahre mit Film, Foto und Social Content – Umfang, Rhythmus und Kanäle individuell abgestimmt. Aus Bayern, für DACH und weltweit.',
-      en: 'We document your project over months or years with film, photography and social content – scope, cadence and channels tailored to you.',
+      de: 'Wir begleiten Ihr Projekt über Monate oder Jahre mit Film, Foto und Social Content – individuell abgestimmt. Aus Bayern, für DACH und weltweit.',
+      en: 'We document your project over months or years with film, photography and social content – scope, cadence and channels tailored to you. From Bavaria.',
     },
     short: {
       de: 'Für Projekte, die kontinuierlich erzählt werden wollen: Wir werden Ihr fester visueller Partner und dokumentieren Ihren Weg über die Zeit.',
@@ -520,4 +556,4 @@ const COLLAB = {
   price: { de: 'Kostenlos', en: 'Free' },
 };
 
-module.exports = { PARTNERS, COLLAB, todo, SETTINGS, ROUTES, REDIRECTS, UI, FILMS, INSTA, FAQ, PRICE_TERMS, SERVICES, SERVICE_ORDER, FORM_OPTIONS, AWARDS, TESTIMONIALS };
+module.exports = { PARTNERS, COLLAB, todo, SETTINGS, ROUTES, CRUMBS, PARENTS, REDIRECTS, UI, FILMS, INSTA, FAQ, PRICE_TERMS, SERVICES, SERVICE_ORDER, FORM_OPTIONS, AWARDS, TESTIMONIALS };

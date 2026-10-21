@@ -3,7 +3,7 @@
    Design system: dark, cinematic, editorial. Rebuilt from a Framer export.
    ========================================================================== */
 
-@import url('fonts.css');
+/* Fonts: assets/css/fonts.css is linked (and preloaded) directly from every page. */
 
 :root {
   --bg: #141517;
@@ -1147,3 +1147,35 @@ body.modal-open { overflow: hidden; }
 .film-strip .video-card { flex: 0 0 min(80vw, 380px); scroll-snap-align: start; }
 .film-strip .yt-note { display: none; }
 @media (hover: none) { .strip-nav { display: none; } }
+
+/* ---- Breadcrumbs (replace the former back links) ---- */
+.breadcrumbs { font-family: var(--font-ui); font-size: 0.85rem; color: var(--fg-subtle); margin-bottom: 1.25rem; }
+.breadcrumbs ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem 0.5rem; }
+.breadcrumbs li + li::before { content: '/'; margin-right: 0.5rem; color: var(--fg-subtle); opacity: 0.6; }
+.breadcrumbs a { color: var(--fg-subtle); }
+.breadcrumbs a:hover { color: var(--fg); }
+.breadcrumbs [aria-current] { color: var(--fg-muted); }
+
+/* ---- Link row (404) ---- */
+.link-row { list-style: none; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem 1.75rem; }
+
+/* ---- Talks (Vorträge) ---- */
+.talks-hero.is-graphic .hero-media { background: radial-gradient(ellipse 80% 60% at 70% 60%, rgba(157,184,141,0.35) 0%, rgba(157,184,141,0.08) 35%, rgba(20,21,23,0) 65%), linear-gradient(to bottom, #101112 0%, #181b17 60%, #20261c 100%); }
+.talks-range { position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: 60%; }
+.talk { position: relative; overflow: hidden; isolation: isolate; }
+.talk-num { position: absolute; right: var(--gutter); top: clamp(1.5rem, 5vw, 4rem); z-index: -1; font-family: var(--font-display); font-weight: 800; line-height: 0.8; font-size: clamp(6rem, 22vw, 16rem); color: transparent; -webkit-text-stroke: 1px rgba(157,184,141,0.25); user-select: none; }
+.talk-head { max-width: 52rem; }
+.talk h2 { font-size: clamp(2.2rem, 6vw, 4.2rem); line-height: 1.02; }
+.talk-sub { display: block; margin-top: 0.6rem; font-family: var(--font-ui); font-weight: 500; font-size: clamp(1.05rem, 2vw, 1.35rem); letter-spacing: 0; color: var(--accent-strong); }
+.talk-points { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 860px) { .talk-points { grid-template-columns: 1fr; } }
+.talk-take { margin-top: clamp(2rem, 5vw, 3rem); max-width: 34ch; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.25; color: var(--fg); }
+.talk-take::before { content: ''; display: block; width: 2.5rem; height: 2px; margin-bottom: 1rem; background: var(--accent); }
+.talk .hero-actions { margin-top: 1.75rem; }
+.talk-refs { border: 1px solid var(--border); border-radius: 14px; padding: clamp(1.5rem, 3vw, 2.25rem); }
+.talks-cta { background: radial-gradient(ellipse 70% 80% at 20% 100%, rgba(157,184,141,0.16), rgba(20,21,23,0) 65%); }
+.talks-cta .btn svg { margin-left: 0.5rem; vertical-align: -2px; }
+
+/* Elements still waiting for content (see todo() in _src) stay hidden, whatever their display value */
+[hidden] { display: none !important; }
+section:has(> .case-steps:not(:has(> .case-step:not([hidden])))) { display: none; }

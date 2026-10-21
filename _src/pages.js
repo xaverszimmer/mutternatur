@@ -1,7 +1,7 @@
 // Page definitions. Every page is built for both languages unless noted.
 const B = require('./build');
 const C = require('./content');
-const { img, url, L, layout, videoCard, ytPlayer, instaCard, serviceCard, collabCard, faqList, faqLd, videoLd, ORG_LD, serviceLd, ctaBanner, steps, priceTerms, awardsBlock, testimonials, proofBar, esc } = B;
+const { img, url, L, linkLang, isLive, layout, videoCard, ytPlayer, instaCard, serviceCard, collabCard, faqList, faqLd, videoLd, ORG_LD, serviceLd, ctaBanner, steps, priceTerms, awardsBlock, testimonials, proofBar, esc } = B;
 const { todo, SETTINGS: S, UI, FILMS, SERVICES, SERVICE_ORDER, FORM_OPTIONS, FAQ } = C;
 
 const LANGS = ['de', 'en'];
@@ -156,11 +156,11 @@ ${ctaBanner(lang, L(lang, 'Lassen Sie uns Geschichten erzählen, die zählen.', 
 `;
   layout({
     lang, key: 'home', section: null, grain: true, body,
-    title: L(lang, 'Naturfilm- & Imagefilm-Produktion aus Bayern | Mutter Natur', 'Nature Films, Documentaries & Image Films from Bavaria | Mutter Natur'),
+    title: L(lang, 'Naturfilm & Imagefilm aus Bayern | Mutter Natur Film', 'Nature & Image Film Production, Bavaria | Mutter Natur Film'),
     desc: L(lang,
       'Naturfilme, Dokumentationen, Imagefilme und Social Content: Geschichten aus der Natur und von Menschen, die sie schützen. Aus Bayern, für ganz DACH.',
-      'Nature films, documentaries, image films and social content: stories from nature and of the people protecting it. From Bavaria, for Germany, Austria and Switzerland.'),
-    ld: [ORG_LD(), ...['waechter', 'teufel', ...HOME_STRIP].map((k) => videoLd(k, lang))],
+      'Nature films, documentaries and image films from Munich/Freising, Bavaria: stories from nature and of the people protecting it. For Germany and beyond.'),
+    ld: [ORG_LD(lang), ...['waechter', 'teufel', ...HOME_STRIP].map((k) => videoLd(k, lang))],
   });
 }
 
@@ -217,10 +217,10 @@ ${ctaBanner(lang, L(lang, 'Nicht sicher, welches Paket passt?', 'Not sure which 
 `;
   layout({
     lang, key: 'services', section: 'services', body, og: 'independent-filme-portfolio',
-    title: L(lang, 'Leistungen & Preise: Imagefilm, Dokumentarfilm, Social Media | Mutter Natur', 'Services & Pricing: Image Film, Documentary, Social Media | Mutter Natur'),
+    title: L(lang, 'Preise: Imagefilm & Dokumentarfilm, Bayern | Mutter Natur', 'Image Film & Documentary Prices, Bavaria | Mutter Natur'),
     desc: L(lang,
       'Foto- & Video-Content ab 700 €, Imagefilm ab 1.300 €, Dokumentarfilm ab 3.000 €, Social Media und langfristige Zusammenarbeit. Endpreise, Ablauf und FAQ.',
-      'Photo & video content from €700, image films from €1,300, documentaries from €3,000, social media and long-term collaboration. Final prices, process and FAQ.'),
+      'Photo & video content from €700, image films from €1,300, documentaries from €3,000 – final prices, process and FAQ. Film production from Bavaria.'),
     ld: [faqLd(ALL_FAQ, lang)],
   });
 }
@@ -235,7 +235,7 @@ for (const sk of SERVICE_ORDER) {
     let examples = '';
     if (s.examples.films) examples = `<div class="video-grid-3">\n${s.examples.films.map((k) => videoCard(k, lang)).join('\n')}\n</div>`;
     if (s.examples.insta) examples = `<div class="card-grid photo">\n${s.examples.insta.map((k) => instaCard(k, lang)).join('\n')}\n</div>`;
-    if (s.examples.todo) examples = `<p>${todo(s.examples.todo[lang])}</p>`;
+    if (s.examples.todo) examples = isLive(sk, lang) ? '' : `<p>${todo(s.examples.todo[lang])}</p>`;
     const body = `
 <section class="section service-hero">
   <div class="container service-hero-grid">
@@ -274,7 +274,7 @@ ${s.includes[lang].map((i) => `        <li>${i}</li>`).join('\n')}
   </div>
 </section>
 
-<section class="section section-border-top">
+${examples ? `<section class="section section-border-top">
   <div class="container">
     <div class="section-head" data-reveal>
       <span class="eyebrow">${L(lang, 'Beispiele', 'Examples')}</span>
@@ -283,7 +283,7 @@ ${s.includes[lang].map((i) => `        <li>${i}</li>`).join('\n')}
     ${examples}
   </div>
 </section>
-
+` : '<!-- TODO: Beispielprojekt ergänzen – dann erscheint hier der Abschnitt „Beispiele“ -->'}
 <section class="section section-border-top">
   <div class="container" data-reveal>
     <div class="section-head">
@@ -394,8 +394,8 @@ ${ctaBanner(lang, L(lang, 'Ihr Projekt könnte das nächste sein.', 'Your projec
 `;
   layout({
     lang, key: 'work', section: 'work', body, og: 'independent-filme-portfolio',
-    title: L(lang, 'Portfolio: Filme, Dokumentationen & Fallstudien | Mutter Natur', 'Portfolio: Films, Documentaries & Case Studies | Mutter Natur'),
-    desc: L(lang, 'Fallstudien (Teufelshöhle Pottenstein, Donaumoos, Bergwaldprojekt), Naturfilme, Dokumentationen, Markenfilme und Fotografie von Mutter Natur aus Bayern.', 'Case studies (Teufelshöhle Pottenstein, Donaumoos, Bergwaldprojekt), nature films, documentaries, brand films and photography by Mutter Natur from Bavaria.'),
+    title: L(lang, 'Portfolio: Naturfilme & Fallstudien, Bayern | Mutter Natur', 'Work: Nature Films & Case Studies, Bavaria | Mutter Natur'),
+    desc: L(lang, 'Fallstudien (Teufelshöhle Pottenstein, Donaumoos, Bergwaldprojekt), Naturfilme, Dokumentationen, Markenfilme und Fotografie von Mutter Natur aus Bayern.', 'Case studies (Teufelshöhle Pottenstein, Donaumoos, Bergwaldprojekt), nature films, documentaries and photography by Mutter Natur from Bavaria.'),
   });
 }
 
@@ -409,8 +409,9 @@ function subCta(lang, h2) {
     <p class="lede" style="margin-inline:auto;margin-top:1rem">${L(lang, 'Erzählen Sie uns von Ihrem Projekt – wir melden uns innerhalb von 48 Stunden.', 'Tell us about your project – we get back to you within 48 hours.')}</p>
     <div class="hero-actions" style="justify-content:center;margin-top:1.5rem">
       <a href="${url('contact', lang)}#projektanfrage" class="btn btn-primary">${UI[lang].cta}</a>
-      <a href="${url('work', lang)}" class="btn btn-ghost">${UI[lang].backToWork}</a>
+      <a href="${url('services', lang)}" class="btn btn-ghost">${L(lang, 'Leistungen & Preise', 'Offerings & prices')}</a>
     </div>
+    <p style="margin-top:1.5rem"><a class="text-link" href="${url('work', lang)}">${UI[lang].backToWork}</a></p>
   </div>
 </section>`;
 }
@@ -427,8 +428,8 @@ for (const lang of LANGS) {
   // Films
   layout({
     lang, key: 'films', section: 'work', og: 'filmstill-naturdokumentation-hero',
-    title: L(lang, 'Naturfilme & Kurzdokumentationen | Mutter Natur', 'Nature Films & Short Documentaries | Mutter Natur'),
-    desc: L(lang, 'Eigene Naturfilme und Kurzdokumentationen von Mutter Natur: Die Wächter der Berge, Die große Verbindung, Der Vogel, den wir fast verloren hätten, The Tomato.', 'Independent nature films and short documentaries by Mutter Natur: The Watchers of the Mountain, The Great Connection, The Bird We Almost Lost, The Tomato.'),
+    title: L(lang, 'Naturfilme & Kurzdokumentationen aus Bayern | Mutter Natur', 'Nature Films & Short Documentaries, Bavaria | Mutter Natur'),
+    desc: L(lang, 'Eigene Naturfilme und Kurzdokumentationen aus Bayern: Die Wächter der Berge, Die große Verbindung, Der Vogel, den wir fast verloren hätten.', 'Independent nature films and short documentaries by Mutter Natur: The Watchers of the Mountain, The Great Connection, The Bird We Almost Lost, The Tomato.'),
     ld: ['waechter', 'verbindung', 'vogel', 'tomato'].map((k) => videoLd(k, lang)),
     body: `
 ${compactHero(lang, 'filmstill-naturdokumentation-hero.avif', L(lang, 'Schwan vor einem Schloss im Abendlicht', 'Swan in front of a palace at dusk'), L(lang, 'Portfolio / Filme', 'Portfolio / Films'), L(lang, 'Unsere eigenen Filme und visuellen Geschichten.', 'Independent films and visual stories by Mutter Natur.'), L(lang, 'Frei erzählte Naturfilme und Kurzdokumentationen – gezeigt auf Festivals wie dem DOK.fest München.', 'Independently told nature films and short documentaries – shown at festivals such as DOK.fest München.'))}
@@ -444,7 +445,7 @@ ${subCta(lang, L(lang, 'Sie wollen einen Film in diesem Stil?', 'Want a film lik
   // Documentaries & brand films
   layout({
     lang, key: 'docs', section: 'work', og: 'dokumentarfilm-markenfilm-portfolio',
-    title: L(lang, 'Dokumentationen & Markenfilme für Organisationen | Mutter Natur', 'Documentaries & Brand Films for Organizations | Mutter Natur'),
+    title: L(lang, 'Dokumentationen & Markenfilme, Bayern | Mutter Natur', 'Documentaries & Brand Films from Bavaria | Mutter Natur'),
     desc: L(lang, 'Dokumentarische Markenfilme für Unternehmen, Tourismus und Organisationen – u. a. für den Donaumoos Zweckverband und die Teufelshöhle Pottenstein.', 'Documentary brand films for companies, tourism and organizations – including the Donaumoos Zweckverband and the Teufelshöhle Pottenstein.'),
     ld: ['donaumoos', 'teufel', 'kohle'].map((k) => videoLd(k, lang)),
     body: `
@@ -463,10 +464,10 @@ ${subCta(lang, L(lang, 'Ihre Organisation verdient einen Film wie diesen.', 'You
   // Photography & social media
   layout({
     lang, key: 'photography', section: 'work', og: 'naturfotografie-hero-muenchen',
-    title: L(lang, 'Fotografie & Social-Media-Content | Mutter Natur', 'Photography & Social Media Content | Mutter Natur'),
+    title: L(lang, 'Naturfotografie & Social Content, Bayern | Mutter Natur', 'Nature Photography & Social Content, Bavaria | Mutter Natur'),
     desc: L(lang, 'Fotografie, Reels und Instagram-Kooperationen für Marken und Projekte – u. a. Bergwaldprojekt, Ozeankind, Moorflut und Miya Forest.', 'Photography, reels and Instagram collaborations for brands and projects – including Bergwaldprojekt, Ozeankind, Moorflut and Miya Forest.'),
     body: `
-${compactHero(lang, 'naturfotografie-hero-muenchen.jpg', L(lang, 'Porträt eines Jungen in einem Türrahmen', 'Portrait of a boy in a doorway'), L(lang, 'Portfolio / Fotografie & Social Media', 'Portfolio / Photography & Social Media'), L(lang, 'Visueller Content und digitales Storytelling für Marken.', 'Visual content and digital storytelling for brands.'))}
+${compactHero(lang, 'naturfotografie-hero-muenchen.webp', L(lang, 'Porträt eines Jungen in einem Türrahmen', 'Portrait of a boy in a doorway'), L(lang, 'Portfolio / Fotografie & Social Media', 'Portfolio / Photography & Social Media'), L(lang, 'Visueller Content und digitales Storytelling für Marken.', 'Visual content and digital storytelling for brands.'))}
 <section class="section">
   <div class="container card-grid photo masonry">
 ${Object.keys(C.INSTA).map((k) => instaCard(k, lang)).join('\n')}
@@ -481,7 +482,7 @@ ${Object.keys(C.INSTA).map((k) => instaCard(k, lang)).join('\n')}
         'Auf Instagram zeigen wir Natur-, Umwelt- und Tierschutzprojekte aus dem deutschsprachigen Raum – als gemeinsamen Collab-Post: zwei Accounts, eine Reichweite. Kostenlos.',
         'On Instagram we feature nature, environmental and animal-protection projects from German-speaking countries – as joint collab posts: two accounts, one reach. Free of charge.')}</p>
       <div class="hero-actions">
-        <a href="${url('collab', 'de')}" class="btn btn-primary">${L(lang, 'So funktioniert die Kollaboration', 'How the collaboration works (German)')}</a>
+        <a href="${url('collab', 'de')}" class="btn btn-primary"${lang === 'en' ? ' hreflang="de"' : ''}>${L(lang, 'So funktioniert die Kollaboration', 'How the collaboration works (DE)')}</a>
         <a href="${S.instagramMN}" class="btn btn-ghost" target="_blank" rel="noopener">@mutternatur_d</a>
       </div>
     </div>
@@ -496,7 +497,8 @@ ${subCta(lang, L(lang, 'Sie brauchen Fotos und Content für Ihre Kanäle?', 'Nee
 // ===========================================================================
 // Case studies
 // ===========================================================================
-function caseStudy(lang, { key, title, seo, h1, lede, facts, sections, media, og, ld }) {
+function caseStudy(lang, { key, title, seo, desc, h1, lede, facts, sections, media, og, ld }) {
+  const others = CASES.filter((c) => c.key !== key);
   const body = `
 <section class="section service-hero">
   <div class="container">
@@ -525,9 +527,22 @@ ${sections.map(([h, p]) => `    <div class="case-step" data-reveal>
   </div>
 </section>
 
+<section class="section section-border-top">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <span class="eyebrow">${L(lang, 'Weitere Fallstudien', 'More case studies')}</span>
+      <h2>${L(lang, 'Mehr aus unserer Arbeit', 'More from our work')}</h2>
+    </div>
+    <div class="case-list">
+${others.map((c) => caseCard(c, lang)).join('\n')}
+    </div>
+    <p style="margin-top:2rem"><a class="text-link" href="${url('work', lang)}">${L(lang, 'Alle Arbeiten ansehen', 'See all work')}</a> · <a class="text-link" href="${url('services', lang)}">${L(lang, 'Leistungen & Preise', 'Offerings & prices')}</a></p>
+  </div>
+</section>
+
 ${ctaBanner(lang, L(lang, 'Sie haben ein ähnliches Projekt?', 'Have a similar project?'), L(lang, 'Erzählen Sie uns davon – wir melden uns innerhalb von 48 Stunden.', 'Tell us about it – we get back to you within 48 hours.'))}
 `;
-  layout({ lang, key, section: 'work', body, og, title: seo, desc: stripPlain(lede).slice(0, 158), ld });
+  layout({ lang, key, section: 'work', body, og, title: seo, desc: desc || stripPlain(lede).slice(0, 155), ld });
 }
 const stripPlain = (s) => B.stripTags(s);
 const H = (lang) => ({
@@ -540,7 +555,8 @@ const H = (lang) => ({
 for (const lang of LANGS) {
   const h = H(lang);
   caseStudy(lang, {
-    key: 'caseTeufel', title: 'Teufelshöhle Pottenstein', seo: L(lang, 'Fallstudie Teufelshöhle Pottenstein: Dokumentarfilm für den Tourismus | Mutter Natur', 'Case Study Teufelshöhle Pottenstein: Documentary for Tourism | Mutter Natur'), og: 'teufelshoehle-pottenstein-logo',
+    key: 'caseTeufel', title: 'Teufelshöhle Pottenstein', seo: L(lang, 'Teufelshöhle Pottenstein: Tourismus-Doku | Mutter Natur', 'Teufelshöhle Pottenstein: Tourism Documentary | Mutter Natur'),
+    desc: L(lang, 'Fallstudie: die Dokumentation „Eine Welt unter unseren Füßen“ für den Tourismusverband Pottenstein – mehr Reichweite für eine Schauhöhle in Bayern.', 'Case study: the documentary “Eine Welt unter unseren Füßen” for the Pottenstein tourism association – more reach for a show cave in Bavaria.'), og: 'teufelshoehle-pottenstein-logo',
     h1: L(lang, 'Mehr Reichweite für eine der größten Schauhöhlen Deutschlands.', 'More reach for one of Germany’s largest show caves.'),
     lede: L(lang,
       'Gemeinsam mit dem Tourismusverband Pottenstein haben wir die Dokumentation „Eine Welt unter unseren Füßen“ über die Teufelshöhle produziert.',
@@ -562,7 +578,8 @@ for (const lang of LANGS) {
   });
 
   caseStudy(lang, {
-    key: 'caseDonau', title: 'Donaumoos', seo: L(lang, 'Fallstudie Donaumoos: Markenfilm für den Zweckverband | Mutter Natur', 'Case Study Donaumoos: Brand Film for a Public Body | Mutter Natur'), og: 'donaumoos-zweckverband-logo',
+    key: 'caseDonau', title: 'Donaumoos', seo: L(lang, 'Fallstudie Donaumoos: Markenfilm, Bayern | Mutter Natur', 'Donaumoos Case Study: Brand Film, Bavaria | Mutter Natur'),
+    desc: L(lang, 'Fallstudie: ein ruhiger, dokumentarischer Markenfilm für den Donaumoos Zweckverband in Bayern – über Landschaft, Erinnerung und den Schutz des Moores.', 'Case study: a quiet, documentary-style brand film for the Donaumoos Zweckverband in Bavaria – about landscape, memory and protecting the moor.'), og: 'donaumoos-zweckverband-logo',
     h1: L(lang, 'Ein Film über Landschaft, Erinnerung und Wandel.', 'A film about landscape, memory and transformation.'),
     lede: L(lang,
       'Für den Donaumoos Zweckverband haben wir einen ruhigen, dokumentarischen Markenfilm produziert: „Wir haben die Möglichkeit, gemeinsam dieses Moor zu schützen“.',
@@ -584,7 +601,8 @@ for (const lang of LANGS) {
   });
 
   caseStudy(lang, {
-    key: 'caseBerg', title: 'Bergwaldprojekt', seo: L(lang, 'Fallstudie Bergwaldprojekt: Fotografie & Social Media | Mutter Natur', 'Case Study Bergwaldprojekt: Photography & Social Media | Mutter Natur'), og: 'bergwaldprojekt-naturfotografie',
+    key: 'caseBerg', title: 'Bergwaldprojekt', seo: L(lang, 'Fallstudie Bergwaldprojekt: Fotografie | Mutter Natur', 'Bergwaldprojekt Case Study: Photography | Mutter Natur'),
+    desc: L(lang, 'Fallstudie: Fotografie und Social-Media-Content für das Bergwaldprojekt – von Mutter Natur, Natur-Foto- und Filmproduktion aus Bayern.', 'Case study: photography and social media content for the Bergwaldprojekt – by Mutter Natur, nature photo and film production from Bavaria.'), og: 'bergwaldprojekt-naturfotografie',
     h1: L(lang, 'Bergwaldprojekt', 'Bergwaldprojekt') + ` ${todo(L(lang, 'Untertitel mit Kernaussage des Projekts', 'subtitle with the key message of the project'))}`,
     lede: todo(L(lang, 'Ein bis zwei Sätze: Wer ist das Bergwaldprojekt und was haben wir gemeinsam gemacht?', 'one or two sentences: who is the Bergwaldprojekt and what did we do together?')),
     facts: [
@@ -634,6 +652,7 @@ for (const lang of LANGS) {
       <p class="lede" style="margin-top:1rem">${L(lang, 'Ich bin Naturfilmer und Geschichtenerzähler aus dem Raum München und habe Mutter Natur gegründet.', 'I’m a nature filmmaker and storyteller from the Munich area, and the founder of Mutter Natur.')}</p>
       <p style="margin-top:1rem">${L(lang, 'Jedes Projekt beginnt bei mir gleich: mit Zuhören. Der Natur, den Menschen, die mit ihr leben, und der Wirkung, die wir gemeinsam erreichen wollen.', 'Every project starts the same way for me — by listening. To nature, to the people living alongside it, and to the impact we’re trying to make together.')}</p>
       <p style="margin-top:1rem">${L(lang, 'Mutter Natur ist ein kleines Team: Ich arbeite eng mit festen Partnern zusammen – je nachdem, was eine Produktion braucht. Sie haben also immer einen direkten Ansprechpartner.', 'Mutter Natur is a small team — I work closely with trusted collaborators depending on what each production needs. So you always have one direct contact.')}</p>
+      <p style="margin-top:1.5rem"><a class="text-link" href="${url('team', lang)}">${L(lang, 'Das Team hinter der Kamera (EN)', 'Meet the team behind the camera')}</a></p>
     </div>
   </div>
 </section>
@@ -677,7 +696,7 @@ ${ctaBanner(lang, L(lang, 'Lassen Sie uns zusammenarbeiten.', 'Let’s work toge
   layout({
     lang, key: 'about', section: 'about', body, og: 'xaver-zimmermann-gruender-portrait',
     title: L(lang, 'Über uns – Naturfilmer Xaver Zimmermann | Mutter Natur', 'About – Nature Filmmaker Xaver Zimmermann | Mutter Natur'),
-    desc: L(lang, 'Mutter Natur ist eine Filmproduktion aus Bayern (Raum München/Freising), gegründet von Naturfilmer Xaver Zimmermann. Filme über Menschen, die etwas für die Natur tun.', 'Mutter Natur is a film production company from Bavaria (Munich/Freising area), founded by nature filmmaker Xaver Zimmermann.'),
+    desc: L(lang, 'Filmproduktion aus Bayern (Raum München/Freising), gegründet von Naturfilmer Xaver Zimmermann: Filme über Menschen, die etwas für die Natur tun.', 'Mutter Natur is a film production company from Bavaria (Munich/Freising area), founded by nature filmmaker Xaver Zimmermann.'),
     ld: [{ '@context': 'https://schema.org', '@type': 'Person', name: 'Xaver Zimmermann', jobTitle: L(lang, 'Naturfilmer & Gründer', 'Nature filmmaker & founder'), worksFor: { '@id': `${S.site}/#organization` }, image: `${S.site}/assets/img/xaver-zimmermann-gruender-portrait.webp` }],
   });
 }
@@ -777,8 +796,8 @@ for (const lang of LANGS) {
 `;
   layout({
     lang, key: 'contact', section: 'contact', body, og: 'naturdokumentation-filmstill-kontakt',
-    title: L(lang, 'Kontakt & Projektanfrage | Mutter Natur', 'Contact & Project Inquiry | Mutter Natur'),
-    desc: L(lang, 'Imagefilm, Dokumentation oder Social Content anfragen: Kurzanfrage oder Projektanfrage – Antwort innerhalb von 48 Stunden. Mutter Natur, Bayern (Raum München/Freising).', 'Request an image film, documentary or social content: quick inquiry or project inquiry – reply within 48 hours. Mutter Natur, Bavaria (Munich/Freising area).'),
+    title: L(lang, 'Kontakt: Filmproduktion München & Freising | Mutter Natur', 'Contact: Film Production Munich & Freising | Mutter Natur'),
+    desc: L(lang, 'Imagefilm, Dokumentation oder Social Content anfragen: Kurz- oder Projektanfrage, Antwort in 48 Stunden. Mutter Natur, Bayern (Raum München/Freising).', 'Request an image film, documentary or social content: quick or project inquiry, reply within 48 hours. Mutter Natur, Bavaria (Munich/Freising area).'),
   });
 
   // Thank-you page
@@ -816,7 +835,7 @@ for (const lang of LANGS) {
 {
   const sections = [
     ['Wer wir sind', `<p>Mutter Natur Deutschland ist eine dokumentarische Plattform für Natur-, Umwelt- und Tierschutzprojekte im deutschsprachigen Raum.</p>
-      <p>Dahinter steht eine Produktionsfirma, die sich auf die filmische Begleitung von Umwelt- und Naturprojekten spezialisiert hat: <a class="text-link" href="/">Mutter Natur</a>.</p>
+      <p>Dahinter steht eine Produktionsfirma, die sich auf die filmische Begleitung von Umwelt- und Naturprojekten spezialisiert hat: <a class="text-link" href="${url('home', linkLang('de'))}">Mutter Natur</a>.</p>
       <p>Aus dieser Arbeit ist eine einfache Idee entstanden: Diese Geschichten nicht nur in einzelnen Filmen zu erzählen, sondern einen Ort zu schaffen, an dem sie alle sichtbar werden.</p>`],
     ['Was wir suchen', `<p>Projekte, Organisationen und Initiativen, die aktiv etwas für Natur, Umwelt, Tiere oder Nachhaltigkeit tun – und mehr Sichtbarkeit verdienen, als sie gerade haben.</p>
       <p>Uns interessiert nicht die perfekte Hochglanz-Story. Uns interessiert die echte:</p>
@@ -847,12 +866,12 @@ for (const lang of LANGS) {
 <section class="hero hero-compact">
   <div class="hero-media">${img(C.COLLAB.img, C.COLLAB.alt.de, { eager: true })}</div>
   <div class="container hero-content" data-reveal>
-    <a class="back-link" href="${url('services', 'de')}">← Alle Wege der Zusammenarbeit</a>
+    <a class="back-link" href="${url('services', linkLang('de'))}">← Alle Wege der Zusammenarbeit</a>
     <span class="eyebrow">Instagram-Kollaboration · Kostenlos</span>
     <h1>Mutter Natur Deutschland</h1>
     <p class="lede">Dokumentarische Plattform &amp; Umweltbewegung auf Instagram – für Projekte, die etwas für Natur, Umwelt und Tiere tun.</p>
     <div class="hero-actions">
-      <a href="${url('contact', 'de')}?leistung=instagram#projektanfrage" class="btn btn-primary">Jetzt Kontakt aufnehmen</a>
+      <a href="${url('contact', linkLang('de'))}?leistung=instagram#projektanfrage" class="btn btn-primary">Jetzt Kontakt aufnehmen</a>
       <a href="${S.instagramMN}" class="btn btn-ghost" target="_blank" rel="noopener">@mutternatur_d ansehen</a>
     </div>
   </div>
@@ -881,7 +900,7 @@ ${sections.map(([h, p], i) => `      <details class="faq-item"${i === 0 ? ' open
     <h2>Nächster Schritt</h2>
     <p class="lede" style="margin-inline:auto;margin-top:1rem">Schreib uns kurz: Welches Projekt willst du zeigen – und was willst du daraus erzählen? Wir melden uns, und gemeinsam bringen wir deine Geschichte raus in die Welt.</p>
     <div class="hero-actions" style="justify-content:center;margin-top:1.5rem">
-      <a href="${url('contact', 'de')}?leistung=instagram#projektanfrage" class="btn btn-primary">Jetzt Kontakt aufnehmen</a>
+      <a href="${url('contact', linkLang('de'))}?leistung=instagram#projektanfrage" class="btn btn-primary">Jetzt Kontakt aufnehmen</a>
       <a href="mailto:${S.email}?subject=${encodeURIComponent('Instagram-Kollaboration Mutter Natur Deutschland')}" class="btn btn-ghost">Per E-Mail schreiben</a>
       <a href="${S.instagramMN}" class="btn btn-ghost" target="_blank" rel="noopener">Auf Instagram schreiben</a>
     </div>
@@ -891,8 +910,60 @@ ${sections.map(([h, p], i) => `      <details class="faq-item"${i === 0 ? ' open
 `;
   layout({
     lang: 'de', key: 'collab', section: 'services', body, og: 'filmstill-wiederverbindung-galerie',
-    title: 'Instagram-Kollaboration: Mutter Natur Deutschland | Mutter Natur',
-    desc: 'Kostenlos sichtbar werden: Natur-, Umwelt- und Tierschutzprojekte zeigen ihre Arbeit als Instagram-Collab-Post auf „Mutter Natur Deutschland“ (@mutternatur_d).',
+    title: 'Instagram-Kollaboration für Naturprojekte | Mutter Natur',
+    desc: 'Kostenlos sichtbar werden: Natur-, Umwelt- und Tierschutzprojekte aus Bayern und ganz Deutschland als Instagram-Collab-Post auf @mutternatur_d.',
+  });
+}
+
+// ===========================================================================
+// Team (English only for now – texts from the live team page)
+// ===========================================================================
+{
+  const TEAM = [
+    { name: 'Florian Wenk', role: 'Camera', img: 'florian-wenk-kamera.webp', alt: 'Florian Wenk, camera at Mutter Natur', tag: 'Camera',
+      text: 'I’m driven by a curiosity for life and the power of a good story. As a visual storyteller, I shape stories from concept to camera to edit that inspire people and remind us how beautiful and worth protecting our planet is.' },
+    { name: 'Mark Mayer', role: 'Main Editor', img: 'mark-mayer-main-editor.webp', alt: 'Mark Mayer, main editor at Mutter Natur', tag: 'Edit',
+      text: 'What drives me as an editor is the craft of the cut. With image selection, rhythm and timing, I build a dramaturgy that creates an emotional connection with the viewer.' },
+    { name: 'Balnur Serik', role: 'Second Editor & Short-Form Video', img: 'balnur-serik-second-editor.webp', alt: 'Balnur Serik, second editor and short-form video at Mutter Natur', tag: 'Short-form',
+      text: 'I love the creative side of video editing: testing different visual styles, timing cuts to the beat, and finding the small details that make a video genuinely fun to watch.' },
+  ];
+  const lang = 'en';
+  layout({
+    lang, key: 'team', section: 'about', og: 'behind-the-scenes-dreharbeiten',
+    title: 'Team: Camera & Editing, Munich/Freising | Mutter Natur',
+    desc: 'Meet the team behind Mutter Natur: Florian Wenk (camera), Mark Mayer (main editor) and Balnur Serik (second editor, short-form video) from Bavaria.',
+    body: `
+<section class="hero hero-compact">
+  <div class="hero-media">${img('behind-the-scenes-dreharbeiten.webp', 'Behind the scenes – the Mutter Natur team on location', { eager: true })}</div>
+  <div class="container hero-content" data-reveal>
+    <span class="eyebrow">Mutter Natur — The Crew</span>
+    <h1>The people behind the stories.</h1>
+    <p class="lede">A small team behind the camera and in the edit — united by one idea: bringing people back to nature through honest films.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container team-list">
+${TEAM.map((m, i) => `    <article class="team-member ${i % 2 ? 'reveal-right' : 'reveal-left'}" data-reveal>
+      <div class="team-photo tilt">
+        <div class="team-photo-inner">${img(m.img, m.alt)}</div>
+        <span class="team-photo-tag">${m.tag}</span>
+      </div>
+      <div class="team-body">
+        <span class="team-index" aria-hidden="true">0${i + 1}</span>
+        <span class="eyebrow team-role">${esc(m.role)}</span>
+        <h2>${m.name}</h2>
+        <p class="team-desc">${m.text}</p>
+      </div>
+    </article>`).join('\n')}
+  </div>
+  <div class="container" style="margin-top:clamp(3rem,8vw,5rem)" data-reveal>
+    <p class="lede">Led by founder and nature filmmaker Xaver Zimmermann. <a class="text-link" href="${url('about', lang)}#gruender">More about Mutter Natur</a></p>
+  </div>
+</section>
+
+${ctaBanner(lang, 'Let’s tell your story together.', 'Tell us about your project — we’ll get back to you with ideas for how to bring it to the screen.', 'regisseur-dreharbeiten-natur.webp', 'Director with a camera on location in nature')}
+`,
   });
 }
 
@@ -901,7 +972,7 @@ ${sections.map(([h, p], i) => `      <details class="faq-item"${i === 0 ? ' open
 // ===========================================================================
 for (const lang of LANGS) {
   layout({
-    lang, key: 'home', file: lang === 'de' ? '404.html' : 'en/404.html', noindex: true, section: null,
+    lang, key: 'home', file: lang === 'en' ? '404.html' : 'de/404.html', noindex: true, section: null,
     title: L(lang, 'Seite nicht gefunden | Mutter Natur', 'Page not found | Mutter Natur'),
     desc: L(lang, 'Diese Seite gibt es nicht (mehr).', 'This page does not exist.'),
     body: `
@@ -912,8 +983,14 @@ for (const lang of LANGS) {
     <p class="lede" style="margin-inline:auto;margin-top:1rem">${L(lang, 'Die gesuchte Seite existiert nicht oder wurde verschoben.', 'The page you are looking for does not exist or has moved.')}</p>
     <div class="hero-actions" style="justify-content:center">
       <a href="${url('home', lang)}" class="btn btn-primary">${L(lang, 'Zur Startseite', 'Back to the homepage')}</a>
-      <a href="${url('services', lang)}" class="btn btn-ghost">${UI[lang].nav.services}</a>
+      <a href="${url('contact', lang)}#projektanfrage" class="btn btn-ghost">${UI[lang].cta}</a>
     </div>
+    <ul class="link-row" style="margin-top:2.5rem">
+      <li><a class="text-link" href="${url('films', lang)}">${L(lang, 'Naturfilme', 'Nature films')}</a></li>
+      <li><a class="text-link" href="${url('work', lang)}">${L(lang, 'Portfolio & Fallstudien', 'Work & case studies')}</a></li>
+      <li><a class="text-link" href="${url('services', lang)}">${L(lang, 'Leistungen & Preise', 'Offerings & prices')}</a></li>
+      <li><a class="text-link" href="${url('about', lang)}">${UI[lang].nav.about}</a></li>
+    </ul>
   </div>
 </section>
 `,

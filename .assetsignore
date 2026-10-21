@@ -1,11 +1,13 @@
 wrangler.jsonc
 .assetsignore
+.gitignore
 README.md
 .git
 node_modules
-team.html
 .wrangler
-inside-the-journey.html
-_tools
-.gitignore
 _src
+_tools
+inside-the-journey.html
+assets/fonts/_google.css
+assets/img/vortraege/.gitkeep
+de

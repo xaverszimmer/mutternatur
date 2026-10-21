@@ -1,11 +1,12 @@
 // Static site generator for the bilingual Mutter Natur website.
 //   node _src/build.js
-// Writes plain HTML files into the site root (German) and /en (English),
-// plus sitemap.xml and _redirects. Texts live in _src/content.js.
+// Writes plain HTML files: English at the site root, German under /de/,
+// plus sitemap.xml, robots.txt, _redirects and .assetsignore. Texts live in _src/content.js.
+// SETTINGS.germanLive decides whether the German pages are deployed and linked.
 const fs = require('fs');
 const path = require('path');
 const C = require('./content');
-const { todo, SETTINGS: S, ROUTES, UI, FILMS, INSTA, FAQ, SERVICES, SERVICE_ORDER } = C;
+const { todo, SETTINGS: S, ROUTES, CRUMBS, PARENTS, UI, FILMS, INSTA, FAQ, SERVICES, SERVICE_ORDER } = C;
 
 const ROOT = path.resolve(__dirname, '..');
 const SIZES = JSON.parse(fs.readFileSync(path.join(__dirname, 'image-sizes.json'), 'utf8'));
@@ -17,10 +18,50 @@ const written = [];
 // Helpers
 // ---------------------------------------------------------------------------
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const stripTags = (s) => String(s).replace(/<!--[\s\S]*?-->/g, '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
-const url = (key, lang) => ROUTES[key][lang] || ROUTES[key].de;
+// Plain text for meta tags and structured data – todo() markers are dropped
+const stripTags = (s) => String(s).replace(/<span class="todo">[\s\S]*?<\/span>/g, '').replace(/<!--[\s\S]*?-->/g, '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+const url = (key, lang) => ROUTES[key][lang] || ROUTES[key].de || ROUTES[key].en;
 const L = (lang, de, en) => (lang === 'de' ? de : en);
 const t = (obj, lang) => (obj && typeof obj === 'object' && 'de' in obj ? obj[lang] : obj);
+
+// Is a page part of the deployment? English always, German only when switched on.
+// Pages without an English version (collaboration, talks, legal pages) are always live.
+const isLive = (key, lang) => lang === 'en' || S.germanLive || !(ROUTES[key] && ROUTES[key].en);
+// Language for links to other pages: German pages link to German pages only once
+// German is live – until then German-only pages link into the English site.
+const linkLang = (lang) => (lang === 'de' && !S.germanLive ? 'en' : lang);
+
+// Live pages never show a [TODO] marker. The visible marker is removed (its HTML
+// comment stays in the source as a note), and an element that is left with nothing
+// but placeholders is hidden – together with its heading where it has one.
+const TODO_SPAN = '<span class="todo">\\[TODO: [^<]*\\]<\\/span>';
+function hideTodos(html) {
+  const onlyTodo = new RegExp(`<(p|li|dd|span|figcaption|blockquote)((?:\\s[^>]*)?)>((?:\\s|·|${TODO_SPAN}|<!--[\\s\\S]*?-->)*${TODO_SPAN}(?:\\s|·|${TODO_SPAN}|<!--[\\s\\S]*?-->)*)<\\/\\1>`, 'g');
+  let out = html.replace(onlyTodo, (m, tag, attrs, inner) => `<${tag}${attrs} hidden data-todo>${inner}</${tag}>`);
+  out = out
+    // FAQ entry without an answer yet
+    .replace(/<details class="faq-item">(\s*<summary>[\s\S]*?<\/summary>\s*<p hidden data-todo>)/g, '<details class="faq-item" hidden data-todo>$1')
+    // Case-study step without text yet
+    .replace(/<div class="case-step" data-reveal>(\s*<h2>[^<]*<\/h2>\s*<div class="prose"><p hidden data-todo>[\s\S]*?<\/p><\/div>)/g, '<div class="case-step" hidden data-todo>$1')
+    // Fact row without a value yet
+    .replace(/<div>(<dt>[^<]*<\/dt><dd hidden data-todo>)/g, '<div hidden data-todo>$1');
+  return out.replace(new RegExp(TODO_SPAN, 'g'), '');
+}
+
+// Breadcrumb trail [[name, path], …] for a page (empty for the home page)
+function crumbs(key, lang) {
+  if (!key || key === 'home') return [];
+  const name = (k) => (CRUMBS[k] ? CRUMBS[k][lang] : SERVICES[k].title[lang]);
+  const trail = [[name('home'), url('home', lang)]];
+  if (PARENTS[key]) trail.push([name(PARENTS[key]), url(PARENTS[key], lang)]);
+  trail.push([name(key), url(key, lang)]);
+  return trail;
+}
+const crumbNav = (trail, lang) => `<nav class="breadcrumbs" aria-label="${L(lang, 'Brotkrumen-Navigation', 'Breadcrumb')}"><ol>${trail.map(([n, p], i) => (i === trail.length - 1 ? `<li><span aria-current="page">${esc(n)}</span></li>` : `<li><a href="${p}">${esc(n)}</a></li>`)).join('')}</ol></nav>`;
+const crumbLd = (trail) => ({
+  '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+  itemListElement: trail.map(([n, p], i) => ({ '@type': 'ListItem', position: i + 1, name: n, item: S.site + p })),
+});
 
 function img(file, alt, { cls = '', eager = false, attrs = '' } = {}) {
   const size = SIZES[file];
@@ -126,16 +167,19 @@ function videoLd(key, lang) {
   };
 }
 
-const ORG_LD = () => ({
+// No street in structured data – the full address is only in the Impressum
+const ORG_LD = (lang = 'de') => ({
   '@context': 'https://schema.org', '@type': 'ProfessionalService', '@id': `${S.site}/#organization`,
-  name: 'Mutter Natur', url: `${S.site}/`,
+  name: 'Mutter Natur', alternateName: 'Mutter Natur Film', url: `${S.site}/`,
   logo: `${S.site}/assets/img/logo-mutter-natur.png`,
   image: `${S.site}/assets/img/og/naturlandschaft-naturfilm-produktion-bayern.jpg`,
-  description: 'Naturfilme, Dokumentarfilme, Imagefilme, Fotografie und Social-Media-Content – eigene Produktionen und Auftragsarbeiten für Unternehmen, Tourismus und NGOs. Aus Bayern, Raum München/Freising.',
+  description: L(lang,
+    'Naturfilme, Dokumentarfilme, Imagefilme, Fotografie und Social-Media-Content – eigene Produktionen und Auftragsarbeiten für Unternehmen, Tourismus und NGOs. Aus Bayern, Raum München/Freising.',
+    'Nature films, documentaries, image films, photography and social media content – independent productions and commissioned work for companies, tourism and NGOs. From Bavaria, Munich/Freising area.'),
   founder: { '@type': 'Person', name: 'Xaver Zimmermann' },
-  email: S.email, priceRange: '700 €–7.000 €',
-  address: { '@type': 'PostalAddress', streetAddress: 'Goldshausen 6', postalCode: '85417', addressLocality: 'Marzling', addressRegion: 'Bayern', addressCountry: 'DE' },
-  areaServed: [{ '@type': 'State', name: 'Bayern' }, { '@type': 'Country', name: 'Deutschland' }, { '@type': 'Country', name: 'Österreich' }, { '@type': 'Country', name: 'Schweiz' }],
+  email: S.email, priceRange: L(lang, '700 €–7.000 €', '€700–€7,000'),
+  address: { '@type': 'PostalAddress', addressLocality: 'Marzling', addressRegion: 'Bayern', addressCountry: 'DE' },
+  areaServed: [{ '@type': 'State', name: 'Bayern' }, { '@type': 'City', name: 'München' }, { '@type': 'Country', name: 'Deutschland' }, { '@type': 'Country', name: 'Österreich' }, { '@type': 'Country', name: 'Schweiz' }],
   knowsLanguage: ['de', 'en'],
   sameAs: [S.instagram, S.instagramMN, S.youtube].concat(S.googleBusinessUrl ? [S.googleBusinessUrl] : []),
 });
@@ -160,13 +204,14 @@ function header(lang, key, section) {
   const switchHref = ROUTES[key] && ROUTES[key][other] ? ROUTES[key][other] : url('home', other);
   const nav = [['services', 'services'], ['work', 'work'], ['about', 'about'], ['contact', 'contact']]
     .map(([k, r]) => `      <a href="${url(r, lang)}"${section === k ? ' class="is-active" aria-current="page"' : ''}>${u.nav[k]}</a>`).join('\n');
+  // Language switch only once the German version is live
+  const langSwitch = S.germanLive ? `\n      <a href="${switchHref}" class="lang-switch" hreflang="${other}" lang="${other}" aria-label="${u.langSwitchLabel}">${u.langSwitch}</a>` : '';
   return `<header class="site-header">
   <div class="container nav-inner">
     <a href="${url('home', lang)}" class="logo">Mutter Natur</a>
     <nav class="nav-links" id="nav-links">
 ${nav}
-      <a href="${url('contact', lang)}#projektanfrage" class="btn btn-primary nav-cta">${u.cta}</a>
-      <a href="${switchHref}" class="lang-switch" hreflang="${other}" lang="${other}" aria-label="${u.langSwitchLabel}">${u.langSwitch}</a>
+      <a href="${url('contact', lang)}#projektanfrage" class="btn btn-primary nav-cta">${u.cta}</a>${langSwitch}
     </nav>
     <button class="nav-toggle" aria-label="${u.menu}" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
   </div>
@@ -193,9 +238,10 @@ ${SERVICE_ORDER.map((k) => `          <li><a href="${url(k, lang)}">${SERVICES[k
         <ul>
           <li><a href="${url('work', lang)}">${u.nav.work}</a></li>
           <li><a href="${url('work', lang)}#projekte">${u.footerCases}</a></li>
-          <li><a href="${url('collab', 'de')}">${L(lang, 'Instagram-Kollaboration', 'Instagram collaboration')}</a></li>
-          <li><a href="${url('talks', 'de')}">${L(lang, 'Vorträge', 'Talks')}</a></li>
           <li><a href="${url('about', lang)}">${u.nav.about}</a></li>
+          <li><a href="${url('team', lang)}">${L(lang, 'Team (EN)', 'Team')}</a></li>
+          <li><a href="${url('talks', 'de')}"${lang === 'en' ? ' hreflang="de"' : ''}>${L(lang, 'Vorträge', 'Talks &amp; lectures (DE)')}</a></li>
+          <li><a href="${url('collab', 'de')}"${lang === 'en' ? ' hreflang="de"' : ''}>${L(lang, 'Instagram-Kollaboration', 'Instagram collaboration (DE)')}</a></li>
           <li><a href="${url('services', lang)}">${L(lang, 'Preise', 'Pricing')}</a></li>
         </ul>
       </div>
@@ -241,12 +287,25 @@ const MOBILE_CTA = (lang) => `<div class="mobile-cta">
 
 function layout({ lang, key, section, title, desc, body, ld = [], og = 'naturlandschaft-naturfilm-produktion-bayern', noindex = false, grain = false, file }) {
   const pathname = file ? null : url(key, lang);
+  const live = isLive(key, lang);
   const alt = ROUTES[key] || {};
-  const hreflang = !file && alt.de && alt.en
-    ? `<link rel="alternate" hreflang="de" href="${S.site}${alt.de}">\n<link rel="alternate" hreflang="en" href="${S.site}${alt.en}">\n<link rel="alternate" hreflang="x-default" href="${S.site}${alt.de}">\n`
+  // hreflang only while both versions are live (English is the default version)
+  const hreflang = !file && S.germanLive && alt.de && alt.en
+    ? `<link rel="alternate" hreflang="de" href="${S.site}${alt.de}">\n<link rel="alternate" hreflang="en" href="${S.site}${alt.en}">\n<link rel="alternate" hreflang="x-default" href="${S.site}${alt.en}">\n`
     : '';
-  const ldList = (Array.isArray(ld) ? ld : [ld]).filter(Boolean);
-  const html = `<!DOCTYPE html>
+  // Header, footer and breadcrumbs of a live German-only page use the English site
+  const cl = live ? linkLang(lang) : lang;
+  const chromeAttr = cl !== lang ? ` lang="${cl}"` : '';
+  const trail = file ? [] : crumbs(key, cl);
+  // The visible trail replaces the page's "← back" link
+  if (trail.length) body = body.replace(/<a class="back-link"[^>]*>[\s\S]*?<\/a>/, crumbNav(trail, cl));
+  const ldList = (Array.isArray(ld) ? ld : [ld]).filter(Boolean).concat(trail.length ? [crumbLd(trail)] : []);
+  // Hero image (the one eager image) is preloaded for a fast first impression
+  const hero = body.match(/<img src="([^"]+)"[^>]*fetchpriority="high"/);
+  const preload = `<link rel="preload" href="/assets/fonts/Inter-400-13.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/Syne-700-24.woff2" as="font" type="font/woff2" crossorigin>
+${hero ? `<link rel="preload" href="${hero[1]}" as="image" fetchpriority="high">\n` : ''}`;
+  let html = `<!DOCTYPE html>
 <html lang="${lang}">
 <head>
 <meta charset="UTF-8">
@@ -265,11 +324,12 @@ ${pathname ? `<meta property="og:url" content="${S.site}${pathname}">\n` : ''}<m
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+${preload}<link rel="stylesheet" href="/assets/css/fonts.css">
 <link rel="stylesheet" href="/assets/css/style.css">
 ${ldList.map((d) => `<script type="application/ld+json">\n${JSON.stringify(d)}\n</script>`).join('\n')}
 </head>
 <body>
-${grain ? '<div class="grain-overlay" aria-hidden="true"></div>\n' : ''}${header(lang, key, section)}
+${grain ? '<div class="grain-overlay" aria-hidden="true"></div>\n' : ''}${header(cl, key, section).replace('<header class="site-header"', `<header class="site-header"${chromeAttr}`)}
 
 <main>
 ${body.trim()}
@@ -277,17 +337,22 @@ ${body.trim()}
 
 ${MODAL(lang)}
 
-${footer(lang)}
-${MOBILE_CTA(lang)}
+${footer(cl).replace('<footer class="site-footer"', `<footer class="site-footer"${chromeAttr}`)}
+${MOBILE_CTA(cl)}
 <script src="/assets/js/main.js"></script>
 </body>
 </html>
 `;
+  if (live) html = hideTodos(html);
   const out = file || (pathname.endsWith('/') ? pathname + 'index.html' : pathname + '.html');
+  writePage(out, html, { pathname, key, lang, noindex, live, title, desc });
+}
+
+function writePage(out, html, info) {
   const abs = path.join(ROOT, out);
   fs.mkdirSync(path.dirname(abs), { recursive: true });
   fs.writeFileSync(abs, html);
-  written.push({ out, pathname, key, lang, noindex });
+  written.push({ out: out.replace(/\\/g, '/').replace(/^\//, ''), ...info });
 }
 
 // Reusable blocks ------------------------------------------------------------
@@ -391,28 +456,55 @@ ${C.AWARDS.map((a) => `      <li><strong>${esc(a.festival)}</strong><span>${a.fi
   </div>
 </section>`;
 
-module.exports = { esc, stripTags, url, L, t, img, ytPlayer, videoCard, instaCard, serviceCard, collabCard, faqList, faqLd, videoLd, ORG_LD, serviceLd, layout, ctaBanner, steps, priceTerms, awardsBlock, testimonials, proofBar, written, ROOT, TODAY, LANGS };
+module.exports = { esc, stripTags, url, L, t, linkLang, img, ytPlayer, videoCard, instaCard, serviceCard, collabCard, faqList, faqLd, videoLd, ORG_LD, serviceLd, layout, writePage, isLive, crumbs, crumbNav, crumbLd, hideTodos, ctaBanner, steps, priceTerms, awardsBlock, testimonials, proofBar, written, ROOT, TODAY, LANGS };
 
 // Pages are defined in pages.js
 if (require.main === module) {
+  // Remove the pages of the previous build first, so renamed pages leave nothing behind
+  const MANIFEST = path.join(__dirname, 'generated-files.txt');
+  if (fs.existsSync(MANIFEST)) {
+    for (const f of fs.readFileSync(MANIFEST, 'utf8').split('\n').filter(Boolean)) fs.rmSync(path.join(ROOT, f), { force: true });
+  }
   require('./pages');
-  // Sitemap with language alternates (indexable pages only)
+  fs.writeFileSync(MANIFEST, written.map((w) => w.out).sort().join('\n') + '\n');
+
+  // Sitemap: live, indexable pages only; language alternates once German is live
   const pairs = {};
-  for (const w of written) if (w.pathname && !w.noindex) (pairs[w.key] = pairs[w.key] || {})[w.lang] = w.pathname;
+  for (const w of written) if (w.pathname && w.live && !w.noindex) (pairs[w.key] = pairs[w.key] || {})[w.lang] = w.pathname;
   const rows = [];
   for (const [key, p] of Object.entries(pairs)) {
     for (const lang of Object.keys(p)) {
-      const alts = p.de && p.en ? `\n    <xhtml:link rel="alternate" hreflang="de" href="${S.site}${p.de}"/>\n    <xhtml:link rel="alternate" hreflang="en" href="${S.site}${p.en}"/>\n    <xhtml:link rel="alternate" hreflang="x-default" href="${S.site}${p.de}"/>` : '';
+      const alts = p.de && p.en ? `\n    <xhtml:link rel="alternate" hreflang="de" href="${S.site}${p.de}"/>\n    <xhtml:link rel="alternate" hreflang="en" href="${S.site}${p.en}"/>\n    <xhtml:link rel="alternate" hreflang="x-default" href="${S.site}${p.en}"/>` : '';
       const prio = key === 'home' ? '1.0' : ['impressum', 'datenschutz'].includes(key) ? '0.2' : SERVICES[key] || key === 'services' || key === 'contact' ? '0.9' : '0.7';
       rows.push(`  <url>\n    <loc>${S.site}${p[lang]}</loc>${alts}\n    <lastmod>${TODAY}</lastmod>\n    <priority>${prio}</priority>\n  </url>`);
     }
   }
   fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${rows.join('\n')}\n</urlset>\n`);
   fs.writeFileSync(path.join(ROOT, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${S.site}/sitemap.xml\n`);
-  // Redirects from the old English-only URLs
-  const red = C.REDIRECTS.flatMap(([from, to]) => [`${from} ${to} 301`, `${from}.html ${to} 301`]);
-  // Every page is reachable without .html – the .html variant redirects permanently
-  const clean = written.filter((w) => w.pathname).map((w) => `${w.out.replace(/\\/g, '/').replace(/^\/?/, '/')} ${w.pathname} 301`);
-  fs.writeFileSync(path.join(ROOT, '_redirects'), `# Generated by _src/build.js\n# Old URLs of the English-only site -> new German pages\n${red.join('\n')}\n# .html -> URL without extension\n${clean.join('\n')}\n`);
-  console.log(`Built ${written.length} pages, ${rows.length} sitemap entries.`);
+
+  // Redirects: former live URLs, then every live page's .html variant -> URL without extension
+  const red = C.REDIRECTS.map(([from, to]) => `${from} ${to} 301`);
+  const clean = written.filter((w) => w.pathname && w.live).map((w) => `/${w.out} ${w.pathname} 301`);
+  fs.writeFileSync(path.join(ROOT, '_redirects'), `# Generated by _src/build.js – do not edit by hand\n# Former URLs -> current pages\n${red.join('\n')}\n# .html -> URL without extension\n${clean.join('\n')}\n`);
+
+  // Files that are never deployed. The German pages (/de/) stay out until SETTINGS.germanLive is true.
+  const ignore = ['wrangler.jsonc', '.assetsignore', '.gitignore', 'README.md', '.git', 'node_modules', '.wrangler', '_src', '_tools',
+    'inside-the-journey.html', 'assets/fonts/_google.css', 'assets/img/vortraege/.gitkeep'].concat(S.germanLive ? [] : ['de']);
+  fs.writeFileSync(path.join(ROOT, '.assetsignore'), ignore.join('\n') + '\n');
+
+  // Checks for everything that goes live
+  const problems = [];
+  for (const w of written.filter((x) => x.live)) {
+    const html = fs.readFileSync(path.join(ROOT, w.out), 'utf8');
+    const visible = html.replace(/<!--[\s\S]*?-->/g, '');
+    if (/\[TODO/.test(visible)) problems.push(`${w.out}: visible [TODO]`);
+    if (/Name Surname|®|Mother Nature/.test(visible)) problems.push(`${w.out}: placeholder name, ® or "Mother Nature"`);
+    if ((visible.match(/<h1[\s>]/g) || []).length !== 1) problems.push(`${w.out}: ${(visible.match(/<h1[\s>]/g) || []).length} × h1`);
+    if (!w.noindex && w.title && w.title.length > 60) problems.push(`${w.out}: title ${w.title.length} chars`);
+    if (!w.noindex && w.desc && w.desc.length > 155) problems.push(`${w.out}: description ${w.desc.length} chars`);
+    if (/Mutter Natur Film/.test(w.title || '') && !['home', 'impressum'].includes(w.key)) problems.push(`${w.out}: "Mutter Natur Film" in title`);
+    if (!S.germanLive && /href="\/de\//.test(visible)) problems.push(`${w.out}: links to unpublished German page`);
+  }
+  console.log(`Built ${written.length} pages (${written.filter((w) => w.live).length} live), ${rows.length} sitemap entries.`);
+  if (problems.length) { console.log('PROBLEMS:\n  ' + problems.join('\n  ')); process.exitCode = 1; }
 }
