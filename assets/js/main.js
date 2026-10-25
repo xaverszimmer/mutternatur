@@ -56,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Contact form: no backend included yet, so fall back to a mailto draft.
+  // German pages (<html lang="de">) get German subjects.
+  const isDe = document.documentElement.lang === 'de';
   const contactForm = document.querySelector('[data-contact-form]');
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
@@ -64,8 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const name = data.get('name') || '';
       const email = data.get('email') || '';
       const message = data.get('message') || '';
-      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-      window.location.href = `mailto:${EMAIL_TO}?subject=${encodeURIComponent('Project inquiry via website')}&body=${body}`;
+      const body = encodeURIComponent(`Name: ${name}\n${isDe ? 'E-Mail' : 'Email'}: ${email}\n\n${message}`);
+      window.location.href = `mailto:${EMAIL_TO}?subject=${encodeURIComponent(isDe ? 'Anfrage über die Website' : 'Project inquiry via website')}&body=${body}`;
     });
   }
 
@@ -75,9 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const data = new FormData(inquiryForm);
       const lines = [];
-      data.forEach((value, key) => lines.push(`${key}: ${value}`));
+      data.forEach((value, key) => {
+        const field = inquiryForm.querySelector(`[name="${key}"]`);
+        const label = field && field.id ? inquiryForm.querySelector(`label[for="${field.id}"]`) : null;
+        lines.push(`${label ? label.textContent.trim() : key}: ${value}`);
+      });
       const body = encodeURIComponent(lines.join('\n'));
-      window.location.href = `mailto:${EMAIL_TO}?subject=${encodeURIComponent('Documentary production inquiry')}&body=${body}`;
+      window.location.href = `mailto:${EMAIL_TO}?subject=${encodeURIComponent(isDe ? 'Projektanfrage über die Website' : 'Documentary production inquiry')}&body=${body}`;
     });
   }
 

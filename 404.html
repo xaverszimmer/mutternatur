@@ -1,25 +1,29 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Seite nicht gefunden – Mutter Natur Film</title>
+<title>Page not found | Mutter Natur</title>
+<meta name="description" content="This page does not exist.">
 <meta name="robots" content="noindex">
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="assets/css/style.css">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+<link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
 <header class="site-header">
   <div class="container nav-inner">
-    <a href="index.html" class="logo">MutterNatur<sup>®</sup></a>
+    <a href="/" class="logo">MutterNatur<sup>®</sup></a>
     <nav class="nav-links" id="nav-links">
-      <a href="work.html">Work</a>
-      <a href="offerings.html">Offerings</a>
-      <a href="about.html">About</a>
-      <a href="team.html">Team</a>
-      <a href="contact.html">Contact</a>
+      <a href="/work">Work</a>
+      <a href="/offerings">Offerings</a>
+      <a href="/about">About</a>
+      <a href="/team">Team</a>
+      <a href="/contact">Contact</a>
+      <a href="/de/404" class="lang-switch" hreflang="de" lang="de" aria-label="Deutsche Version">DE</a>
     </nav>
-    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links"><span></span><span></span><span></span></button>
   </div>
 </header>
 
@@ -27,24 +31,64 @@
   <section class="section-cta" style="padding-top:clamp(10rem,20vw,13rem)">
     <div class="container" data-reveal>
       <span class="eyebrow">404</span>
-      <h1>Seite nicht gefunden.</h1>
-      <p class="lede" style="margin-inline:auto;margin-top:1rem">Die gesuchte Seite existiert nicht oder wurde verschoben.</p>
-      <a href="index.html" class="btn btn-primary" style="margin-top:1.5rem">Zur Startseite</a>
+      <h1>Page not found.</h1>
+      <p class="lede" style="margin-inline:auto;margin-top:1rem">The page you are looking for does not exist or has been moved.</p>
+      <div class="hero-actions" style="justify-content:center;margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:1rem">
+        <a href="/" class="btn btn-primary">Back to the homepage</a>
+        <a href="/work" class="btn btn-ghost">Work</a>
+        <a href="/offerings" class="btn btn-ghost">Offerings &amp; pricing</a>
+      </div>
     </div>
   </section>
 </main>
 
 <footer class="site-footer">
   <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="logo">MutterNatur<sup>®</sup></a>
+        <p>We create visual stories for sustainable businesses – from producing high-quality films and photography to strategic content for social media.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Sitemap</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/work">Work</a></li>
+          <li><a href="/offerings">Offerings & pricing</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/team">Team</a></li>
+          <li><a href="/vortraege">Talks (DE)</a></li>
+          <li><a href="/kollaboration">Instagram collaboration (DE)</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Social</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/xaverszimmer" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://www.instagram.com/mutternatur_d" target="_blank" rel="noopener">Instagram: Mutter Natur Deutschland</a></li>
+          <li><a href="https://www.youtube.com/@MutterNatur_d" target="_blank" rel="noopener">YouTube</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:xaverszimmer@web.de">xaverszimmer@web.de</a></li>
+          <li><a href="/contact">Get in touch</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-wordmark" aria-hidden="true">MutterNatur®</div>
     <div class="footer-bottom">
-      <span>© 2026 Mother Nature. Documentary film production for nature, impact and sustainable change.</span>
+      <span>© 2026 Mutter Natur – young nature &amp; environmental film production from Munich for Germany, Austria and Switzerland.</span>
       <div class="footer-legal">
-        <a href="impressum.html">Impressum</a>
-        <a href="datenschutz.html">Datenschutz</a>
+        <a href="/impressum">Impressum</a>
+        <a href="/datenschutz">Datenschutz</a>
+        <a href="/vortraege">Talks (Vorträge)</a>
+        <a href="/de/404" hreflang="de" lang="de">Deutsch</a>
       </div>
     </div>
   </div>
 </footer>
-<script src="assets/js/main.js"></script>
+<script src="/assets/js/main.js"></script>
 </body>
 </html>

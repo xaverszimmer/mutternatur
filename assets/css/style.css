@@ -896,3 +896,11 @@ body.modal-open { overflow: hidden; }
 @media (max-width: 860px) {
   .team-cards { grid-template-columns: 1fr; gap: 4rem; }
 }
+
+/* ---- Language switch (EN / DE) ---- */
+.nav-links .lang-switch {
+  font-family: var(--font-ui); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.08em;
+  padding: 0.35rem 0.6rem; border: 1px solid var(--border-strong); color: var(--fg-muted);
+}
+.nav-links .lang-switch:hover { color: var(--fg); border-color: var(--fg); }
+.nav-links a { white-space: nowrap; }

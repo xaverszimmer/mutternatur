@@ -1,6 +1,9 @@
 wrangler.jsonc
 .assetsignore
+.gitignore
 README.md
 .git
 node_modules
 .wrangler
+_live
+assets/fonts/_google.css
