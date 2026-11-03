@@ -23,6 +23,9 @@ a{color:var(--olive)}a:hover{color:var(--olive-d)}
 h1,h2,h3,.os{font-family:Oswald,"Arial Narrow",sans-serif}
 .eyebrow{font-family:Oswald,"Arial Narrow",sans-serif;font-weight:500;font-size:13px;letter-spacing:2.4px;text-transform:uppercase;color:var(--moss)}
 .hero{position:relative;background:var(--dark);color:var(--paper);padding:64px 0 130px;overflow:hidden}
+.hero::before{content:"";position:absolute;top:0;right:0;bottom:0;width:min(62%,760px);background:url(img/hero-gamsbock.webp) center 30%/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent,#000 55%);mask-image:linear-gradient(90deg,transparent,#000 55%)}
+.hero .wrap{position:relative}
+.shot{margin:30px 0 0}.shot img{display:block;width:100%;height:auto}
 .hero h1{margin:18px 0 0;font-weight:700;font-size:clamp(40px,8vw,84px);line-height:1;letter-spacing:1px;text-transform:uppercase}
 .script{font-family:Allura,"Brush Script MT",cursive;font-size:clamp(48px,9vw,92px);line-height:1;color:#C4CB93;margin-top:2px}
 .tag{display:flex;align-items:center;gap:14px;margin-top:22px;font-size:clamp(17px,2.4vw,21px);font-weight:600}
@@ -44,6 +47,7 @@ h2{margin:0 0 14px;font-weight:600;font-size:15px;letter-spacing:2px;text-transf
 .eps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px}
 .ep{border-top:3px solid var(--olive);padding-top:10px}
 .ep.hot{border-top-color:var(--red)}
+.ep img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;margin:-10px 0 10px}
 .ep .d{font-family:Oswald,"Arial Narrow",sans-serif;font-weight:600;font-size:14px;color:var(--olive)}
 .ep.hot .d{color:var(--red)}
 .ep h3{margin:2px 0 4px;font-weight:600;font-size:20px;line-height:1.2}
@@ -65,7 +69,7 @@ h2{margin:0 0 14px;font-weight:600;font-size:15px;letter-spacing:2px;text-transf
 .card b{font-size:18px}
 footer{margin-top:40px;background:var(--dark);color:#cfd1c4;padding:26px 0;font-size:14px}
 footer a{color:var(--moss)}
-@media(max-width:560px){body{font-size:16px}.hero{padding:44px 0 110px}}
+@media(max-width:560px){body{font-size:16px}.hero{padding:44px 0 110px}.hero::before{width:100%;opacity:.35;-webkit-mask-image:none;mask-image:none}}
 @media print{.cta,footer{display:none}}
 </style>
 </head>
@@ -90,6 +94,7 @@ footer a{color:var(--moss)}
 <div class="wrap">
 <h2>Der Film</h2>
 <p class="lead">Sechs Wochen im Jahr riskieren die Gamsböcke alles. Sie jagen sich durch steile Felsen, fressen kaum und verbrennen die Reserven, die sie für den Winter brauchen. Ich folge ihnen durch die Brunft in den bayerischen Alpen, bis der erste tiefe Schnee kommt. Und zeige, warum es danach auch an uns liegt, ob sie den Winter schaffen.</p>
+<figure class="shot"><img src="img/drei-gaemsen.webp" width="786" height="304" alt="Drei Gämsen als Silhouette auf einem Grat in der Dämmerung" loading="lazy"></figure>
 <div class="facts">
 <div><b>15 MIN</b><span>Dokumentarfilm, 4K</span></div>
 <div><b>NOV – JAN</b><span>Dreh mitten in der Brunft</span></div>
@@ -115,10 +120,10 @@ footer a{color:var(--moss)}
 <p class="lead">Der Weg zum Film, in vier Folgen: der Wecker um vier, die leeren Hänge, die Menschen vor Ort und der eine Moment, für den sich alles lohnt. Gegen eine echte Frist, denn die Brunft wartet auf niemanden. Je 8 bis 12 Minuten auf YouTube, dazu 2 bis 3 Reels pro Folge auf Instagram und TikTok. Release jeweils sonntags, 18 Uhr.</p>
 <div class="clock">BRUNFT 01.11. BIS 15.12. · JEDE FOLGE ZEIGT DIE TAGE, DIE BLEIBEN</div>
 <div class="eps" style="margin-top:26px">
-<div class="ep"><div class="d">Folge 1 · 15.11.</div><h3>Finden wir sie?</h3><p>Hohneck in den Vogesen, ein Wochenende, ein Zeitlimit. Findet er die Brunft?</p></div>
-<div class="ep"><div class="d">Folge 2 · 29.11.</div><h3>Was vom Bock bleibt</h3><p>Selbst einen Gamsbart binden, und die Frage, wie viele Gämsen darin stecken.</p></div>
-<div class="ep hot"><div class="d">Folge 3 · 20.12.</div><h3>Let’s get the drone up</h3><p>Darf ich fliegen? Drei Tore, zwei Interviews und eine unbequeme Frage.</p></div>
-<div class="ep"><div class="d">Folge 4 · 17.01.</div><h3>Bis es fertig ist</h3><p>Tiefschnee, Schnittplatz und die Abgabe am 15. Januar.</p></div>
+<div class="ep"><img src="img/folge1-wald.webp" width="720" height="405" alt="Bergwald mit Lichtstrahlen im Nebel" loading="lazy"><div class="d">Folge 1 · 15.11.</div><h3>Finden wir sie?</h3><p>Hohneck in den Vogesen, ein Wochenende, ein Zeitlimit. Findet er die Brunft?</p></div>
+<div class="ep"><img src="img/folge2-gams.webp" width="720" height="405" alt="Gams vor verschneiten Bergen im Abendlicht" loading="lazy"><div class="d">Folge 2 · 29.11.</div><h3>Was vom Bock bleibt</h3><p>Selbst einen Gamsbart binden, und die Frage, wie viele Gämsen darin stecken.</p></div>
+<div class="ep hot"><img src="img/folge3-panorama.webp" width="720" height="405" alt="Weites Alpenpanorama im blauen Dunst" loading="lazy"><div class="d">Folge 3 · 20.12.</div><h3>Let’s get the drone up</h3><p>Darf ich fliegen? Drei Tore, zwei Interviews und eine unbequeme Frage.</p></div>
+<div class="ep"><img src="img/folge4-schnee.webp" width="720" height="405" alt="Verschneite Felsgipfel in Wolken" loading="lazy"><div class="d">Folge 4 · 17.01.</div><h3>Bis es fertig ist</h3><p>Tiefschnee, Schnittplatz und die Abgabe am 15. Januar.</p></div>
 </div>
 <div class="facts" style="margin-top:30px">
 <div><b>EINE ECHTE UHR</b><span>Jede Folge zeigt in Rot, wie viele Tage die Brunft noch hat.</span></div>
