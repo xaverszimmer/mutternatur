@@ -44,8 +44,8 @@ const PAGES = [
     en: { url: '/films', name: 'Films', title: 'Nature Films & Wildlife Documentaries | Mutter Natur', desc: 'Independent nature films by Mutter Natur: The Watchers of the Mountain, The Great Connection and The Bird We Almost Lost – wildlife and conservation.' },
     de: { url: '/de/filme', name: 'Filme', title: 'Naturfilme & Tierdokumentationen | Mutter Natur', desc: 'Eigene Naturfilme: Die Wächter der Berge, Die große Verbindung und Der Vogel, den wir fast verloren hätten – Wildtiere und Naturschutz.' } },
   { key: 'documentaries', style: 'live', og: OG_DEFAULT, parent: 'work',
-    en: { url: '/documentaries', name: 'Documentaries & Brand Films', title: 'Documentary & Brand Film Production | Mutter Natur', desc: 'Documentary and brand films for companies, tourism and environmental organizations – e.g. Donaumoos and Teufelshöhle Pottenstein. Made in Bavaria.' },
-    de: { url: '/de/dokumentationen-markenfilme', name: 'Dokumentationen & Markenfilme', title: 'Dokumentarfilm & Markenfilm Produktion | Mutter Natur', desc: 'Dokumentarfilme und Markenfilme für Unternehmen, Tourismus und Umweltorganisationen – z. B. Donaumoos und Teufelshöhle Pottenstein. Aus Bayern.' } },
+    en: { url: '/documentaries', name: 'Documentaries & Brand Films', title: 'Documentary & Brand Film Production | Mutter Natur', desc: 'Documentary and brand films for tourism, nature parks and companies – Naturparkhaus Zillertal, Donaumoos and Teufelshöhle Pottenstein.' },
+    de: { url: '/de/dokumentationen-markenfilme', name: 'Dokumentationen & Markenfilme', title: 'Dokumentarfilm & Markenfilm Produktion | Mutter Natur', desc: 'Dokumentar- und Markenfilme für Tourismus, Naturparks und Unternehmen – Naturparkhaus Zillertal, Donaumoos und Teufelshöhle Pottenstein.' } },
   { key: 'photography', style: 'live', og: OG_DEFAULT, parent: 'work',
     en: { url: '/photography', name: 'Photography & Social Media', title: 'Nature Photography & Social Media Content | Mutter Natur', desc: 'Nature photography, reels and Instagram collaborations for sustainable brands – Bergwaldprojekt, Ozeankind, Moorflut, Miya Forest and more.' },
     de: { url: '/de/fotografie-social-media', name: 'Fotografie & Social Media', title: 'Naturfotografie & Social-Media-Content | Mutter Natur', desc: 'Naturfotografie, Reels und Instagram-Kooperationen für nachhaltige Marken – Bergwaldprojekt, Ozeankind, Moorflut, Miya Forest und mehr.' } },
@@ -134,9 +134,11 @@ const VIDEOS = {
     den: 'A short film shot on 35mm analogue film.', dde: 'Ein Kurzfilm, gedreht auf analogem 35-mm-Film.' },
   kohle: { id: '7PCvgDm-tVs', en: 'Kohle', de: 'Kohle', date: '2026-10-02', dur: 'PT27S', thumb: '/assets/img/kohle-imagefilm-probefilm.webp',
     den: 'A short image film by Mutter Natur.', dde: 'Ein kurzer Imagefilm von Mutter Natur.' },
+  zillertal: { vimeo: '1242869535', en: 'Naturparkhaus Zillertal', de: 'Naturparkhaus Zillertal', date: '2026-11-03', dur: 'PT8M16S', thumb: '/assets/img/naturparkhaus-zillertal-imagefilm.webp',
+    den: 'An image film for the Naturparkhaus Zillertal, made together with Zillertal tourism.', dde: 'Ein Imagefilm für das Naturparkhaus Zillertal, gedreht gemeinsam mit dem Tourismus im Zillertal.' },
 };
-const video = (k, lang) => { const v = VIDEOS[k]; return { '@context': 'https://schema.org', '@type': 'VideoObject', name: v[lang], description: lang === 'de' ? v.dde : v.den, thumbnailUrl: SITE + v.thumb, uploadDate: v.date, duration: v.dur, embedUrl: 'https://www.youtube-nocookie.com/embed/' + v.id, contentUrl: 'https://www.youtube.com/watch?v=' + v.id, inLanguage: 'de', creator: { '@id': SITE + '/#organization' } }; };
-const PAGE_VIDEOS = { home: ['waechter', 'teufelshoehle', 'verbindung', 'storch', 'tomato', 'donaumoos', 'kohle'], films: ['waechter', 'verbindung', 'storch'], documentaries: ['donaumoos', 'teufelshoehle'] };
+const video = (k, lang) => { const v = VIDEOS[k]; return { '@context': 'https://schema.org', '@type': 'VideoObject', name: v[lang], description: lang === 'de' ? v.dde : v.den, thumbnailUrl: SITE + v.thumb, uploadDate: v.date, duration: v.dur, embedUrl: v.vimeo ? 'https://player.vimeo.com/video/' + v.vimeo : 'https://www.youtube-nocookie.com/embed/' + v.id, contentUrl: v.vimeo ? 'https://vimeo.com/' + v.vimeo : 'https://www.youtube.com/watch?v=' + v.id, inLanguage: 'de', creator: { '@id': SITE + '/#organization' } }; };
+const PAGE_VIDEOS = { home: ['waechter', 'teufelshoehle', 'zillertal', 'verbindung', 'storch', 'tomato', 'donaumoos', 'kohle'], films: ['waechter', 'verbindung', 'storch'], documentaries: ['donaumoos', 'teufelshoehle', 'zillertal'] };
 const PERSON = { '@context': 'https://schema.org', '@type': 'Person', '@id': SITE + '/#xaver', name: 'Xaver Zimmermann', jobTitle: 'Nature filmmaker and founder', worksFor: { '@id': SITE + '/#organization' }, url: SITE + '/about', sameAs: [IG] };
 
 function faqSchema(main) {
@@ -165,7 +167,7 @@ function schemas(p, lang, main) {
 
 // ---------- page chrome ----------
 const esc = (s) => s.replace(/&(?!amp;|#|[a-z]+;)/g, '&amp;').replace(/"/g, '&quot;');
-const LOGO = 'MutterNatur<sup>®</sup>';
+const LOGO = 'MutterNatur';
 
 function head(p, lang, main) {
   const d = p[lang];
@@ -252,7 +254,7 @@ ${contact}
         </ul>
       </div>
     </div>
-    <div class="footer-wordmark" aria-hidden="true">MutterNatur®</div>
+    <div class="footer-wordmark" aria-hidden="true">MutterNatur</div>
     <div class="footer-bottom">
       <span>${u.copyright}</span>
       <div class="footer-legal">

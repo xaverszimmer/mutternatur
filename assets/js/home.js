@@ -143,12 +143,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Click-to-load YouTube (privacy-enhanced youtube-nocookie.com): nothing is
-  // requested from YouTube until the visitor clicks the preview image.
+  // Click-to-load YouTube (youtube-nocookie.com) and Vimeo (dnt=1): nothing is
+  // requested from either until the visitor clicks the preview image.
   document.querySelectorAll('.yt-facade').forEach((btn) => {
     btn.addEventListener('click', () => {
       const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube-nocookie.com/embed/${btn.dataset.yt}?autoplay=1&rel=0`;
+      iframe.src = btn.dataset.vimeo
+        ? `https://player.vimeo.com/video/${btn.dataset.vimeo}?autoplay=1&dnt=1`
+        : `https://www.youtube-nocookie.com/embed/${btn.dataset.yt}?autoplay=1&rel=0`;
       iframe.title = btn.dataset.title || 'YouTube video';
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.allowFullscreen = true;

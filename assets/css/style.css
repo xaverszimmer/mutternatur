@@ -904,3 +904,7 @@ body.modal-open { overflow: hidden; }
 }
 .nav-links .lang-switch:hover { color: var(--fg); border-color: var(--fg); }
 .nav-links a { white-space: nowrap; }
+
+/* German headings use longer words: slightly smaller so they never run off the screen */
+html[lang="de"] h1, html[lang="de"] .h1 { font-size: clamp(2rem, 5.2vw, 4rem); overflow-wrap: break-word; }
+html[lang="de"] .hero-compact h1 { font-size: clamp(1.8rem, 3.4vw, 3rem); }
