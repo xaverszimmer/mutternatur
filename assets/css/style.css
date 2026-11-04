@@ -908,3 +908,18 @@ body.modal-open { overflow: hidden; }
 /* German headings use longer words: slightly smaller so they never run off the screen */
 html[lang="de"] h1, html[lang="de"] .h1 { font-size: clamp(2rem, 5.2vw, 4rem); overflow-wrap: break-word; }
 html[lang="de"] .hero-compact h1 { font-size: clamp(1.8rem, 3.4vw, 3rem); }
+
+/* ---- Portfolio: three big, glowing storytelling worlds ---- */
+.work-title-small, html[lang="de"] h1.work-title-small { font-size: clamp(1.1rem, 1.6vw, 1.35rem); letter-spacing: 0.02em; color: var(--fg-muted); margin-top: 0.5rem; }
+.work-worlds--big { grid-template-columns: repeat(3, 1fr); gap: clamp(1rem, 2.5vw, 2rem); margin-top: clamp(1.5rem, 4vw, 3rem); }
+.work-worlds--big .card { border: 1px solid rgba(157,184,141,0.28); border-radius: 18px; overflow: hidden; background: var(--bg-elevated); box-shadow: 0 0 0 1px rgba(157,184,141,0.08), 0 30px 80px -30px rgba(157,184,141,0.45); transition: transform .6s cubic-bezier(.2,.8,.2,1), box-shadow .6s ease, border-color .6s ease; }
+.work-worlds--big .card:hover { transform: translateY(-10px) scale(1.015); border-color: rgba(185,209,171,0.7); box-shadow: 0 0 0 1px rgba(185,209,171,0.35), 0 40px 110px -25px rgba(157,184,141,0.75); }
+.work-worlds--big .card-media { aspect-ratio: 3 / 4; border-radius: 0; }
+.work-worlds--big .card-media img { animation: world-drift 14s ease-in-out infinite alternate; }
+.work-worlds--big .card:nth-child(2) .card-media img { animation-delay: -5s; }
+.work-worlds--big .card:nth-child(3) .card-media img { animation-delay: -9s; }
+@keyframes world-drift { from { transform: scale(1.02) translate3d(0,0,0); } to { transform: scale(1.14) translate3d(-2%,-3%,0); } }
+.work-worlds--big h3 { font-size: clamp(1.6rem, 2.6vw, 2.4rem); line-height: 1.05; padding: 1.4rem 1.5rem 0; text-shadow: 0 0 28px rgba(185,209,171,0.35); }
+.work-worlds--big .card p { padding: 0.75rem 1.5rem 1.6rem; }
+@media (max-width: 860px) { .work-worlds--big { grid-template-columns: 1fr; } .work-worlds--big .card-media { aspect-ratio: 4 / 3; } }
+@media (prefers-reduced-motion: reduce) { .work-worlds--big .card-media img { animation: none; } .work-worlds--big .card:hover { transform: none; } }
