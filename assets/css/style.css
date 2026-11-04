@@ -919,7 +919,7 @@ html[lang="de"] .hero-compact h1 { font-size: clamp(1.8rem, 3.4vw, 3rem); }
 .work-worlds--big .card:nth-child(2) .card-media img { animation-delay: -5s; }
 .work-worlds--big .card:nth-child(3) .card-media img { animation-delay: -9s; }
 @keyframes world-drift { from { transform: scale(1.02) translate3d(0,0,0); } to { transform: scale(1.14) translate3d(-2%,-3%,0); } }
-.work-worlds--big h3 { font-size: clamp(1.6rem, 2.6vw, 2.4rem); line-height: 1.05; padding: 1.4rem 1.5rem 0; text-shadow: 0 0 28px rgba(185,209,171,0.35); }
+.work-worlds--big h3 { font-size: clamp(1.5rem, 2.3vw, 2.15rem); line-height: 1.05; padding: 1.4rem 1.5rem 0; text-shadow: 0 0 28px rgba(185,209,171,0.35); }
 .work-worlds--big .card p { padding: 0.75rem 1.5rem 1.6rem; }
 @media (max-width: 860px) { .work-worlds--big { grid-template-columns: 1fr; } .work-worlds--big .card-media { aspect-ratio: 4 / 3; } }
 @media (prefers-reduced-motion: reduce) { .work-worlds--big .card-media img { animation: none; } .work-worlds--big .card:hover { transform: none; } }
